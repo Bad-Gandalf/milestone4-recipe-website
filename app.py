@@ -55,13 +55,7 @@ def edit_recipe(recipe_id):
 def delete_recipe(recipe_id):
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     return redirect(url_for('get_recipes'))
-    
-@app.route('/get_cuisines')
-def get_cuisines():
-    _cuisines = mongo.db.cuisines.find()
-    cuisine_list = [cuisine for cuisine in _cuisines]
-    return render_template('cuisine.html', cuisines=cuisine_list)
-    
+
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
 def update_recipe(recipe_id):
     recipes = mongo.db.recipes
@@ -73,37 +67,62 @@ def update_recipe(recipe_id):
     recipes.update({'_id': ObjectId(recipe_id)}, vars(updated_recipe))
     return redirect(url_for('get_recipes'))
     
-
+@app.route('/get_cuisines')
+def get_cuisines():
+    _cuisines = mongo.db.cuisines.find()
+    cuisine_list = [cuisine for cuisine in _cuisines]
+    return render_template('cuisine.html', cuisines=cuisine_list)
     
+
+@app.route("/add_cuisine")
+def add_cuisine():
+    _cuisines = mongo.db.cuisines.find()
+    cuisine_list = [cuisine for cuisine in _cuisines]
+    return render_template("addcuisine.html", cuisines = cuisine_list)    
+
+@app.route('/insert_cuisine', methods=['POST'])
+def insert_cuisine():
+    cuisines = mongo.db.cuisines
+    new_cuisine = Cuisine(request.form['cuisine_name'], request.form['cuisine_description'])
+    print(vars(new_recipe))
+    cuisines.insert_one(vars(new_cuisine))
+    return redirect(url_for('get_cuisines')) 
+    
+@app.route('/edit_cuisine/<cuisine_id>')
+def edit_cuisine(cuisine_id):
+    the_cuisine = mongo.db.cuisines.find_one({"_id": ObjectId(cuisine_id)})
+    cuisines = mongo.db.cuisines.find()
+    return render_template("editcuisine.html", cuisines=cuisines, cuisine=the_cuisine)
+    
+    
+@app.route('/delete_cuisine/<cuisine_id>')
+def delete_cuisine(cuisine_id):
+    mongo.db.cuisines.remove({'_id': ObjectId(cuisine_id)})
+    return redirect(url_for('get_cuisines'))
  
+ 
+@app.route('/update_cuisine/<cuisine_id>', methods=['POST'])
+def update_cuisine(cuisine_id):
+    new_cuisine = Cuisine(request.form['cuisine_name'], request.form['cuisine_description'])
+    mongo.db.cuisines.update( {'_id': ObjectId(cuisine_id)},
+       vars(new_cuisine))
+    return redirect(url_for('get_cuisines'))
+    
 """@app.route('/edit_category/<category_id>')
 def edit_category(category_id):
     _category=mongo.db.categories.find_one({'_id':ObjectId(category_id)})
     return render_template("editcategory.html", category=_category)
 
     
-@app.route('/update_category/<category_id>', methods=['POST'])
-def update_category(category_id):
-    mongo.db.categories.update(
-        {'_id': ObjectId(category_id)},
-        {'category_name': request.form['category_name']})
-    return redirect(url_for('get_categories'))
+
     
-@app.route('/insert_category', methods=['POST'])
-def insert_category():
-    categories = mongo.db.categories
-    category_doc = {'category_name': request.form['category_name']}
-    categories.insert_one(category_doc)
-    return redirect(url_for('get_categories'))
+
     
 @app.route('/add_category')
 def add_category():
     return render_template('addcategory.html')
     
-@app.route('/delete_category/<category_id>')
-def delete_category(category_id):
-    mongo.db.categories.remove({'_id': ObjectId(category_id)})
-    return redirect(url_for('get_categories'))"""
+"""
     
 if __name__ == "__main__":
     app.run(host=os.environ.get('IP'),

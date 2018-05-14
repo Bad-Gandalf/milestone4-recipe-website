@@ -1,24 +1,26 @@
 {% extends 'base.html'%} {% block content %}
-<h3>Add Cuisine</h3>
+<h3>Edit Cuisine</h3>
 <div class="row">
-    <form action="{{url_for('insert_cuisine')}}" method="POST" class="col s12">
+    <form action="{{url_for('update_cuisine', cuisine_id=cuisine._id)}}" method="POST" class="col s12">
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">assignment</i>
-                <input id="cuisine_name" name="cuisine_name" type="text" class="validate">
+                <input id="cuisine_name" name="cuisine_name" type="text" class="validate" value="{{cuisine.cuisine_name}}">
                 <label for="icon_prefix">Cuisine Name</label>
             </div>
         </div>
-         <div class="row">
+
+
+        <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">description</i>
-                <textarea id="cuisine_description" name="cuisine_description" class="materialize-textarea"></textarea>
+                <textarea id="cuisine_description" name="cuisine_description" class="materialize-textarea" 
+                value="{{cuisine.cuisine_description}}">{{cuisine.cuisine_description}}</textarea>
                 <label for="cuisine_description">Cuisine Description</label>
             </div>
         </div>
-        
         <div class="row">
-            <button class="btn waves-effect waves-light" type="submit">Add Cuisine
+            <button class="btn waves-effect waves-light" type="submit">Update Cuisine
                 <i class="material-icons right">playlist_add</i>
             </button>
         </div>

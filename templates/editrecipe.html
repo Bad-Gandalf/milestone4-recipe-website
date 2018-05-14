@@ -36,7 +36,7 @@
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">description</i>
-                <input id="recipe_description" name="recipe_description" class="materialize-textarea" type="text" value="{{recipe.recipe_description}}"></textarea>
+                <input id="recipe_description" name="recipe_description" class="materialize-textarea" type="text" value="{{recipe.recipe_description}}">
                 <label for="recipe_description">Recipe Description</label>
             </div>
         </div>
@@ -61,7 +61,7 @@
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">text_fields</i>
-                <textarea id="method" name="method" class="materialize-textarea" value="{{recipe.method}}"></textarea>
+                <textarea id="method" name="method" class="materialize-textarea" type="text">{{recipe.method}}</textarea>
                 <label for="method">Method</label>
             </div>
         </div>
@@ -69,7 +69,7 @@
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">shopping_basket</i>
-                <textarea id="ingredients" name="ingredients" class="materialize-textarea" value="{{recipe.ingredients}}"></textarea>
+                <textarea type="text" id="ingredients" name="ingredients" class="materialize-textarea" >{{recipe.ingredients}}</textarea>
                 <label for="icon_telephone">Ingredients</label>
             </div>
         </div>
@@ -78,14 +78,15 @@
             <div class="input-field col s12">
                 <i class="material-icons prefix">warning</i>
                 <select multiple id="allergens" name="allergens">
-                    <option value="" disabled selected>Choose Allergens</option>
-                    {% for allergen in allergens %}
-                        {% if allergen.allergen_name == recipe.allergen_name %}
-                            <option value="{{allergen.allergen_name}}" selected>{{allergen.allergen_name}}</option>
-                        {% else %}
-                            <option value="{{allergen.allergen_name}}" >{{allergen.allergen_name}}</option>
-                        {% endif %}
+                    {% for allergen in recipe.allergens %}
+                    <option value="{{allergen}}" selected>{{allergen}}</option>
                     {% endfor %}
+                    {% for allergen in allergens %}
+                        <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
+                        
+                    {% endfor %}
+                    
+                    
                 </select>
                 <label for="allergens">Allergens</label>
             </div>
