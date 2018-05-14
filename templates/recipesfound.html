@@ -1,5 +1,5 @@
 {% extends 'base.html'%} {% block content %}
-<h3>Recipes</h3>
+<h3>Search Results</h3>
 <div class="row">
     <a href="{{url_for('add_recipe')}}" class="waves-effect waves-light btn btn_small">Add Recipe
                 <i class="material-icons right">playlist_add</i>
@@ -18,17 +18,10 @@
                     <a href="{{url_for('edit_recipe', recipe_id=recipe._id)}}" class="waves-effect waves-light btn btn_small blue">Edit</a>
                 </div>
             </div>
-            <div class=" task_header col s6">
+            <div class=" task_header col s9">
                 <strong>{{recipe.recipe_name}}</strong>
             </div>
-            
-            <div class="upvote col s3" >{{recipe.upvotes}}
-                <form class="material-icons right" action="{{ url_for('upvote', recipe_id=recipe._id)}}" method="POST">
-                    <button type="submit"><i>thumb_up</i></button></form>
-            </div>
         </div>
-
-
         <div class="collapsible-body">
             <span>
                 {{recipe.recipe_description}} 

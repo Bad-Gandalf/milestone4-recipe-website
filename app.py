@@ -11,13 +11,44 @@ app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/p
 mongo = PyMongo(app)
 
 
+
 @app.route('/')
 @app.route('/get_recipes')
 def get_recipes():
     _recipes=mongo.db.recipes.find()
     recipe_list = [recipe for recipe in _recipes]
     return render_template("recipe.html", recipes=recipe_list)
-
+    
+@app.route('/search_recipes')
+def search_recipes():
+    _recipes = mongo.db.recipes.find()
+    recipe_list = [recipe for recipe in _recipes]
+    _cuisines = mongo.db.cuisines.find()
+    cuisine_list = [cuisine for cuisine in _cuisines]
+    _allergens = mongo.db.allergens.find()
+    allergen_list = [allergen for allergen in _allergens]
+    return render_template("searchrecipe.html", recipes = recipe_list, allergens = allergen_list, cuisines = cuisine_list)
+    
+@app.route('/find_recipe_by_name', methods=["POST"])
+def find_recipe_by_name():
+    search_term = {"recipe_name": request.form['recipe_name']}
+    _recipes = mongo.db.recipes.find(search_term)
+    matching_recipes = [recipe for recipe in _recipes]
+    return render_template("recipesfound.html", recipes=matching_recipes)
+    
+@app.route('/find_recipe_cuisine_name', methods=["POST"])
+def find_recipe_cuisine_name():
+    search_term = {"cuisine_name": request.form['cuisine_name']}
+    _recipes = mongo.db.recipes.find(search_term)
+    matching_recipes = [recipe for recipe in _recipes]
+    return render_template("recipesfound.html", recipes=matching_recipes)
+    
+@app.route('/find_recipe_allergen_name', methods=["POST"])
+def find_recipe_allergen_name():
+    search_term = {"allergens": request.form['allergens']}
+    _recipes = mongo.db.recipes.find(search_term)
+    matching_recipes = [recipe for recipe in _recipes]
+    return render_template("recipesfound.html", recipes=matching_recipes)
 
 @app.route("/add_recipe")
 def add_recipe():
@@ -150,7 +181,19 @@ def update_allergen(allergen_id):
     return redirect(url_for('get_allergens'))
 
 
-
+@app.route('/upvote/<recipe_id>', methods=["POST"])
+def upvote(recipe_id):
+    recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    upvotes = recipe.get("upvotes")
+    if upvotes is None:
+        mongo.db.recipes.insert({"_id": ObjectId(recipe_id), "upvotes": upvotes})
+    else:    
+        int(upvotes)
+        upvotes += 1
+        
+    mongo.db.recipes.update_one({"_id": ObjectId(recipe_id), 'upvotes': upvotes})
+    print (upvotes)
+    return redirect(url_for('get_recipes'))
 
 
 
