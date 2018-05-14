@@ -23,7 +23,7 @@ class Cuisine(object):
         self.cuisine_name = cuisine_name
         self.cuisine_description = cuisine_description
         
-class Allergens(object):
+class Allergen(object):
     def __init__(self, allergen_name, allergen_description):
         self.allergen_name = allergen_name
         self.allergen_description = allergen_description

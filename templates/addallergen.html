@@ -1,0 +1,29 @@
+{% extends 'base.html'%} {% block content %}
+<h3>Add Allergen</h3>
+<div class="row">
+    <form action="{{url_for('insert_allergen')}}" method="POST" class="col s12">
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix">assignment</i>
+                <input id="allergen_name" name="allergen_name" type="text" class="validate">
+                <label for="icon_prefix">Allergen Name</label>
+            </div>
+        </div>
+         <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix">description</i>
+                <textarea id="allergen_description" name="allergen_description" class="materialize-textarea"></textarea>
+                <label for="allergen_description">Allergen Description</label>
+            </div>
+        </div>
+        
+        <div class="row">
+            <button class="btn waves-effect waves-light" type="submit">Add Allergen
+                <i class="material-icons right">playlist_add</i>
+            </button>
+        </div>
+
+
+    </form>
+</div>
+{% endblock %}

@@ -108,6 +108,68 @@ def update_cuisine(cuisine_id):
        vars(new_cuisine))
     return redirect(url_for('get_cuisines'))
     
+@app.route('/get_allergens')
+def get_allergens():
+    _allergens = mongo.db.allergens.find()
+    allergen_list = [allergen for allergen in _allergens]
+    return render_template('allergen.html', allergens=allergen_list)
+    
+
+@app.route("/add_allergen")
+def add_allergen():
+    _allergens = mongo.db.allergens.find()
+    allergen_list = [allergen for allergen in _allergens]
+    return render_template("addallergen.html", allergens = allergen_list)    
+
+@app.route('/insert_allergen', methods=['POST'])
+def insert_allergen():
+    allergens = mongo.db.allergens
+    new_allergen = Allergen(request.form['allergen_name'], request.form['allergen_description'])
+    print(vars(new_allergen))
+    allergens.insert_one(vars(new_allergen))
+    return redirect(url_for('get_allergens')) 
+    
+@app.route('/edit_allergen/<allergen_id>')
+def edit_allergen(allergen_id):
+    the_allergen = mongo.db.allergens.find_one({"_id": ObjectId(allergen_id)})
+    allergens = mongo.db.allergens.find()
+    return render_template("editallergen.html", allergens=allergens, allergen=the_allergen)
+    
+    
+@app.route('/delete_allergen/<allergen_id>')
+def delete_allergen(allergen_id):
+    mongo.db.allergens.remove({'_id': ObjectId(allergen_id)})
+    return redirect(url_for('get_allergens'))
+ 
+ 
+@app.route('/update_allergen/<allergen_id>', methods=['POST'])
+def update_allergen(allergen_id):
+    new_allergen = Allergen(request.form['allergen_name'], request.form['allergen_description'])
+    mongo.db.allergens.update( {'_id': ObjectId(allergen_id)},
+                             vars(new_allergen))
+    return redirect(url_for('get_allergens'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 """@app.route('/edit_category/<category_id>')
 def edit_category(category_id):
     _category=mongo.db.categories.find_one({'_id':ObjectId(category_id)})
