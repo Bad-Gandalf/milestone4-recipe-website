@@ -183,16 +183,9 @@ def update_allergen(allergen_id):
 
 @app.route('/upvote/<recipe_id>', methods=["POST"])
 def upvote(recipe_id):
-    recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
-    upvotes = recipe.get("upvotes")
-    if upvotes is None:
-        mongo.db.recipes.insert({"_id": ObjectId(recipe_id), "upvotes": upvotes})
-    else:    
-        int(upvotes)
-        upvotes += 1
         
-    mongo.db.recipes.update_one({"_id": ObjectId(recipe_id), 'upvotes': upvotes})
-    print (upvotes)
+    mongo.db.recipes.update_one({"_id": ObjectId(recipe_id)}, { "$inc" :{'upvotes': 1}})
+    
     return redirect(url_for('get_recipes'))
 
 

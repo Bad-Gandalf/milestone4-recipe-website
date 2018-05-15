@@ -1,7 +1,14 @@
 .task_header {
     padding-left: 50px;
+    min-width: 50%;
+
 }
 
 .searchbtn.col.s3 {
     padding-top: 20px;
+}
+
+.upvotesbtn {
+    border:0;
+    background:none;
 }

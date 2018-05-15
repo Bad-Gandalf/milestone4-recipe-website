@@ -1,4 +1,5 @@
 class Recipe(object):
+    upvotes = 0
     def __init__(self, recipe_name, author, prep_time, cook_time, servings, recipe_description, cuisine_name, ingredients, method, allergens):
         self.recipe_name = recipe_name
         self.author = author

@@ -18,13 +18,13 @@
                     <a href="{{url_for('edit_recipe', recipe_id=recipe._id)}}" class="waves-effect waves-light btn btn_small blue">Edit</a>
                 </div>
             </div>
-            <div class=" task_header col s6">
+            <div class=" task_header col s7">
                 <strong>{{recipe.recipe_name}}</strong>
             </div>
             
-            <div class="upvote col s3" >{{recipe.upvotes}}
+            <div class="upvote col s2" >{{recipe.upvotes}}
                 <form class="material-icons right" action="{{ url_for('upvote', recipe_id=recipe._id)}}" method="POST">
-                    <button type="submit"><i>thumb_up</i></button></form>
+                    <button class="upvotesbtn" type="submit"><i>thumb_up</i></button></form>
             </div>
         </div>
 
