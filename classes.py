@@ -1,6 +1,7 @@
 class Recipe(object):
     upvotes = 0
-    def __init__(self, recipe_name, author, prep_time, cook_time, servings, recipe_description, cuisine_name, ingredients, method, allergens):
+    def __init__(self, username, recipe_name, author, prep_time, cook_time, servings, recipe_description, cuisine_name, ingredients, method, allergens):
+        self.username = username
         self.recipe_name = recipe_name
         self.author = author
         self.prep_time = prep_time
@@ -35,6 +36,6 @@ class Country(object):
         self.country_description = country_description
         
         
-new_recipe = Recipe("poached egg", "George RR Martin", 1, 5, 1, "Poached egg on toast", "English", "Egg, bread, salt, pepper", "1.jfbkz 2.fbkzeun 3.feunkf", "Egg")
+new_recipe = Recipe("Snoop Dogg", "poached egg", "George RR Martin", 1, 5, 1, "Poached egg on toast", "English", "Egg, bread, salt, pepper", "1.jfbkz 2.fbkzeun 3.feunkf", "Egg")
 print(vars(new_recipe))
     
