@@ -1,3 +1,5 @@
+from flask import request
+
 class Recipe(object):
     upvotes = 0
     def __init__(self, username, recipe_name, author, prep_time, cook_time, servings, recipe_description, cuisine_name, ingredients, method, allergens):
@@ -36,6 +38,27 @@ class Country(object):
         self.country_description = country_description
         
         
-new_recipe = Recipe("Snoop Dogg", "poached egg", "George RR Martin", 1, 5, 1, "Poached egg on toast", "English", "Egg, bread, salt, pepper", "1.jfbkz 2.fbkzeun 3.feunkf", "Egg")
-print(vars(new_recipe))
+
+def get_page():
+    return request.args.get('page', 1, type=int)
+
+def paginate_list(query, page_number, per_page):
+    array = [item for item in query]
+    paginated_array = array[((page_number*per_page)-per_page):(page_number*per_page)]
+    return paginated_array
     
+def create_recipe():
+    recipe = Recipe(request.form['username'], request.form['recipe_name'], request.form['author'],
+                        request.form['prep_time'], request.form['cook_time'], 
+                        request.form['servings'],request.form['recipe_description'],
+                        request.form['cuisine_name'], request.form['ingredients'],
+                        request.form['method'], request.form.getlist('allergens'))
+    return vars(recipe)
+                        
+def create_cuisine():
+    cuisine = Cuisine(request.form['cuisine_name'], request.form['cuisine_description'])
+    return vars(cuisine)
+    
+def create_allergen():
+    allergen = Allergen(request.form['allergen_name'], request.form['allergen_description'])
+    return vars(allergen)

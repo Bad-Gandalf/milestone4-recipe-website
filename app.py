@@ -1,8 +1,8 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for, Blueprint
+from flask import Flask, render_template, redirect, url_for, Blueprint
 from flask_pymongo import PyMongo, pymongo
-from flask_paginate import Pagination, get_page_parameter
-from flask_mongoengine import MongoEngine
+from flask_paginate import Pagination
+
 from bson.objectid import ObjectId
 from classes import *
 
@@ -13,20 +13,15 @@ app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/p
 mongo = PyMongo(app)
 
 
-    
 @app.route('/')
 @app.route('/get_recipes')
 def get_recipes():
-    page = request.args.get('page', 1, type=int)
+    page = get_page()
     _recipes=mongo.db.recipes.find().sort('upvotes', pymongo.DESCENDING)
-    recipe_list = [recipe for recipe in _recipes]
-    list_per_page = recipe_list[((page*10)-10):(page*10)]
-    pagination = Pagination(page=page, total=len(recipe_list), record_name='recipes')
-    return render_template("recipe.html", recipes=list_per_page, pagination=pagination)
-    
-    
-   
-    
+    recipe_list = paginate_list(_recipes, page, 10)
+    pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
+    return render_template("recipe.html", recipes=recipe_list, pagination=pagination)
+
 @app.route('/search_recipes')
 def search_recipes():
     _recipes = mongo.db.recipes.find()
@@ -39,24 +34,30 @@ def search_recipes():
     
 @app.route('/find_recipe_by_name', methods=["POST"])
 def find_recipe_by_name():
+    page = get_page()
     search_term = {"recipe_name": request.form['recipe_name']}
-    _recipes = mongo.db.recipes.find(search_term)
-    matching_recipes = [recipe for recipe in _recipes]
-    return render_template("recipesfound.html", recipes=matching_recipes)
+    _recipes = mongo.db.recipes.find(search_term).sort('upvotes', pymongo.DESCENDING)
+    matching_recipes = paginate_list(_recipes, page, 10)
+    pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
+    return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
     
 @app.route('/find_recipe_cuisine_name', methods=["POST"])
 def find_recipe_cuisine_name():
+    page = get_page()
     search_term = {"cuisine_name": request.form['cuisine_name']}
-    _recipes = mongo.db.recipes.find(search_term)
-    matching_recipes = [recipe for recipe in _recipes]
-    return render_template("recipesfound.html", recipes=matching_recipes)
+    _recipes = mongo.db.recipes.find(search_term).sort('upvotes', pymongo.DESCENDING)
+    matching_recipes = paginate_list(_recipes, page, 10)
+    pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
+    return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
     
 @app.route('/find_recipe_allergen_name', methods=["POST"])
 def find_recipe_allergen_name():
+    page = get_page()
     search_term = {"allergens": request.form['allergens']}
-    _recipes = mongo.db.recipes.find(search_term)
-    matching_recipes = [recipe for recipe in _recipes]
-    return render_template("recipesfound.html", recipes=matching_recipes)
+    _recipes = mongo.db.recipes.find(search_term).sort('upvotes', pymongo.DESCENDING)
+    matching_recipes = paginate_list(_recipes, page, 10)
+    pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
+    return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
 
 @app.route("/add_recipe")
 def add_recipe():
@@ -71,15 +72,8 @@ def add_recipe():
 @app.route('/insert_recipe', methods=["POST"])
 def insert_recipe():
     recipes = mongo.db.recipes
-    new_recipe = Recipe(request.form['username'], request.form['recipe_name'], request.form['author'],
-                        request.form['prep_time'], request.form['cook_time'], 
-                        request.form['servings'],request.form['recipe_description'],
-                        request.form['cuisine_name'], request.form['ingredients'],
-                        request.form['method'], request.form.getlist('allergens'))
-                        
-                        
-    recipes.insert_one(vars(new_recipe))
-    print(vars(new_recipe))
+    new_recipe = create_recipe()
+    recipes.insert_one(new_recipe)
     return redirect(url_for('add_recipe'))    
     
 @app.route('/edit_recipe/<recipe_id>')
@@ -98,22 +92,17 @@ def delete_recipe(recipe_id):
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
 def update_recipe(recipe_id):
     recipes = mongo.db.recipes
-    updated_recipe = Recipe(request.form['username'], request.form['recipe_name'], request.form['author'],
-                        request.form['prep_time'], request.form['cook_time'], 
-                        request.form['servings'],request.form['recipe_description'],
-                        request.form['cuisine_name'], request.form['ingredients'],
-                        request.form['method'], request.form.getlist('allergens'))
-    recipes.update({'_id': ObjectId(recipe_id)}, vars(updated_recipe))
+    updated_recipe = create_recipe()
+    recipes.update({'_id': ObjectId(recipe_id)},{"$set": updated_recipe})
     return redirect(url_for('get_recipes'))
     
 @app.route('/get_cuisines')
 def get_cuisines():
-    page = request.args.get('page', 1, type=int)
+    page = get_page()
     _cuisines = mongo.db.cuisines.find()
-    cuisine_list = [cuisine for cuisine in _cuisines]
-    list_per_page = cuisine_list[((page*10)-10):(page*10)]
-    pagination = Pagination(page=page, total=len(cuisine_list), record_name='cuisines')
-    return render_template('cuisine.html', cuisines=list_per_page, pagination=pagination)
+    cuisine_list = paginate_list(_cuisines, page, 10)
+    pagination = Pagination(page=page, total=_cuisines.count(), record_name='cuisines')
+    return render_template('cuisine.html', cuisines=cuisine_list, pagination=pagination)
     
 @app.route("/add_cuisine")
 def add_cuisine():
@@ -124,9 +113,8 @@ def add_cuisine():
 @app.route('/insert_cuisine', methods=['POST'])
 def insert_cuisine():
     cuisines = mongo.db.cuisines
-    new_cuisine = Cuisine(request.form['cuisine_name'], request.form['cuisine_description'])
-    print(vars(new_recipe))
-    cuisines.insert_one(vars(new_cuisine))
+    new_cuisine = create_cuisine()
+    cuisines.insert_one(new_cuisine)
     return redirect(url_for('get_cuisines')) 
     
 @app.route('/edit_cuisine/<cuisine_id>')
@@ -144,21 +132,18 @@ def delete_cuisine(cuisine_id):
  
 @app.route('/update_cuisine/<cuisine_id>', methods=['POST'])
 def update_cuisine(cuisine_id):
-    new_cuisine = Cuisine(request.form['cuisine_name'], request.form['cuisine_description'])
+    new_cuisine = create_cuisine()
     mongo.db.cuisines.update( {'_id': ObjectId(cuisine_id)},
-       vars(new_cuisine))
+       new_cuisine)
     return redirect(url_for('get_cuisines'))
     
 @app.route('/get_allergens')
 def get_allergens():
-    page = request.args.get('page', 1, type=int)
+    page = get_page()
     _allergens = mongo.db.allergens.find()
-    allergen_list = [allergen for allergen in _allergens]
-    list_per_page = allergen_list[((page*10)-10):(page*10)]
-    pagination = Pagination(page=page, total=len(allergen_list), record_name='allergens')
-   
-    
-    return render_template('allergen.html', allergens=list_per_page, pagination=pagination)
+    allergen_list = paginate_list(_allergens, page, 10)
+    pagination = Pagination(page=page, total=_allergens.count(), record_name='allergens')
+    return render_template('allergen.html', allergens=allergen_list, pagination=pagination)
     
 
 @app.route("/add_allergen")
@@ -170,9 +155,8 @@ def add_allergen():
 @app.route('/insert_allergen', methods=['POST'])
 def insert_allergen():
     allergens = mongo.db.allergens
-    new_allergen = Allergen(request.form['allergen_name'], request.form['allergen_description'])
-    print(vars(new_allergen))
-    allergens.insert_one(vars(new_allergen))
+    new_allergen = create_allergen()
+    allergens.insert_one(new_allergen)
     return redirect(url_for('get_allergens')) 
     
 @app.route('/edit_allergen/<allergen_id>')
@@ -190,9 +174,9 @@ def delete_allergen(allergen_id):
  
 @app.route('/update_allergen/<allergen_id>', methods=['POST'])
 def update_allergen(allergen_id):
-    new_allergen = Allergen(request.form['allergen_name'], request.form['allergen_description'])
+    new_allergen = create_allergen()
     mongo.db.allergens.update( {'_id': ObjectId(allergen_id)},
-                             vars(new_allergen))
+                             new_allergen)
     return redirect(url_for('get_allergens'))
 
 
@@ -203,37 +187,6 @@ def upvote(recipe_id):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""@app.route('/edit_category/<category_id>')
-def edit_category(category_id):
-    _category=mongo.db.categories.find_one({'_id':ObjectId(category_id)})
-    return render_template("editcategory.html", category=_category)
-
-    
-
-    
-
-    
-@app.route('/add_category')
-def add_category():
-    return render_template('addcategory.html')
-    
-"""
     
 if __name__ == "__main__":
     app.run(host=os.environ.get('IP'),

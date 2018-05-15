@@ -31,32 +31,39 @@
 
         <div class="collapsible-body">
             <span>
-                {{recipe.recipe_description}} 
+                <strong>{{recipe.recipe_description}}</strong> 
             </span>
             <br>
             <span>
-                Author: {{recipe.author}} 
+                <strong>Author: </strong>{{recipe.author}} 
             </span>
             <br>
             <span>
-                Cuisine: {{recipe.cuisine_name}} 
+                <strong>Cuisine:</strong> {{recipe.cuisine_name}} 
             </span>
             <br>
             <span>
-                Preparation Time: {{recipe.prep_time}} mins
+                <strong>Preparation Time:</strong> {{recipe.prep_time}} mins
             </span>
             <br>
             <span>
-                Cooking Time: {{recipe.cook_time}} mins
+                <strong>Cooking Time:</strong> {{recipe.cook_time}} mins
             </span>
             <br>
             <span>
-                Instructions: {{recipe.method}}
+                <strong>Allergens:</strong> <ul>{% for allergen in recipe.allergens %} <li>{{allergen}}</li>{% endfor %}</ul>
             </span>
             <br>
+            <br>
             <span>
-                Allergens: {% for allergen in recipe.allergens %} {{allergen}}, {% endfor %}
+                <strong>Ingredients:</strong>Ingredients: {{recipe.ingredients}}
             </span>
+            <br>
+            <br>
+            <span>
+                <strong>Instructions:</strong> {{recipe.method}}
+            </span>
+            
         </div>
     </li>
     {% endfor %}
