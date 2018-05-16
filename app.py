@@ -2,16 +2,24 @@ import os
 from flask import Flask, render_template, redirect, url_for, Blueprint
 from flask_pymongo import PyMongo, pymongo
 from flask_paginate import Pagination
-
+from pymongo import MongoClient
+import json
 from bson.objectid import ObjectId
+from bson import json_util
 from classes import *
-
+import csv
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'pat_doc_recipedb'
 app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/pat_doc_recipedb'
 
 mongo = PyMongo(app)
 
+data_file = "recipe_mining.csv" 
+     
+
+
+    
+        
 
 @app.route('/')
 @app.route('/get_recipes')
@@ -19,8 +27,21 @@ def get_recipes():
     page = get_page()
     _recipes=mongo.db.recipes.find().sort('upvotes', pymongo.DESCENDING)
     recipe_list = paginate_list(_recipes, page, 10)
+    
+    
     pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
+    
     return render_template("recipe.html", recipes=recipe_list, pagination=pagination)
+    
+@app.route('/write_csv')
+def write_csv():
+    cursor= mongo.db.recipes.find({}, {'_id':0,"username":1, "recipe_name":1, "author":1, "prep_time":1, "cook_time":1, "servings":1, "upvotes": 1,"recipe_description":1, "cuisine_name":1, "ingredients":1, "method":1, "allergens":1})
+    with open(data_file, "w+") as outfile:
+        fields = ["username", "recipe_name", "author", "prep_time", "cook_time", "servings","upvotes", "recipe_description", "cuisine_name", "ingredients", "method", "allergens"]
+        writer = csv.DictWriter(outfile, fieldnames=fields)
+        writer.writeheader()
+        for x in cursor:
+            writer.writerow(x)
 
 @app.route('/search_recipes')
 def search_recipes():
