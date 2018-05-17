@@ -48,11 +48,11 @@ def paginate_list(query, page_number, per_page):
     return paginated_array
     
 def create_recipe():
-    recipe = Recipe(request.form['username'], request.form['recipe_name'], request.form['author'],
-                        request.form['prep_time'], request.form['cook_time'], 
-                        request.form['servings'],request.form['recipe_description'],
-                        request.form['cuisine_name'], request.form['ingredients'],
-                        request.form['method'], request.form.getlist('allergens'))
+    recipe = Recipe(request.form['username'].strip(), request.form['recipe_name'].strip(), request.form['author'.strip()],
+                        request.form['prep_time'].strip(), request.form['cook_time'].strip(), 
+                        request.form['servings'].strip(),request.form['recipe_description'].strip(),
+                        request.form['cuisine_name'], request.form['ingredients'].strip(),
+                        request.form['method'].strip(), request.form.getlist('allergens'))
     return vars(recipe)
                         
 def create_cuisine():

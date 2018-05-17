@@ -1,0 +1,85 @@
+ {% extends 'base.html'%} {% block content %}
+ 
+ <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="chart-wrapper">
+                    <div class="chart-title">Correlation between Lifetime Rank and Actual Score</div>
+                    <div id="Lifetime-rank-to-actual-score" class="chart-stage" data-step="1" data-intro="Hover over each marker to access player name, rank, lifetime score and the character they use." style="font-weight: normal" data-position="bottom
+                    ">
+                    </div>
+
+                </div>
+                <p>Lifetime rank is based on a players total points accrued over all previous seasons of tournament play i.e. the player with the most lifetime points will be ranked at number 1. The actual score represents the points accrued for the current
+                    season. There is a strong correlation between lifetime rank and actual score. There are a few outliers such as Nemo.
+                </p>
+            </div>
+
+            <div class=" col-xs-12 col-lg-4">
+                <div class="chart-wrapper">
+                    <div class="chart-title">Lifetime Score by Country</div>
+                    <div id="lifetime-score-by-country" class="chart-stage" data-step="2" data-intro="Click on a different slice or multiple slices to filter the other charts on the page by those countries' results." style="font-weight: normal" data-position="right">
+
+                    </div>
+                    <p>This is the share of players lifetime points shared by their countries of origin. Japan is clearly dominates the sport followed in second by the United States.</p>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-lg-4">
+                <div class="chart-wrapper">
+                    <div class="chart-title">Total Lifetime Score By Gender</div>
+                    <div id="total-lifetime-score-by-character-gender" class="chart-stage" data-step="3" data-intro="Click on a bar to filter the other charts by the specified character gender." style="font-weight: normal" data-position="right"></div>
+                    <p>This chart displays total lifetime points accrued when using either a male or female character. It shows male characters have obtained 32% more lifetime points than female characters.</p>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 col-lg-4">
+                <div class="chart-wrapper">
+                    <div class="chart-title">Average Lifetime Score By Gender</div>
+                    <div id="average-lifetime_score_by-character-gender" class="chart-stage" data-step="4" data-intro="Female characters have an average lifetime score 14% greater than male characters." style="font-weight: normal" data-position="left"></div>
+                    <p>The chart displays the average lifetime score per character gender. It divides the total lifetime points accrued by the frequency of usage of each gender. This shows that on average a female character will accrue more lifetime points
+                        than male characters.</p>
+                </div>
+            </div>
+
+
+
+            <div class="col-xs-12">
+                <div class="chart-wrapper">
+                    <div class="chart-title">Total Lifetime Score by Character</div>
+                    <div id="total-lifetime-score-by-character" class="chart-stage" data-step="5" data-intro="Click on a bar to filter the results by this character. This will apply to all the other charts on the page. " style="font-weight: normal" data-position="top">
+                    </div>
+                </div>
+                <p>This bar chart displays the total lifetime points earned whilst using each character. Karin is the character used to amass the most lifetime points.</p>
+
+            </div>
+
+            <div class="col-xs-12">
+                <div class="chart-wrapper">
+                    <div class="chart-title"> Average Lifetime Score by Character</div>
+                    <div id="average-lifetime_score_by-character" class="chart-stage" data-step="6" data-intro="You can also filter the results by character just like the previous chart." style="font-weight: normal" data-position="top">
+
+                    </div>
+                </div>
+                <p>This chart displays the average lifetime points displayed by character. It takes the the total lifetime points accrued by each character and then divides this by the frequency of which they are used. There is a major difference between the this and the previous charts with certain characters such as Mika and Akuma ranking much higher.</p>
+
+            </div>
+
+            <!-- <div class=" col-xs-12 col-md-6">
+                <div class="chart-wrapper">
+                    <div class="chart-title">Total Lifetime Score by Team</div>
+                    <div id="total-lifetime-score-by-team" class="chart-stage" data-step="5" data-intro="Independant players have the highest total yet they are not in a team. Fox is leading yet the distribution of points is generally even among most teams." style="font-weight: normal"
+                        data-position="left">
+
+                    </div>
+                </div>
+            </div>-->
+
+
+        </div>
+    </div>
+    </div>
+    
+    <script type="text/javascript" src="/static/js/graphs1.js"></script>
+    {% endblock %}
