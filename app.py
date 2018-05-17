@@ -15,11 +15,6 @@ app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/p
 mongo = PyMongo(app)
 
 data_file = "recipe_mining.csv" 
-     
-
-
-    
-        
 
 @app.route('/')
 @app.route('/get_recipes')
@@ -27,10 +22,7 @@ def get_recipes():
     page = get_page()
     _recipes=mongo.db.recipes.find().sort('upvotes', pymongo.DESCENDING)
     recipe_list = paginate_list(_recipes, page, 10)
-    
-    
     pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
-    
     return render_template("recipe.html", recipes=recipe_list, pagination=pagination)
     
 @app.route('/write_csv')
@@ -78,7 +70,16 @@ def find_recipe_allergen_name():
     matching_recipes = paginate_list(_recipes, page, 10)
     pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
     return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
-
+    
+@app.route('/find_recipe_by_ingredient', methods=["POST"])
+def find_recipe_by_ingredient():
+    page = get_page()
+    search_term = {"ingredients": {'$regex': request.form['ingredient_name'], '$options': 'i'}}
+    _recipes = mongo.db.recipes.find(search_term).sort('upvotes', pymongo.DESCENDING)
+    matching_recipes = paginate_list(_recipes, page, 10)
+    pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
+    return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
+    
 @app.route("/add_recipe")
 def add_recipe():
     _recipes = mongo.db.recipes.find()
