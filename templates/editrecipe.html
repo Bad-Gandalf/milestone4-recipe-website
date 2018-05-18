@@ -1,30 +1,46 @@
 {% extends 'base.html'%} {% block content %}
-<h3>Edit Task</h3>
+<h3>Edit Recipe</h3>
 <div class="row">
     <form action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST" class="col s12">
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">assignment</i>
-                <input id="recipe_name" name="recipe_name" type="text" class="validate" value="{{recipe.recipe_name}}">
+                <input id="recipe_name" name="recipe_name" type="text" class="validate" value="{{recipe.recipe_name.title()}}">
                 <label for="icon_prefix">Recipe Name</label>
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col s4">
                 <i class="material-icons prefix">person</i>
                 <input id="author" name="author" type="text" class="validate" value="{{recipe.author}}">
                 <label for="icon_prefix">Author Name</label>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
+        
+
+            <div class="input-field col s4">
                 <i class="material-icons prefix">person</i>
                 <input id="username" name="username" type="text" class="validate" value="{{recipe.username}}">
                 <label for="icon_prefix">Username</label>
             </div>
+
+
+            <div class="input-field col s4">
+                <i class="material-icons prefix">place</i>
+                <select id="country" name="country">
+                  <option value="" disabled selected>Choose Country</option>
+                  {% for country in countries %}
+                      {% if country.country_name == recipe.country %}
+                          <option value="{{country.country_name.title()}}" selected>{{country.country_name.title()}}</option>
+                      {% else %}
+                          <option value="{{country.country_name.title()}}" >{{country.country_name.title()}}</option>  
+                      {% endif %}
+                  {% endfor %}
+                 </select>
+                <label for="icon_prefix">Country</label>
+            </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col s6">
                 <i class="material-icons prefix">poll</i>
                 <select id="cuisine_name" name="cuisine_name">
                   <option value="" disabled selected>Choose Cuisine</option>
@@ -38,8 +54,22 @@
                  </select>
                 <label>Cuisine</label>
             </div>
-        </div>
 
+
+            <div class="input-field col s6">
+                <i class="material-icons prefix">warning</i>
+                <select multiple id="allergens" name="allergens">
+                    {% for allergen in recipe.allergens %}
+                        <option value="{{allergen["allergen_name"]}}" selected>{{allergen["allergen_name"]}}</option>
+                    {% endfor %}
+                    {% for allergen in allergens %}
+                        <option value="{{allergen["allergen_name"]}}">{{allergen["allergen_name"]}}</option>
+                    {% endfor %}
+                </select>
+                <label for="allergens">Allergens</label>
+            </div>
+
+        </div>
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">description</i>
@@ -76,30 +106,12 @@
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">shopping_basket</i>
-                <textarea type="text" id="ingredients" name="ingredients" class="materialize-textarea" >{{recipe.ingredients}}</textarea>
+                <textarea type="text" id="ingredients" name="ingredients" class="materialize-textarea">{{recipe.ingredients}}</textarea>
                 <label for="icon_telephone">Ingredients</label>
             </div>
         </div>
 
-        <div class="row">
-            <div class="input-field col s12">
-                <i class="material-icons prefix">warning</i>
-                <select multiple id="allergens" name="allergens">
-                    {% for allergen in recipe.allergens %}
-                    
-                    <option value="{{allergen}}" selected>{{allergen}}</option>
-                    
-                    {% endfor %}
-                    {% for allergen in allergens %}
-                        <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
-                        
-                    {% endfor %}
-                    
-                    
-                </select>
-                <label for="allergens">Allergens</label>
-            </div>
-        </div>
+
 
         <div class="row">
             <button class="btn waves-effect waves-light" type="submit">Update Recipe

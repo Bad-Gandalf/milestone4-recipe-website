@@ -1,12 +1,12 @@
-username,recipe_name,author,prep_time,cook_time,upvotes,cuisine_name,allergens
-bad_gandalf,Pats Curry,Patrick Doherty,32,68,2,Indian,"['Lupin', 'Mustard', 'Fish', 'Nuts', 'Peanuts']"
-Poppy_Long,Chicken Tikka Masala,Poret McPoret,90,50,4,Indian,"['Molluscs', 'Peanuts', 'Sesame Seeds', 'Soya']"
-bad_gandalf,Souvlakia,Paul Hollywood,30,20,4,Greek,"['Gluten', 'Sulphur Dioxide']"
-bad_gandalf,Irish fish chowder with soda bread,John Torode,25,45,2,Irish,"['Gluten', 'Eggs', 'Fish']"
-bad_gandalf,Sizzling steak fajitas,Justine Pattison,25,10,2,Mexican,['Gluten']
-bad_gandalf,Chilli con carne,Jo Pratt,25,120,,Mexican,['Sulphur Dioxide']
-bad_gandalf,Traditional honey-glazed gammon,The Hairy Bikers,30,130,,British,"['Celery', 'Mustard']"
-Housecall,Comforting cottage pie,James Martin,25,100,2,British,['Milk']
-Beebo,Chicken jalfrezi,Simon Rimmer,25,45,2,Indian,"['Gluten', 'Milk']"
-bob_marley,Jerk pork with sweet potato mash and salsa,Hattie Ellis,45,20,1,Carribean,[]
-saturday_kitchen,Quiche Lorraine,James Martin,45,45,,French,"['Gluten', 'Eggs', 'Milk']"
+username,recipe_name,author,prep_time,cook_time,upvotes,cuisine_name,allergens,country
+Poppy_Long,Chicken Tikka Masala,Poret McPoret,90,50,4,Indian,[{'allergen_name': 'Molluscs'}],United Kingdom
+Beebo,Souvlakia,Paul Hollywood,30,20,4,Greek,[{'allergen_name': 'Gluten'}],Ireland
+john_torode,Irish fish chowder with soda bread,John Torode,25,45,2,Irish,"[{'allergen_name': 'Gluten'}, {'allergen_name': 'Eggs'}, {'allergen_name': 'Fish'}]",Austrailia
+J_pat,Sizzling Steak Fajitas,Justine Pattison,25,10,2,Mexican,[{'allergen_name': 'Gluten'}],United Arab Emirates
+JoPratt,Chilli con carne,Jo Pratt,25,120,,Mexican,[{'allergen_name': 'Sulphur Dioxide'}],France
+J_Mart,Traditional Honey-Glazed Gammon,The Hairy Bikers,30,130,,British,"[{'allergen_name': 'Celery'}, {'allergen_name': 'Mustard'}]",United Kingdom
+J_Mart,Comforting cottage pie,James Martin,25,100,2,British,[{'allergen_name': 'Milk'}],United kingdom
+Beebo,Chicken Jalfrezi,Simon Rimmer,25,45,2,Indian,"[{'allergen_name': 'Gluten'}, {'allergen_name': 'Milk'}]",Algeria
+Hell_Bitch1984,Jerk Pork With Sweet Potato Mash And Salsa,Hattie Ellis,45,20,1,Carribean,[],United Kingdom
+saturday_kitchen,Quiche Lorraine,James Martin,45,45,,French,"[{'allergen_name': 'Gluten'}, {'allergen_name': 'Eggs'}, {'allergen_name': 'Milk'}]",Algeria
+bad_gandalf,Pats Curry,Patrick Doherty,32,68,3,Indian,"[{'allergen_name': 'Lupin'}, {'allergen_name': 'Mustard'}, {'allergen_name': 'Fish'}, {'allergen_name': 'Nuts'}, {'allergen_name': 'Peanuts'}]",Israel

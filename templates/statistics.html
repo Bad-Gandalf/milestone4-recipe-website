@@ -1,6 +1,6 @@
  {% extends 'base.html'%} {% block content %}
- 
- <div class="container">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"> 
+ <div class="container-stats">
         <div class="row">
             <div class="col-xs-12">
                 <div class="chart-wrapper">
@@ -28,7 +28,7 @@
             <div class="col-xs-12 col-lg-4">
                 <div class="chart-wrapper">
                     <div class="chart-title">Total Lifetime Score By Gender</div>
-                    <div id="total-lifetime-score-by-character-gender" class="chart-stage" data-step="3" data-intro="Click on a bar to filter the other charts by the specified character gender." style="font-weight: normal" data-position="right"></div>
+                    <div id="recipes_by_cuisine" class="chart-stage" data-step="3" data-intro="Click on a bar to filter the other charts by the specified character gender." style="font-weight: normal" data-position="right"></div>
                     <p>This chart displays total lifetime points accrued when using either a male or female character. It shows male characters have obtained 32% more lifetime points than female characters.</p>
                 </div>
             </div>
@@ -37,7 +37,7 @@
             <div class="col-xs-12 col-lg-4">
                 <div class="chart-wrapper">
                     <div class="chart-title">Average Lifetime Score By Gender</div>
-                    <div id="average-lifetime_score_by-character-gender" class="chart-stage" data-step="4" data-intro="Female characters have an average lifetime score 14% greater than male characters." style="font-weight: normal" data-position="left"></div>
+                    <div id="most_occuring_allergens" class="chart-stage" data-step="4" data-intro="Female characters have an average lifetime score 14% greater than male characters." style="font-weight: normal" data-position="left"></div>
                     <p>The chart displays the average lifetime score per character gender. It divides the total lifetime points accrued by the frequency of usage of each gender. This shows that on average a female character will accrue more lifetime points
                         than male characters.</p>
                 </div>
@@ -81,5 +81,5 @@
     </div>
     </div>
     
-    <script type="text/javascript" src="/static/js/graphs1.js"></script>
+    <script type="text/javascript" src="/static/js/graph.js"></script>
     {% endblock %}

@@ -14,7 +14,7 @@ app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/p
 
 mongo = PyMongo(app)
 
-data_file = "recipe_mining.csv" 
+data_file = "static/data/recipe_mining.csv" 
 
 @app.route('/')
 @app.route('/get_recipes')
@@ -27,13 +27,14 @@ def get_recipes():
     
 @app.route('/write_csv')
 def write_csv():
-    cursor= mongo.db.recipes.find({}, {'_id':0,"username":1, "recipe_name":1, "author":1, "prep_time":1, "cook_time":1, "upvotes": 1, "cuisine_name":1, "allergens":1})
+    cursor= mongo.db.recipes.find({}, {'_id':0,"username":1, "recipe_name":1, "author":1, "prep_time":1, "cook_time":1, "upvotes": 1, "cuisine_name":1, "allergens":1, "country":1})
     with open(data_file, "w+") as outfile:
-        fields = ["username", "recipe_name", "author", "prep_time", "cook_time","upvotes","cuisine_name", "allergens"]
+        fields = ["username", "recipe_name", "author", "prep_time", "cook_time","upvotes","cuisine_name","allergens", "country"]
         writer = csv.DictWriter(outfile, fieldnames=fields)
         writer.writeheader()
         for x in cursor:
             writer.writerow(x)
+    
     return render_template("statistics.html")
     
 @app.route('/display_stats')
@@ -90,26 +91,31 @@ def find_recipe_by_ingredient():
 def add_recipe():
     _recipes = mongo.db.recipes.find()
     recipe_list = [recipe for recipe in _recipes]
-    _cuisines = mongo.db.cuisines.find()
+    _cuisines = mongo.db.cuisines.find().sort("cuisine_name", pymongo.ASCENDING)
     cuisine_list = [cuisine for cuisine in _cuisines]
-    _allergens = mongo.db.allergens.find()
+    _allergens = mongo.db.allergens.find().sort("allergen_name", pymongo.ASCENDING)
     allergen_list = [allergen for allergen in _allergens]
-    return render_template("addrecipe.html", recipes = recipe_list, allergens = allergen_list, cuisines = cuisine_list)
+    _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)
+    return render_template("addrecipe.html", recipes= recipe_list, allergens = allergen_list, cuisines = cuisine_list, countries = _countries)
 
 @app.route('/insert_recipe', methods=["POST"])
 def insert_recipe():
     recipes = mongo.db.recipes
     new_recipe = create_recipe()
     recipes.insert_one(new_recipe)
-    return redirect(url_for('get_recipe'))    
+    return redirect(url_for('get_recipe'))   
+
+    
+    
     
 @app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
     the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
-    all_recipes = mongo.db.recipes.find()
-    cuisines = mongo.db.cuisines.find()
-    allergens = mongo.db.allergens.find()
-    return render_template("editrecipe.html", recipe=the_recipe, recipes=all_recipes, cuisines=cuisines, allergens=allergens)
+    all_recipes = mongo.db.recipes.find().sort("recipe_name", pymongo.ASCENDING)
+    cuisines = mongo.db.cuisines.find().sort("cuisine_name", pymongo.ASCENDING)
+    allergens = mongo.db.allergens.find().sort("allergen_name", pymongo.ASCENDING)
+    _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)
+    return render_template("editrecipe.html", recipe=the_recipe, recipes=all_recipes, cuisines=cuisines, allergens=allergens, countries=_countries)
     
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
@@ -130,12 +136,29 @@ def get_cuisines():
     cuisine_list = paginate_list(_cuisines, page, 10)
     pagination = Pagination(page=page, total=_cuisines.count(), record_name='cuisines')
     return render_template('cuisine.html', cuisines=cuisine_list, pagination=pagination)
+
+@app.route('/get_countries')
+def get_countries():
+    page = get_page()
+    _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)
+    country_list = paginate_list(_countries, page, 10)
+    pagination = Pagination(page=page, total=_countries.count(), record_name='countries')
+    return render_template('countries.html', countries=country_list, pagination=pagination)
+
+@app.route("/add_country")
+def add_country():
+    return render_template("addcountry.html")
+    
+@app.route('/insert_country', methods=['POST'])
+def insert_country():
+    countries = mongo.db.countries
+    new_country = create_country()
+    countries.insert_one(new_country)
+    return redirect(url_for('get_countries')) 
     
 @app.route("/add_cuisine")
 def add_cuisine():
-    _cuisines = mongo.db.cuisines.find()
-    cuisine_list = [cuisine for cuisine in _cuisines]
-    return render_template("addcuisine.html", cuisines = cuisine_list)    
+    return render_template("addcuisine.html")    
 
 @app.route('/insert_cuisine', methods=['POST'])
 def insert_cuisine():

@@ -1,0 +1,23 @@
+{% extends 'base.html'%} {% block content %}
+<h3>Add Country</h3>
+<div class="row">
+    <form action="{{url_for('insert_country')}}" method="POST" class="col s12">
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix">place</i>
+                <input id="country" name="country" type="text" class="validate">
+                <label for="icon_prefix">Country Name</label>
+            </div>
+        </div>
+         
+        
+        <div class="row">
+            <button class="btn waves-effect waves-light" type="submit">Add Cuisine
+                <i class="material-icons right">playlist_add</i>
+            </button>
+        </div>
+
+
+    </form>
+</div>
+{% endblock %}

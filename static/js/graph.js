@@ -9,20 +9,37 @@ const RecipeDBApi = function() {
  this.makeGraphs = function (error, data) {
   var ndx = crossfilter(data);
 
+let allergen_list=[];
   //Data Parsing
   data.forEach(function(d) {
    d["upvotes"] = +d["upvotes"];
-   d.Tournaments = +d.Tournaments;
    d["cook_time"] = +d["cook_time"];
    d["prep_time"] = +d["prep_time"];
-   //Data Cleansing i.e. No Team = Independant      
-  
-   if (d.allergens == []) {
-    d.Team = "No Allergens";
-   }
-   else {
-    return d.allergens;
-   }
+   
+   console.log(d.allergens);
+    function get_values(){
+        var allergen_list = [];
+        var allergens = d.allergens.split(',');
+        var array_length = allergens.length;
+        for (var i = 0; i < array_length; i++) {
+            allergens[i] = allergens[i].replace("[", '');
+            allergens[i] = allergens[i].replace("]", '');
+            allergens[i] = allergens[i].replace("{", '');
+            allergens[i] = allergens[i].replace("}", '');
+            allergens[i] = allergens[i].replace("'allergen_name':", '');
+            allergens[i] = allergens[i].replace(/[']+/g, '');
+            allergens[i] = allergens[i].trim();
+            
+            }
+         allergen_list.push(Object.values(allergens));
+         return allergen_list;
+         }    
+            
+            
+    d.allergens = get_values();
+     
+   
+   
    if (d.cuisine_name == "") {
     d.Team = "No Cuisine";
    }
@@ -31,7 +48,11 @@ const RecipeDBApi = function() {
    }
    
   });
+  
+  
   console.log(data);
+
+
 
  // Actual Score versus Lifetime Rank Scatter Plot
  /*this.show_cuisine_name_to_upvotes_correlation = function(ndx) {
@@ -72,20 +93,56 @@ const RecipeDBApi = function() {
    .margins({ top: 10, right: 10, bottom: 75, left: 70 });
 
  }*/
+var counts = {};
+for (var i = 0; i < allergen_list.length; i++) {
+    counts[allergen_list[i]] = 1 + (counts[allergen_list[i]] || 0);
+}
+let unique_allergen_list = allergen_list.filter(function (x, i, a) { 
+    return a.indexOf(x) == i; 
+});
 
+console.log(allergen_list);
  //Pie Chart Participation By Country
  this.show_recipes_by_cuisine = function(ndx) {
 
   var country_dim = ndx.dimension(dc.pluck("cuisine_name"));
-  var upvotes = ndx.dimension(dc.pluck("upvotes"));
+  var upvotes = country_dim.group().reduceSum(dc.pluck("upvotes"));
 
   dc.pieChart("#lifetime-score-by-country")
    .height(220)
    .radius(100)
+   
    .transitionDuration(1500)
    .dimension(country_dim)
    .group(upvotes);
 
+ }
+ 
+this.recipes_in_cuisine = function(ndx) {
+     var cuisine_dim = ndx.dimension(dc.pluck("cuisine_name"));
+     var recipes = cuisine_dim.group()
+     
+     dc.pieChart("#recipes_by_cuisine")
+     .height(220)
+     .radius(100)
+     .transitionDuration(1500)
+     .dimension(cuisine_dim)
+     .group(recipes);
+ }
+ 
+ this.most_occuring_countries = function(ndx) {
+     
+     var countries_dim = ndx.dimension(dc.pluck("country"));
+     var numOfcountries = countries_dim.group();
+     
+     dc.pieChart("#most_occuring_allergens")
+     .height(220)
+     .radius(100)
+     .transitionDuration(1500)
+     .dimension(countries_dim)
+     .group(numOfcountries);
+     
+    
  }
 
  /*/Pie Chart Lifetime Points By Team
@@ -101,27 +158,47 @@ const RecipeDBApi = function() {
          .group(total_lifetime_score);
  }*/
  // Barchart for Lifetime scores by Character
-/* this.show_lifetime_scores_by_character = function(ndx) {
-  var character_dim = ndx.dimension(dc.pluck("Character"));
-  var total_lifetime_score = character_dim.group().reduceSum(dc.pluck('Lifetime Score'));
+this.upvotes_by_user = function(ndx) {
+  var user_dim = ndx.dimension(dc.pluck("username"));
+  var total_lifetime_score = user_dim.group().reduceSum(dc.pluck('upvotes'));
 
   dc.barChart("#total-lifetime-score-by-character")
    .width(1000)
    .height(300)
    .margins({ top: 10, right: 50, bottom: 75, left: 75 })
-   .dimension(character_dim)
+   .dimension(user_dim)
    .group(total_lifetime_score)
    .transitionDuration(500)
    .x(d3.scale.ordinal())
    .xUnits(dc.units.ordinal)
    .elasticY(true)
-   .xAxisLabel("Characters")
-   .yAxisLabel("Lifetime Score")
+   .xAxisLabel("Users")
+   .yAxisLabel("UpVotes")
+   .yAxis().ticks(4);
+
+ }
+ 
+ this.upvotes_by_country = function(ndx) {
+  var user_dim = ndx.dimension(dc.pluck("country"));
+  var total_lifetime_score = user_dim.group().reduceSum(dc.pluck('upvotes'));
+
+  dc.barChart("#average-lifetime_score_by-character")
+   .width(1000)
+   .height(300)
+   .margins({ top: 10, right: 50, bottom: 75, left: 75 })
+   .dimension(user_dim)
+   .group(total_lifetime_score)
+   .transitionDuration(500)
+   .x(d3.scale.ordinal())
+   .xUnits(dc.units.ordinal)
+   .elasticY(true)
+   .xAxisLabel("Users")
+   .yAxisLabel("UpVotes")
    .yAxis().ticks(4);
 
  }
  // Barchart for Average Lifetime scores by Character
- this.show_average_lifetime_score_per_character = function(ndx) {
+ /*this.show_average_lifetime_score_per_character = function(ndx) {
   var dim = ndx.dimension(dc.pluck('Character'));
 
   function add_item(p, v) {
@@ -240,8 +317,11 @@ const RecipeDBApi = function() {
 
 
 this.show_recipes_by_cuisine(ndx);
-  /*this.show_average_lifetime_score_per_character(ndx);
-  this.show_participation_by_country(ndx);
+this.recipes_in_cuisine(ndx);
+this.most_occuring_countries(ndx);  
+this.upvotes_by_user(ndx);
+this.upvotes_by_country(ndx);
+/*  this.show_participation_by_country(ndx);
   this.show_lifetime_rank_to_actual_scores_correlation(ndx);
   // this.show_lifetime_scores_by_team(ndx);
   this.show_lifetime_scores_by_character_gender(ndx);

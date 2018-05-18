@@ -2,7 +2,7 @@ from flask import request
 
 class Recipe(object):
     upvotes = 0
-    def __init__(self, username, recipe_name, author, prep_time, cook_time, servings, recipe_description, cuisine_name, ingredients, method, allergens):
+    def __init__(self, username, recipe_name, author, prep_time, cook_time, servings, recipe_description, cuisine_name, ingredients, method, allergens, country):
         self.username = username
         self.recipe_name = recipe_name
         self.author = author
@@ -13,13 +13,17 @@ class Recipe(object):
         self.cuisine_name = cuisine_name
         self.ingredients = ingredients
         self.method = method
-        self.allergens = allergens
+        def nest_allergens(args):
+            allergen_list =[]
+            for i in args:
+                allergen_list.append({"allergen_name": i}) 
+            return allergen_list
+        self.allergens = nest_allergens(allergens)
+        self.country = country
         
 class User(object):
-    def __init__(self, username, first_name, last_name, country):
+    def __init__(self, username, country):
         self.username = username
-        self.first_name = first_name
-        self.last_name = last_name
         self.country = country
 
 class Cuisine(object):
@@ -33,9 +37,9 @@ class Allergen(object):
         self.allergen_description = allergen_description
         
 class Country(object):
-    def __init__(self, country_name, country_description):
+    def __init__(self, country_name):
         self.country_name = country_name
-        self.country_description = country_description
+        
         
         
 
@@ -48,17 +52,21 @@ def paginate_list(query, page_number, per_page):
     return paginated_array
     
 def create_recipe():
-    recipe = Recipe(request.form['username'].strip(), request.form['recipe_name'].strip(), request.form['author'.strip()],
+    recipe = Recipe(request.form['username'].strip(), request.form['recipe_name'].strip().title(), request.form['author'].strip().title(),
                         request.form['prep_time'].strip(), request.form['cook_time'].strip(), 
                         request.form['servings'].strip(),request.form['recipe_description'].strip(),
                         request.form['cuisine_name'], request.form['ingredients'].strip(),
-                        request.form['method'].strip(), request.form.getlist('allergens'))
+                        request.form['method'].strip(), request.form.getlist('allergens'), request.form["country"])
     return vars(recipe)
                         
 def create_cuisine():
-    cuisine = Cuisine(request.form['cuisine_name'], request.form['cuisine_description'])
+    cuisine = Cuisine(request.form['cuisine_name'].title(), request.form['cuisine_description'])
     return vars(cuisine)
     
 def create_allergen():
-    allergen = Allergen(request.form['allergen_name'], request.form['allergen_description'])
+    allergen = Allergen(request.form['allergen_name'].title(), request.form['allergen_description'])
     return vars(allergen)
+    
+def create_country():
+    country= Country(request.form["country"].title())
+    return vars(country)

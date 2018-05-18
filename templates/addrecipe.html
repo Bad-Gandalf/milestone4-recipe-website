@@ -10,21 +10,35 @@
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col s4">
                 <i class="material-icons prefix">person</i>
                 <input id="author" name="author" type="text" class="validate">
                 <label for="icon_prefix">Author Name</label>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
+        
+        
+            
+            <div class="input-field col s4">
                 <i class="material-icons prefix">person</i>
                 <input id="username" name="username" type="text" class="validate">
                 <label for="icon_prefix">Username</label>
             </div>
+        
+        
+            <div class="input-field col s4">
+                <i class="material-icons prefix">place</i>
+                <select id="country" name="country">
+                  <option value="" disabled selected>Choose Country</option>
+                  {% for country in countries %}
+                      <option value="{{country.country_name.title()}}" >{{country.country_name.title()}}</option>  
+                     
+                  {% endfor %}
+                 </select>
+                <label for="icon_prefix">Country</label>
+            </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col s6">
                 <i class="material-icons prefix">poll</i>
                 <select id="cuisine_name" name="cuisine_name">
                   <option value="" disabled selected>Choose Cuisine</option>
@@ -34,8 +48,19 @@
                  </select>
                 <label>Cuisine</label>
             </div>
-        </div>
+        
 
+            <div class="input-field col s6">
+                <i class="material-icons prefix">warning</i>
+                <select multiple id="allergens" name="allergens">
+                    <option value="" disabled selected>Choose Allergens</option>
+                    {% for allergen in allergens %}
+                    <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
+                    {% endfor %}
+                </select>
+                <label for="allergens">Allergens</label>
+            </div>
+        </div>
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">description</i>
@@ -77,18 +102,7 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="input-field col s12">
-                <i class="material-icons prefix">warning</i>
-                <select multiple id="allergens" name="allergens">
-                    <option value="" disabled selected>Choose Allergens</option>
-                    {% for allergen in allergens %}
-                    <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
-                    {% endfor %}
-                </select>
-                <label for="allergens">Allergens</label>
-            </div>
-        </div>
+        
 
         <div class="row">
             <button class="btn waves-effect waves-light" type="submit">Add Recipe
