@@ -18,7 +18,7 @@ let allergen_list=[];
    
    console.log(d.allergens);
     function get_values(){
-        var allergen_list = [];
+        
         var allergens = d.allergens.split(',');
         var array_length = allergens.length;
         for (var i = 0; i < array_length; i++) {
@@ -93,15 +93,33 @@ let allergen_list=[];
    .margins({ top: 10, right: 10, bottom: 75, left: 70 });
 
  }*/
+allergen_list = [].concat.apply([], allergen_list);
+console.log(allergen_list);
+ 
 var counts = {};
 for (var i = 0; i < allergen_list.length; i++) {
     counts[allergen_list[i]] = 1 + (counts[allergen_list[i]] || 0);
 }
-let unique_allergen_list = allergen_list.filter(function (x, i, a) { 
-    return a.indexOf(x) == i; 
+console.log(counts);
+
+function renameKeys(obj, newKeys) {
+  const keyValues = Object.keys(obj).map(key => {
+    const newKey = newKeys[key] || key;
+    return { [newKey]: obj[key] };
+  });
+  return Object.assign({}, ...keyValues);
+}
+let result = Object.keys(counts).map(function(key) {
+  let arr =  [key, counts[key]];
+  let new_object = Object.assign({}, arr);
+  const new_keys = { 0: "Name", 1:"Value"};
+  let renamed_object = renameKeys(new_object, new_keys);
+  return renamed_object;
 });
 
-console.log(allergen_list);
+
+console.log(result);
+
  //Pie Chart Participation By Country
  this.show_recipes_by_cuisine = function(ndx) {
 
@@ -196,7 +214,51 @@ this.upvotes_by_user = function(ndx) {
    .yAxisLabel("UpVotes")
    .yAxis().ticks(4);
 
- }
+ };
+ 
+ this.most_occurring_allergens = function() {
+  
+  var svg = d3.select("#total-lifetime-score-by-team"),
+    margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom;
+
+var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+    y = d3.scaleLinear().rangeRound([height, 0]);
+
+var g = svg.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  
+  
+
+  x.domain(result.map(function(d) { return result.Name; }));
+  y.domain([0, d3.max(result, function(d) { return result.Value; })]);
+
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y).ticks(10, "%"))
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("text-anchor", "end")
+      .text("Frequency");
+
+  g.selectAll(".bar")
+    .data(result)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(result.Name); })
+      .attr("y", function(d) { return y(result.Value); })
+      .attr("width", x.bandwidth())
+      .attr("height", function(d) { return height - y(result.Value); });
+
+};
  // Barchart for Average Lifetime scores by Character
  /*this.show_average_lifetime_score_per_character = function(ndx) {
   var dim = ndx.dimension(dc.pluck('Character'));
@@ -321,11 +383,12 @@ this.recipes_in_cuisine(ndx);
 this.most_occuring_countries(ndx);  
 this.upvotes_by_user(ndx);
 this.upvotes_by_country(ndx);
-/*  this.show_participation_by_country(ndx);
+this.most_occurring_allergens();
+ /*this.show_participation_by_country(ndx);
   this.show_lifetime_rank_to_actual_scores_correlation(ndx);
   // this.show_lifetime_scores_by_team(ndx);
   this.show_lifetime_scores_by_character_gender(ndx);
-  this.show_average_lifetime_score_per_character_gender(ndx);*/
+  ;*/
 
 dc.renderAll();
 };

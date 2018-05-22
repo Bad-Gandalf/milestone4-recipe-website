@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, redirect, url_for, Blueprint
 from flask_pymongo import PyMongo, pymongo
+import pymysql
 from flask_paginate import Pagination
 from pymongo import MongoClient
 import json
@@ -8,12 +9,20 @@ from bson.objectid import ObjectId
 from bson import json_util
 from classes import *
 import csv
+from mysql_from_python import *
+
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'pat_doc_recipedb'
 app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/pat_doc_recipedb'
 
 mongo = PyMongo(app)
+username = os.getenv('C9_USER')
 
+connection = pymysql.connect(host="localhost",
+                            user=username,
+                            password = '',
+                            db='Recipes')
+                            
 data_file = "static/data/recipe_mining.csv" 
 
 @app.route('/')
@@ -100,14 +109,12 @@ def add_recipe():
 
 @app.route('/insert_recipe', methods=["POST"])
 def insert_recipe():
-    recipes = mongo.db.recipes
+    """recipes = mongo.db.recipes
     new_recipe = create_recipe()
-    recipes.insert_one(new_recipe)
-    return redirect(url_for('get_recipe'))   
+    recipes.insert_one(new_recipe)"""
+    insert_recipe_mysql()
+    return redirect(url_for('get_recipes'))   
 
-    
-    
-    
 @app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
     the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})

@@ -70,3 +70,5 @@ def create_allergen():
 def create_country():
     country= Country(request.form["country"].title())
     return vars(country)
+    
+# Create row for recipe insert
