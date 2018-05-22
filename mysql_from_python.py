@@ -1,5 +1,6 @@
 import os
 import pymysql
+
 from flask import request
 
 username = os.getenv('C9_USER')
@@ -7,15 +8,15 @@ connection = pymysql.connect(host="localhost",
                             user=username,
                             password = '',
                             db='Recipes')
-                            
-"""try:
-    with connection.cursor() as cursor:
-        sql = "SELECT * FROM Allergens;"
+def get_recipes_mysql():
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "SELECT * FROM Recipe;"
         cursor.execute(sql)
         result = cursor.fetchall()
-        print(result)
-finally:
-    connection.close()"""
+        return result
+    
+
+get_recipes_mysql()
     
 """try:
     with connection.cursor() as cursor:
@@ -37,7 +38,7 @@ finally:
         connection.commit()
         
 finally:
-    connection.close()"""
+    connection.close()
     
 def insert_recipe_mysql():   
     try:
@@ -53,5 +54,5 @@ def insert_recipe_mysql():
             connection.commit()
         
     finally:
-        connection.close()
+        connection.close()"""
     
