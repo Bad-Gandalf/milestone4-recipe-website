@@ -110,10 +110,10 @@ def add_recipe():
 
 @app.route('/insert_recipe', methods=["POST"])
 def insert_recipe():
-    recipes = mongo.db.recipes
+    """recipes = mongo.db.recipes
     new_recipe = create_recipe()
-    recipes.insert_one(new_recipe)
-    """insert_recipe_mysql()"""
+    recipes.insert_one(new_recipe)"""
+    insert_recipe_mysql()
     return redirect(url_for('get_recipes'))   
 
 @app.route('/edit_recipe/<recipe_id>')

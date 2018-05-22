@@ -38,7 +38,7 @@ get_recipes_mysql()
         connection.commit()
         
 finally:
-    connection.close()
+    connection.close()"""
     
 def insert_recipe_mysql():   
     try:
@@ -50,9 +50,9 @@ def insert_recipe_mysql():
                             request.form['method'].strip(), request.form['servings'].strip(),
                             request.form["country"], str(request.form.getlist('allergens')))
                             
-            cursor.execute("INSERT INTO Recipe (name, description, ingredients, author, username, cuisine, prep_time, cook_time, method, servings, country, allergens) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s, %s);", row)
+            cursor.execute("INSERT INTO Recipe (recipe_name, recipe_description, ingredients, author, username, cuisine_name, prep_time, cook_time, method, servings, country, allergens) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s, %s);", row)
             connection.commit()
         
     finally:
-        connection.close()"""
+        connection.close()
     
