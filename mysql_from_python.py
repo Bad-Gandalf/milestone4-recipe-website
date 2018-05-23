@@ -64,3 +64,8 @@ def insert_recipe_mysql():
     finally:
         connection.close()
     
+def delete_recipe_mysql(recipe_id):
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql ="DELETE FROM recipe WHERE _id = %s"
+        cursor.execute(sql, recipe_id)
+        connection.commit()

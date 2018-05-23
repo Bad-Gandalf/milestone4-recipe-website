@@ -35,24 +35,6 @@ def get_recipes():
     pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
     recipe_list = paginate_list(_recipes, page, 10)
     return render_template("recipe.html", recipes=recipe_list, pagination=pagination)
-    
-    
-@app.route('/write_csv')
-def write_csv():
-    cursor= mongo.db.recipes.find({}, {'_id':0,"username":1, "recipe_name":1, "author":1, "prep_time":1, "cook_time":1, "upvotes": 1, "cuisine_name":1, "allergens":1, "country":1})
-    with open(data_file, "w+") as outfile:
-        fields = ["username", "recipe_name", "author", "prep_time", "cook_time","upvotes","cuisine_name","allergens", "country"]
-        writer = csv.DictWriter(outfile, fieldnames=fields)
-        writer.writeheader()
-        for x in cursor:
-            writer.writerow(x)
-    
-    return render_template("statistics.html")
-    
-@app.route('/display_stats')
-def display_stats():
-    return render_template("statistics.html")
-    
 
 @app.route('/search_recipes')
 def search_recipes():
@@ -129,7 +111,8 @@ def edit_recipe(recipe_id):
     
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
-    mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
+    """mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})"""
+    delete_recipe_mysql(recipe_id)
     return redirect(url_for('get_recipes'))
 
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
@@ -246,6 +229,22 @@ def upvote(recipe_id):
     upvote_mysql(recipe_id)
     return redirect(url_for('get_recipes'))
 
+
+@app.route('/write_csv')
+def write_csv():
+    cursor= mongo.db.recipes.find({}, {'_id':0,"username":1, "recipe_name":1, "author":1, "prep_time":1, "cook_time":1, "upvotes": 1, "cuisine_name":1, "allergens":1, "country":1})
+    with open(data_file, "w+") as outfile:
+        fields = ["username", "recipe_name", "author", "prep_time", "cook_time","upvotes","cuisine_name","allergens", "country"]
+        writer = csv.DictWriter(outfile, fieldnames=fields)
+        writer.writeheader()
+        for x in cursor:
+            writer.writerow(x)
+    
+    return render_template("statistics.html")
+    
+@app.route('/display_stats')
+def display_stats():
+    return render_template("statistics.html")
 
 
     
