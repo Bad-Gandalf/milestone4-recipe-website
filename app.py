@@ -29,11 +29,13 @@ data_file = "static/data/recipe_mining.csv"
 @app.route('/get_recipes')
 def get_recipes():
     page = get_page()
-    """_recipes=mongo.db.recipes.find().sort('upvotes', pymongo.DESCENDING)"""
+    """_recipes=mongo.db.recipes.find().sort('upvotes', pymongo.DESCENDING)
+    pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')"""
     _recipes = get_recipes_mysql()
-    recipe_list = paginate_list(_recipes, page, 10)
     pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
+    recipe_list = paginate_list(_recipes, page, 10)
     return render_template("recipe.html", recipes=recipe_list, pagination=pagination)
+    
     
 @app.route('/write_csv')
 def write_csv():
@@ -110,10 +112,10 @@ def add_recipe():
 
 @app.route('/insert_recipe', methods=["POST"])
 def insert_recipe():
-    """recipes = mongo.db.recipes
+    recipes = mongo.db.recipes
     new_recipe = create_recipe()
-    recipes.insert_one(new_recipe)"""
-    insert_recipe_mysql()
+    recipes.insert_one(new_recipe)
+    """insert_recipe_mysql()"""
     return redirect(url_for('get_recipes'))   
 
 @app.route('/edit_recipe/<recipe_id>')
@@ -240,7 +242,8 @@ def update_allergen(allergen_id):
 
 @app.route('/upvote/<recipe_id>', methods=["POST"])
 def upvote(recipe_id):
-    mongo.db.recipes.update_one({"_id": ObjectId(recipe_id)}, { "$inc" :{'upvotes': 1}})
+    """mongo.db.recipes.update_one({"_id": ObjectId(recipe_id)}, { "$inc" :{'upvotes': 1}})"""
+    upvote_mysql(recipe_id)
     return redirect(url_for('get_recipes'))
 
 

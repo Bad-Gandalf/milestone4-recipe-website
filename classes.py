@@ -13,12 +13,7 @@ class Recipe(object):
         self.cuisine_name = cuisine_name
         self.ingredients = ingredients
         self.method = method
-        def nest_allergens(args):
-            allergen_list =[]
-            for i in args:
-                allergen_list.append({"allergen_name": i}) 
-            return allergen_list
-        self.allergens = nest_allergens(allergens)
+        self.allergens = allergens
         self.country = country
         
 class User(object):

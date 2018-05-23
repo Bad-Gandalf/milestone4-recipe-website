@@ -10,15 +10,23 @@ connection = pymysql.connect(host="localhost",
                             db='Recipes')
 def get_recipes_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-        sql = "SELECT * FROM Recipe;"
+        sql = "SELECT * FROM recipe ORDER BY upvotes DESC;"
         cursor.execute(sql)
         result = cursor.fetchall()
         return result
+        
+        
+def upvote_mysql(recipe_id):
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql ="UPDATE recipe SET upvotes = upvotes + 1 WHERE _id = %s"
+        cursor.execute(sql, recipe_id)
+        connection.commit()
+    
     
 
-get_recipes_mysql()
+"""get_recipes_mysql()
     
-"""try:
+try:
     with connection.cursor() as cursor:
         row1 = ("Gluten", "Wheat (such as spelt and Khorasan wheat/Kamut), rye, barley and oats is often found in foods containing flour, such as some types of baking powder, batter, breadcrumbs, bread, cakes, couscous, meat products, pasta, pastry, sauces, soups and fried foods which are dusted with flour.")
         row2 = ("Crustaceans", "Crabs, lobster, prawns and scampi are crustaceans. Shrimp paste, often used in Thai and south-east Asian curries or salads, is an ingredient to look out for.")
@@ -50,8 +58,8 @@ def insert_recipe_mysql():
                             request.form['method'].strip(), request.form['servings'].strip(),
                             request.form["country"], str(request.form.getlist('allergens')))
                             
-            cursor.execute("INSERT INTO Recipe (recipe_name, recipe_description, ingredients, author, username, cuisine_name, prep_time, cook_time, method, servings, country, allergens) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s, %s);", row)
-            connection.commit()
+            cursor.execute("INSERT INTO recipe (recipe_name, recipe_description, ingredients, author, username, cuisine_name, prep_time, cook_time, method, servings, country, allergens) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s, %s);", row)
+            cursor.commit()
         
     finally:
         connection.close()
