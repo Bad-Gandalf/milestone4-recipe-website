@@ -21,7 +21,7 @@ username = os.getenv('C9_USER')
 connection = pymysql.connect(host="localhost",
                             user=username,
                             password = '',
-                            db='Recipes')
+                            db='recipes')
                             
 data_file = "static/data/recipe_mining.csv" 
 
@@ -48,10 +48,12 @@ def search_recipes():
 @app.route('/find_recipe_by_name', methods=["POST"])
 def find_recipe_by_name():
     page = get_page()
-    search_term = {"recipe_name": {'$regex': request.form['recipe_name'], '$options': 'i'}}
+    """search_term = {"recipe_name": {'$regex': request.form['recipe_name'], '$options': 'i'}}
     _recipes = mongo.db.recipes.find(search_term).sort('upvotes', pymongo.DESCENDING)
+    pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')"""
+    _recipes = find_recipe_by_name_mysql()
+    pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
     matching_recipes = paginate_list(_recipes, page, 10)
-    pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
     return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
     
 @app.route('/find_recipe_cuisine_name', methods=["POST"])
@@ -94,10 +96,10 @@ def add_recipe():
 
 @app.route('/insert_recipe', methods=["POST"])
 def insert_recipe():
-    recipes = mongo.db.recipes
+    """recipes = mongo.db.recipes
     new_recipe = create_recipe()
-    recipes.insert_one(new_recipe)
-    """insert_recipe_mysql()"""
+    recipes.insert_one(new_recipe)"""
+    insert_recipe_mysql()
     return redirect(url_for('get_recipes'))   
 
 @app.route('/edit_recipe/<recipe_id>')
@@ -183,9 +185,12 @@ def update_cuisine(cuisine_id):
 @app.route('/get_allergens')
 def get_allergens():
     page = get_page()
-    _allergens = mongo.db.allergens.find()
+    """_allergens = mongo.db.allergens.find()
     allergen_list = paginate_list(_allergens, page, 10)
-    pagination = Pagination(page=page, total=_allergens.count(), record_name='allergens')
+    pagination = Pagination(page=page, total=_allergens.count(), record_name='allergens')"""
+    _allergens = get_allergens_mysql()
+    allergen_list = paginate_list(_allergens, page, 10)
+    pagination = Pagination(page=page, total=len(_allergens), record_name='allergens')
     return render_template('allergen.html', allergens=allergen_list, pagination=pagination)
     
 
@@ -197,9 +202,10 @@ def add_allergen():
 
 @app.route('/insert_allergen', methods=['POST'])
 def insert_allergen():
-    allergens = mongo.db.allergens
+    """allergens = mongo.db.allergens
     new_allergen = create_allergen()
-    allergens.insert_one(new_allergen)
+    allergens.insert_one(new_allergen)"""
+    insert_allergen_mysql()
     return redirect(url_for('get_allergens')) 
     
 @app.route('/edit_allergen/<allergen_id>')
