@@ -56,6 +56,14 @@ def find_recipe_by_name_mysql():
         result = cursor.fetchall()
         return result
         
+def find_recipe_by_cuisine_name_mysql():
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        search_term = request.form["cuisine_name"]
+        sql = "SELECT * FROM recipe WHERE cuisine_name RLIKE %s ORDER BY cuisine_name ASC;"
+        cursor.execute(sql, search_term)
+        result = cursor.fetchall()
+        return result
+        
 
 def get_allergens_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:

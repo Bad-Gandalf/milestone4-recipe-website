@@ -59,10 +59,12 @@ def find_recipe_by_name():
 @app.route('/find_recipe_cuisine_name', methods=["POST"])
 def find_recipe_cuisine_name():
     page = get_page()
-    search_term = {"cuisine_name": request.form['cuisine_name']}
+    """search_term = {"cuisine_name": request.form['cuisine_name']}
     _recipes = mongo.db.recipes.find(search_term).sort('upvotes', pymongo.DESCENDING)
+    pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')"""
+    _recipes = find_recipe_by_cuisine_name_mysql()
+    pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
     matching_recipes = paginate_list(_recipes, page, 10)
-    pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
     return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
     
 @app.route('/find_recipe_allergen_name', methods=["POST"])
@@ -85,14 +87,12 @@ def find_recipe_by_ingredient():
     
 @app.route("/add_recipe")
 def add_recipe():
-    _recipes = mongo.db.recipes.find()
-    recipe_list = [recipe for recipe in _recipes]
     _cuisines = mongo.db.cuisines.find().sort("cuisine_name", pymongo.ASCENDING)
     cuisine_list = [cuisine for cuisine in _cuisines]
     _allergens = mongo.db.allergens.find().sort("allergen_name", pymongo.ASCENDING)
     allergen_list = [allergen for allergen in _allergens]
     _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)
-    return render_template("addrecipe.html", recipes= recipe_list, allergens = allergen_list, cuisines = cuisine_list, countries = _countries)
+    return render_template("addrecipe.html", allergens = allergen_list, cuisines = cuisine_list, countries = _countries)
 
 @app.route('/insert_recipe', methods=["POST"])
 def insert_recipe():
