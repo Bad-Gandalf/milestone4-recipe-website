@@ -11,10 +11,18 @@ connection = pymysql.connect(host="localhost",
 
 def get_allergens_for_recipe_mysql(recipe_id):
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-        sql = "SELECT A.allergen_name FROM recipe INNER JOIN (SELECT recipe_allergen.recipeID, GROUP_CONCAT(allergens.allergen_name SEPARATOR ',') AS allergen_name FROM recipe_allergen INNER JOIN allergens ON allergens._id = recipe_allergen.allergenID GROUP BY recipe_allergen.allergenID) AS A ON recipe._id = A.recipeID where recipe._id = %s;"
+        sql = """SELECT A.allergen_name FROM recipe INNER JOIN 
+                (SELECT recipe_allergen.recipeID, 
+                GROUP_CONCAT(allergens.allergen_name SEPARATOR ',') 
+                AS allergen_name FROM recipe_allergen INNER JOIN allergens 
+                ON allergens._id = recipe_allergen.allergenID 
+                GROUP BY recipe_allergen.allergenID) AS A 
+                ON recipe._id = A.recipeID where recipe._id = %s;"""
         cursor.execute(sql, recipe_id)
         result = cursor.fetchall()
+        print(result)
         result_list = map(lambda d: d['allergen_name'], result)
+        print (result_list)
         return result_list
 
 
@@ -24,7 +32,7 @@ def get_recipes_mysql():
         cursor.execute(sql)
         result = cursor.fetchall()
         for i in result:
-            i["allergens"] = get_allergens_for_recipe_mysql(i["_id"])
+            i["allergens"] =get_allergens_for_recipe_mysql(i["_id"])
         return result
 
 def insert_recipe_mysql():
@@ -34,10 +42,35 @@ def insert_recipe_mysql():
                         request.form['username'].strip(), request.form['cuisine_name'], 
                         request.form['prep_time'].strip(), request.form['cook_time'].strip(), 
                         request.form['method'].strip(), request.form['servings'].strip(),
-                        request.form["country"])
-                        
-        cursor.execute("INSERT INTO recipe (recipe_name, recipe_description, ingredients, author, username, cuisine_name, prep_time, cook_time, method, servings, country) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s);", row)
+                        request.form["country"], 0)
+        
+        sql = """INSERT INTO recipe (recipe_name, recipe_description, 
+                ingredients, author, username, cuisine_name, prep_time, 
+                cook_time, method, servings, country, upvotes) 
+                VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s, %s);"""               
+        cursor.execute(sql, row)
         connection.commit()
+
+def get_most_recent_recipe_id(): 
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "SELECT MAX(_id) FROM recipe;"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        for i in result:
+            allergen_id = i["MAX(_id)"]
+        return allergen_id
+
+def insert_allergens_to_recipe(recipe_id):
+    with connection.cursor() as cursor:
+        sql = "INSERT INTO `recipe_allergen` (recipeID, allergenID) VALUES (%s, %s)"
+        allergen_list = request.form.getlist('allergens')
+        print(allergen_list)
+        for allergen in allergen_list:
+            row = (recipe_id, allergen)
+            cursor.execute(sql, row)
+        connection.commit()
+    
+    
 
 def find_recipe_by_id_mysql(recipe_id):
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -55,10 +88,16 @@ def update_recipe_mysql(recipe_id):
                         request.form['prep_time'].strip(), request.form['cook_time'].strip(), 
                         request.form['method'].strip(), request.form['servings'].strip(),
                         request.form["country"], int(recipe_id))
+        sql = """UPDATE recipe SET recipe_name = %s, recipe_description = %s, 
+                ingredients = %s, author = %s, username = %s, cuisine_name = %s, 
+                prep_time = %s, cook_time = %s, method = %s, servings = %s, 
+                country = %s WHERE _id=%s;"""
         
-        cursor.execute("UPDATE recipe SET recipe_name = %s, recipe_description = %s, ingredients = %s, author = %s, username = %s, cuisine_name = %s, prep_time = %s, cook_time = %s, method = %s, servings = %s, country = %s WHERE _id=%s;", row)    
+        cursor.execute(sql, row)    
         connection.commit()
-    
+
+
+#Country functions    
 def delete_recipe_mysql(recipe_id):
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         sql ="DELETE FROM recipe WHERE _id = %s"
@@ -79,11 +118,8 @@ def insert_country_mysql():
         cursor.execute("INSERT INTO country (country_name) VALUES (%s);", row)
         connection.commit() 
         
-        
 
-    
-#Country functions
-
+#Cuisine Functions
 def get_cuisines_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         sql = "SELECT * FROM cuisines ORDER BY cuisine_name ASC;"

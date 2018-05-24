@@ -93,11 +93,12 @@ def find_recipe_by_ingredient():
 def add_recipe():
     """_cuisines = mongo.db.cuisines.find().sort("cuisine_name", pymongo.ASCENDING)
     _allergens = mongo.db.allergens.find().sort("allergen_name", pymongo.ASCENDING)
-    _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)"""
+    _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)
+    return render_template("addrecipe.html", allergens = _allergens, cuisines = _cuisines, countries = _countries)"""
     _cuisines = get_cuisines_mysql()
     _allergens = get_allergens_mysql()
     _countries =get_countries_mysql()
-    return render_template("addrecipe.html", allergens = _allergens, cuisines = _cuisines, countries = _countries)
+    return render_template("addrecipemysql.html", allergens = _allergens, cuisines = _cuisines, countries = _countries)
 
 @app.route('/insert_recipe', methods=["POST"])
 def insert_recipe():
@@ -105,6 +106,7 @@ def insert_recipe():
     new_recipe = create_recipe()
     recipes.insert_one(new_recipe)"""
     insert_recipe_mysql()
+    insert_allergens_to_recipe(get_most_recent_recipe_id())
     return redirect(url_for('get_recipes'))   
 
 @app.route('/edit_recipe/<recipe_id>')
@@ -186,7 +188,8 @@ def edit_cuisine(cuisine_id):
     
 @app.route('/delete_cuisine/<cuisine_id>')
 def delete_cuisine(cuisine_id):
-    mongo.db.cuisines.remove({'_id': ObjectId(cuisine_id)})
+    """mongo.db.cuisines.remove({'_id': ObjectId(cuisine_id)})"""
+    delete_cuisine_mysql(cuisine_id)
     return redirect(url_for('get_cuisines'))
  
  

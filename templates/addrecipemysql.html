@@ -1,7 +1,7 @@
 {% extends 'base.html'%} {% block content %}
 <h3>Add Recipe</h3>
 <div class="row">
-    <form action="{{url_for('insert_recipe', allergens_id=allergens.id)}}" method="POST" class="col s12">
+    <form action="{{url_for('insert_recipe', allergens_id=allergens._id)}}" method="POST" class="col s12">
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">assignment</i>
@@ -55,7 +55,7 @@
                 <select multiple id="allergens" name="allergens">
                     <option value="" disabled selected>Choose Allergens</option>
                     {% for allergen in allergens %}
-                    <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
+                    <option value="{{allergen._id}}">{{allergen.allergen_name}}</option>
                     {% endfor %}
                 </select>
                 <label for="allergens">Allergens</label>
