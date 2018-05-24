@@ -72,17 +72,21 @@ def find_recipe_allergen_name():
     page = get_page()
     search_term = {"allergens": request.form['allergens']}
     _recipes = mongo.db.recipes.find(search_term).sort('upvotes', pymongo.DESCENDING)
-    matching_recipes = paginate_list(_recipes, page, 10)
     pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
+    """find_recipe_allergen_name_mysql()
+    pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')"""
+    matching_recipes = paginate_list(_recipes, page, 10)
     return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
     
 @app.route('/find_recipe_by_ingredient', methods=["POST"])
 def find_recipe_by_ingredient():
     page = get_page()
-    search_term = {"ingredients": {'$regex': request.form['ingredient_name'], '$options': 'i'}}
+    """search_term = {"ingredients": {'$regex': request.form['ingredient_name'], '$options': 'i'}}
     _recipes = mongo.db.recipes.find(search_term).sort('upvotes', pymongo.DESCENDING)
+    pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')"""
+    _recipes = find_recipe_by_ingredient_mysql()
+    pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
     matching_recipes = paginate_list(_recipes, page, 10)
-    pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
     return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
     
 @app.route("/add_recipe")
