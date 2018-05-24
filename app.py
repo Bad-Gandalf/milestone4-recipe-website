@@ -127,9 +127,11 @@ def update_recipe(recipe_id):
 @app.route('/get_cuisines')
 def get_cuisines():
     page = get_page()
-    _cuisines = mongo.db.cuisines.find()
+    """_cuisines = mongo.db.cuisines.find()
+    pagination = Pagination(page=page, total=_cuisines.count(), record_name='cuisines')"""
+    _cuisines = get_cuisines_mysql()
+    pagination = Pagination(page=page, total=len(_cuisines), record_name='cuisines')
     cuisine_list = paginate_list(_cuisines, page, 10)
-    pagination = Pagination(page=page, total=_cuisines.count(), record_name='cuisines')
     return render_template('cuisine.html', cuisines=cuisine_list, pagination=pagination)
 
 @app.route('/get_countries')
@@ -157,9 +159,10 @@ def add_cuisine():
 
 @app.route('/insert_cuisine', methods=['POST'])
 def insert_cuisine():
-    cuisines = mongo.db.cuisines
+    """cuisines = mongo.db.cuisines
     new_cuisine = create_cuisine()
-    cuisines.insert_one(new_cuisine)
+    cuisines.insert_one(new_cuisine)"""
+    insert_cuisine_mysql()
     return redirect(url_for('get_cuisines')) 
     
 @app.route('/edit_cuisine/<cuisine_id>')
@@ -186,17 +189,15 @@ def update_cuisine(cuisine_id):
 def get_allergens():
     page = get_page()
     """_allergens = mongo.db.allergens.find()
-    allergen_list = paginate_list(_allergens, page, 10)
     pagination = Pagination(page=page, total=_allergens.count(), record_name='allergens')"""
     _allergens = get_allergens_mysql()
-    allergen_list = paginate_list(_allergens, page, 10)
     pagination = Pagination(page=page, total=len(_allergens), record_name='allergens')
+    allergen_list = paginate_list(_allergens, page, 10)
     return render_template('allergen.html', allergens=allergen_list, pagination=pagination)
     
 
 @app.route("/add_allergen")
 def add_allergen():
-    
     return render_template("addallergen.html")    
 
 @app.route('/insert_allergen', methods=['POST'])

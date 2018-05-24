@@ -18,6 +18,7 @@ def get_recipes_mysql():
         cursor.execute(sql)
         result = cursor.fetchall()
         return result
+
     
         
 def upvote_mysql(recipe_id):
@@ -25,11 +26,7 @@ def upvote_mysql(recipe_id):
         sql ="UPDATE recipe SET upvotes = upvotes + 1 WHERE _id = %s"
         cursor.execute(sql, recipe_id)
         connection.commit()
-    
-    
 
-
-    
 def insert_recipe_mysql():
     with connection.cursor() as cursor:
         row = (request.form['recipe_name'].strip().title(), request.form['recipe_description'].strip(),
@@ -66,7 +63,13 @@ def get_allergens_mysql():
         cursor.execute(sql)
         result = cursor.fetchall()
         return result
-    
+
+def get_cuisines_mysql():
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "SELECT * FROM cuisines ORDER BY cuisine_name ASC;"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        return result
         
 def insert_allergen_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -74,3 +77,11 @@ def insert_allergen_mysql():
         sql = "INSERT INTO allergens (allergen_name, allergen_description) VALUES (%s, %s);"
         cursor.execute(sql, row)
         connection.commit()
+        
+def insert_cuisine_mysql():
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        row = (request.form["cuisine_name"], request.form["cuisine_description"])
+        sql = "INSERT INTO cuisines (cuisine_name, cuisine_description) VALUES (%s, %s);"
+        cursor.execute(sql, row)
+        connection.commit()
+    
