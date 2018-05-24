@@ -179,9 +179,9 @@ def insert_cuisine():
     
 @app.route('/edit_cuisine/<cuisine_id>')
 def edit_cuisine(cuisine_id):
-    the_cuisine = mongo.db.cuisines.find_one({"_id": ObjectId(cuisine_id)})
-    cuisines = mongo.db.cuisines.find()
-    return render_template("editcuisine.html", cuisines=cuisines, cuisine=the_cuisine)
+    """the_cuisine = mongo.db.cuisines.find_one({"_id": ObjectId(cuisine_id)})"""
+    the_cuisine = get_cuisine_by_id_mysql(cuisine_id)
+    return render_template("editcuisine.html", cuisine=the_cuisine)
     
     
 @app.route('/delete_cuisine/<cuisine_id>')
@@ -192,9 +192,10 @@ def delete_cuisine(cuisine_id):
  
 @app.route('/update_cuisine/<cuisine_id>', methods=['POST'])
 def update_cuisine(cuisine_id):
-    new_cuisine = create_cuisine()
+    """new_cuisine = create_cuisine()
     mongo.db.cuisines.update( {'_id': ObjectId(cuisine_id)},
-       new_cuisine)
+       new_cuisine)"""
+    update_cuisine_mysql(cuisine_id)
     return redirect(url_for('get_cuisines'))
     
 @app.route('/get_allergens')

@@ -143,4 +143,18 @@ def insert_cuisine_mysql():
         sql = "INSERT INTO cuisines (cuisine_name, cuisine_description) VALUES (%s, %s);"
         cursor.execute(sql, row)
         connection.commit()
+        
+def get_cuisine_by_id_mysql(cuisine_id):
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "SELECT * FROM cuisines WHERE _id = %s;"
+        cursor.execute(sql, cuisine_id)
+        result = cursor.fetchall()
+        for i in result:
+            return i
     
+
+def update_cuisine_mysql(recipe_id):
+    with connection.cursor() as cursor:
+        row = (request.form['cuisine_name'], request.form['cuisine_description'], int(recipe_id))
+        cursor.execute("UPDATE cuisines SET cuisine_name = %s, cuisine_description = %s WHERE _id=%s;", row)    
+        connection.commit()
