@@ -240,7 +240,7 @@ def update_allergen(allergen_id):
     """new_allergen = create_allergen()
     mongo.db.allergens.update( {'_id': ObjectId(allergen_id)},
                              new_allergen)"""
-    update_callergen_mysql(allergen_id)
+    update_allergen_mysql(allergen_id)
     return redirect(url_for('get_allergens'))
 
 
