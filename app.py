@@ -223,9 +223,9 @@ def insert_allergen():
     
 @app.route('/edit_allergen/<allergen_id>')
 def edit_allergen(allergen_id):
-    the_allergen = mongo.db.allergens.find_one({"_id": ObjectId(allergen_id)})
-    allergens = mongo.db.allergens.find()
-    return render_template("editallergen.html", allergens=allergens, allergen=the_allergen)
+    """the_allergen = mongo.db.allergens.find_one({"_id": ObjectId(allergen_id)})"""
+    the_allergen = get_allergen_by_id_mysql(allergen_id)
+    return render_template("editallergen.html", allergen=the_allergen)
     
     
 @app.route('/delete_allergen/<allergen_id>')
@@ -236,9 +236,10 @@ def delete_allergen(allergen_id):
  
 @app.route('/update_allergen/<allergen_id>', methods=['POST'])
 def update_allergen(allergen_id):
-    new_allergen = create_allergen()
+    """new_allergen = create_allergen()
     mongo.db.allergens.update( {'_id': ObjectId(allergen_id)},
-                             new_allergen)
+                             new_allergen)"""
+    update_callergen_mysql(allergen_id)
     return redirect(url_for('get_allergens'))
 
 

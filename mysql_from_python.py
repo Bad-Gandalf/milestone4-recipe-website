@@ -152,9 +152,22 @@ def get_cuisine_by_id_mysql(cuisine_id):
         for i in result:
             return i
     
+def get_allergen_by_id_mysql(allergen_id):
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "SELECT * FROM allergens WHERE _id = %s;"
+        cursor.execute(sql, allergen_id)
+        result = cursor.fetchall()
+        for i in result:
+            return i
 
-def update_cuisine_mysql(recipe_id):
+def update_cuisine_mysql(cuisine_id):
     with connection.cursor() as cursor:
-        row = (request.form['cuisine_name'], request.form['cuisine_description'], int(recipe_id))
+        row = (request.form['cuisine_name'], request.form['cuisine_description'], int(cuisine_id))
         cursor.execute("UPDATE cuisines SET cuisine_name = %s, cuisine_description = %s WHERE _id=%s;", row)    
+        connection.commit()
+        
+def update_callergen_mysql(allergen_id):
+    with connection.cursor() as cursor:
+        row = (request.form['allergen_name'], request.form['allergen_description'], int(allergen_id))
+        cursor.execute("UPDATE allergens SET allergen_name = %s, allergen_description = %s WHERE _id=%s;", row)    
         connection.commit()
