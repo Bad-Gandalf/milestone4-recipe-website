@@ -230,7 +230,8 @@ def edit_allergen(allergen_id):
     
 @app.route('/delete_allergen/<allergen_id>')
 def delete_allergen(allergen_id):
-    mongo.db.allergens.remove({'_id': ObjectId(allergen_id)})
+    """mongo.db.allergens.remove({'_id': ObjectId(allergen_id)})"""
+    delete_allergen_mysql(allergen_id)
     return redirect(url_for('get_allergens'))
  
  

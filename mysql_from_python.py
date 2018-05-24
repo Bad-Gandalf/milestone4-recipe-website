@@ -57,7 +57,12 @@ def delete_recipe_mysql(recipe_id):
         cursor.execute(sql, recipe_id)
         connection.commit()
         
-
+def delete_allergen_mysql(allergen_id):
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql ="DELETE FROM allergens WHERE _id = %s"
+        cursor.execute(sql, allergen_id)
+        connection.commit()
+    
 
 def get_countries_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
