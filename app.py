@@ -97,9 +97,7 @@ def add_recipe():
     _cuisines = get_cuisines_mysql()
     _allergens = get_allergens_mysql()
     _countries =get_countries_mysql()
-    cuisine_list = [cuisine for cuisine in _cuisines]
-    allergen_list = [allergen for allergen in _allergens]
-    return render_template("addrecipe.html", allergens = allergen_list, cuisines = cuisine_list, countries = _countries)
+    return render_template("addrecipe.html", allergens = _allergens, cuisines = _cuisines, countries = _countries)
 
 @app.route('/insert_recipe', methods=["POST"])
 def insert_recipe():
@@ -111,12 +109,14 @@ def insert_recipe():
 
 @app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
-    """the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})"""
-    the_recipe = find_recipe_by_id_mysql(recipe_id)
-    
+    """the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     cuisines = mongo.db.cuisines.find().sort("cuisine_name", pymongo.ASCENDING)
     allergens = mongo.db.allergens.find().sort("allergen_name", pymongo.ASCENDING)
-    _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)
+    _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)"""
+    the_recipe = find_recipe_by_id_mysql(recipe_id)
+    cuisines = get_cuisines_mysql()
+    allergens = get_allergens_mysql()
+    _countries =get_countries_mysql()
     return render_template("editrecipe.html", recipe=the_recipe, cuisines=cuisines, allergens=allergens, countries=_countries)
     
 @app.route('/delete_recipe/<recipe_id>')
@@ -127,9 +127,10 @@ def delete_recipe(recipe_id):
 
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
 def update_recipe(recipe_id):
-    recipes = mongo.db.recipes
+    """recipes = mongo.db.recipes
     updated_recipe = create_recipe()
-    recipes.update({'_id': ObjectId(recipe_id)},{"$set": updated_recipe})
+    recipes.update({'_id': ObjectId(recipe_id)},{"$set": updated_recipe})"""
+    update_recipe_mysql(recipe_id)
     return redirect(url_for('get_recipes'))
     
 @app.route('/get_cuisines')

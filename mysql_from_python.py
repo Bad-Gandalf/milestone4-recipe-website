@@ -39,7 +39,17 @@ def insert_recipe_mysql():
         cursor.execute("INSERT INTO recipe (recipe_name, recipe_description, ingredients, author, username, cuisine_name, prep_time, cook_time, method, servings, country) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s);", row)
         connection.commit()
         
-    
+def update_recipe_mysql(recipe_id):
+    with connection.cursor() as cursor:
+        row = (request.form['recipe_name'].strip().title(), request.form['recipe_description'].strip(),
+                        request.form['ingredients'].strip(), request.form['author'].strip().title(), 
+                        request.form['username'].strip(), request.form['cuisine_name'], 
+                        request.form['prep_time'].strip(), request.form['cook_time'].strip(), 
+                        request.form['method'].strip(), request.form['servings'].strip(),
+                        request.form["country"], int(recipe_id))
+        
+        cursor.execute("UPDATE recipe SET recipe_name = %s, recipe_description = %s, ingredients = %s, author = %s, username = %s, cuisine_name = %s, prep_time = %s, cook_time = %s, method = %s, servings = %s, country = %s WHERE _id=%s;", row)    
+        connection.commit()
     
 def delete_recipe_mysql(recipe_id):
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
