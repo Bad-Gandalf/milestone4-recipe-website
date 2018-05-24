@@ -54,7 +54,7 @@ def delete_recipe_mysql(recipe_id):
 def find_recipe_by_name_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         search_term = request.form["recipe_name"]
-        sql = "SELECT * FROM recipe WHERE MATCH recipe_name AGAINST(%s IN BOOLEAN MODE) ORDER BY upvotes DESC;"
+        sql = "SELECT * FROM recipe WHERE recipe_name RLIKE %s ORDER BY upvotes DESC;"
         cursor.execute(sql, search_term)
         result = cursor.fetchall()
         return result

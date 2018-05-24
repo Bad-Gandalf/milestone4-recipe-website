@@ -196,9 +196,8 @@ def get_allergens():
 
 @app.route("/add_allergen")
 def add_allergen():
-    _allergens = mongo.db.allergens.find()
-    allergen_list = [allergen for allergen in _allergens]
-    return render_template("addallergen.html", allergens = allergen_list)    
+    
+    return render_template("addallergen.html")    
 
 @app.route('/insert_allergen', methods=['POST'])
 def insert_allergen():
