@@ -91,11 +91,14 @@ def find_recipe_by_ingredient():
     
 @app.route("/add_recipe")
 def add_recipe():
-    _cuisines = mongo.db.cuisines.find().sort("cuisine_name", pymongo.ASCENDING)
-    cuisine_list = [cuisine for cuisine in _cuisines]
+    """_cuisines = mongo.db.cuisines.find().sort("cuisine_name", pymongo.ASCENDING)
     _allergens = mongo.db.allergens.find().sort("allergen_name", pymongo.ASCENDING)
+    _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)"""
+    _cuisines = get_cuisines_mysql()
+    _allergens = get_allergens_mysql()
+    _countries =get_countries_mysql()
+    cuisine_list = [cuisine for cuisine in _cuisines]
     allergen_list = [allergen for allergen in _allergens]
-    _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)
     return render_template("addrecipe.html", allergens = allergen_list, cuisines = cuisine_list, countries = _countries)
 
 @app.route('/insert_recipe', methods=["POST"])
@@ -141,9 +144,11 @@ def get_cuisines():
 @app.route('/get_countries')
 def get_countries():
     page = get_page()
-    _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)
+    """_countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)
+    pagination = Pagination(page=page, total=_countries.count(), record_name='countries')"""
+    _countries = get_countries_mysql()
+    pagination = Pagination(page=page, total=len(_countries), record_name='countries')
     country_list = paginate_list(_countries, page, 10)
-    pagination = Pagination(page=page, total=_countries.count(), record_name='countries')
     return render_template('countries.html', countries=country_list, pagination=pagination)
 
 @app.route("/add_country")
@@ -152,9 +157,10 @@ def add_country():
     
 @app.route('/insert_country', methods=['POST'])
 def insert_country():
-    countries = mongo.db.countries
+    """countries = mongo.db.countries
     new_country = create_country()
-    countries.insert_one(new_country)
+    countries.insert_one(new_country)"""
+    insert_country_mysql()
     return redirect(url_for('get_countries')) 
     
 @app.route("/add_cuisine")

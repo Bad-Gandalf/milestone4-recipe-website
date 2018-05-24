@@ -46,6 +46,20 @@ def delete_recipe_mysql(recipe_id):
         sql ="DELETE FROM recipe WHERE _id = %s"
         cursor.execute(sql, recipe_id)
         connection.commit()
+
+def get_countries_mysql():
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "SELECT * FROM country ORDER BY country_name ASC;"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        return result
+    
+        
+def insert_country_mysql():
+    with connection.cursor() as cursor:
+        row = (request.form["country"])
+        cursor.execute("INSERT INTO country (country_name) VALUES (%s);", row)
+        connection.commit() 
         
         
 def find_recipe_by_name_mysql():
