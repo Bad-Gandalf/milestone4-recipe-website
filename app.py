@@ -111,12 +111,13 @@ def insert_recipe():
 
 @app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
-    the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
-    all_recipes = mongo.db.recipes.find().sort("recipe_name", pymongo.ASCENDING)
+    """the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})"""
+    the_recipe = find_recipe_by_id_mysql(recipe_id)
+    
     cuisines = mongo.db.cuisines.find().sort("cuisine_name", pymongo.ASCENDING)
     allergens = mongo.db.allergens.find().sort("allergen_name", pymongo.ASCENDING)
     _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)
-    return render_template("editrecipe.html", recipe=the_recipe, recipes=all_recipes, cuisines=cuisines, allergens=allergens, countries=_countries)
+    return render_template("editrecipe.html", recipe=the_recipe, cuisines=cuisines, allergens=allergens, countries=_countries)
     
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):

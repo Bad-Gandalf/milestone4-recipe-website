@@ -46,6 +46,8 @@ def delete_recipe_mysql(recipe_id):
         sql ="DELETE FROM recipe WHERE _id = %s"
         cursor.execute(sql, recipe_id)
         connection.commit()
+        
+
 
 def get_countries_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -69,6 +71,14 @@ def find_recipe_by_name_mysql():
         cursor.execute(sql, search_term)
         result = cursor.fetchall()
         return result
+        
+def find_recipe_by_id_mysql(recipe_id):
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "SELECT * FROM recipe WHERE _id = %s;"
+        cursor.execute(sql, recipe_id)
+        result = cursor.fetchall()
+        for i in result:
+            return i
         
 def find_recipe_by_cuisine_name_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
