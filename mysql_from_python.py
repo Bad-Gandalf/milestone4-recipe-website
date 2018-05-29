@@ -9,6 +9,28 @@ connection = pymysql.connect(host="localhost",
                             password = '',
                             db='recipes')
 
+
+def get_existing_allergens_mysql(recipe_id):
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "SELECT * FROM recipe_allergen WHERE recipeID = %s;"
+        cursor.execute(sql, recipe_id)
+        result = cursor.fetchall()
+        print(result)
+        return result
+
+def find_allergen_name_by_id(list_of_dicts):
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        result_list = []
+        for i in list_of_dicts:
+            searchterm = i["allergenID"]
+            sql = "SELECT allergen_name, _id FROM allergens WHERE _id = %s;"
+            cursor.execute(sql, searchterm)
+            result = cursor.fetchall()
+            for j in result:
+                result_list.append(j)
+        print (result_list)
+        return result_list
+    
 def get_allergens_for_recipe_mysql(recipe_id):
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         sql = """SELECT A.allergen_name FROM recipe INNER JOIN 
@@ -22,9 +44,10 @@ def get_allergens_for_recipe_mysql(recipe_id):
         result = cursor.fetchall()
         print(result)
         result_list = map(lambda d: d['allergen_name'], result)
-        print (result_list)
+        for i in result_list:
+            print (i)
         return result_list
-
+        
 
 def get_recipes_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -32,7 +55,8 @@ def get_recipes_mysql():
         cursor.execute(sql)
         result = cursor.fetchall()
         for i in result:
-            i["allergens"] =get_allergens_for_recipe_mysql(i["_id"])
+            i["allergens"] = find_allergen_name_by_id(get_existing_allergens_mysql(i["_id"]))
+        print (result)
         return result
 
 def insert_recipe_mysql():
@@ -69,7 +93,17 @@ def insert_allergens_to_recipe(recipe_id):
             row = (recipe_id, allergen)
             cursor.execute(sql, row)
         connection.commit()
-    
+        
+def delete_recipe_allergen_row(recipe_id):
+     with connection.cursor() as cursor:
+        sql = "DELETE FROM `recipe_allergen` WHERE recipeID=%s;"
+        row = (recipe_id)
+        cursor.execute(sql, row)
+        connection.commit()
+
+def change_allergens_mysql(recipe_id):
+    delete_recipe_allergen_row(recipe_id)
+    insert_allergens_to_recipe(recipe_id)
     
 
 def find_recipe_by_id_mysql(recipe_id):
@@ -96,6 +130,14 @@ def update_recipe_mysql(recipe_id):
         cursor.execute(sql, row)    
         connection.commit()
 
+def update_recipe_allergens(recipe_id):
+    with connection.cursor() as cursor:        
+        allergen_list = request.form.getlist('allergens')
+        sql2 = "INSERT INTO `recipe_allergen` (recipeID, allergenID) VALUES (%s, %s)"
+        for allergen in allergen_list:
+            row2 = (recipe_id, allergen)
+            cursor.execute(sql2, row2)
+        connection.commit()
 
 #Country functions    
 def delete_recipe_mysql(recipe_id):
@@ -163,6 +205,7 @@ def get_allergens_mysql():
         result = cursor.fetchall()
         return result
 
+
 def get_allergen_by_id_mysql(allergen_id):
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         sql = "SELECT * FROM allergens WHERE _id = %s;"
@@ -177,6 +220,14 @@ def insert_allergen_mysql():
         sql = "INSERT INTO allergens (allergen_name, allergen_description) VALUES (%s, %s);"
         cursor.execute(sql, row)
         connection.commit()
+        
+def delete_recipe_allergens(recipe_id):
+    with connection.cursor() as cursor:
+        sql = "DELETE FROM `recipe_allergen` WHERE recipeID=%s;"
+        row = (recipe_id)
+        cursor.execute(sql, row)
+        connection.commit()
+    
 
 def update_allergen_mysql(allergen_id):
     with connection.cursor() as cursor:

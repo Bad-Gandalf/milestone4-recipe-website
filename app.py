@@ -136,12 +136,18 @@ def edit_recipe(recipe_id):
         cuisines = mongo.db.cuisines.find().sort("cuisine_name", pymongo.ASCENDING)
         allergens = mongo.db.allergens.find().sort("allergen_name", pymongo.ASCENDING)
         _countries = mongo.db.countries.find().sort("country_name", pymongo.ASCENDING)
+        return render_template("editrecipe.html", recipe=the_recipe, cuisines=cuisines, 
+                            allergens=allergens, countries=_countries)
     elif database == "mysql":
         the_recipe = find_recipe_by_id_mysql(recipe_id)
+        get_allergens_for_recipe_mysql(recipe_id)
         cuisines = get_cuisines_mysql()
+        existing_allergens = find_allergen_name_by_id(get_existing_allergens_mysql(recipe_id))
         allergens = get_allergens_mysql()
         _countries =get_countries_mysql()
-    return render_template("editrecipe.html", recipe=the_recipe, cuisines=cuisines, allergens=allergens, countries=_countries)
+        return render_template("editrecipemysql.html", recipe=the_recipe, cuisines=cuisines, 
+                            allergens=allergens, countries=_countries, 
+                            existing_allergens= existing_allergens)
     
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
@@ -149,6 +155,7 @@ def delete_recipe(recipe_id):
         mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     elif database == "mysql":
         delete_recipe_mysql(recipe_id)
+        delete_recipe_allergen_row(recipe_id)
     return redirect(url_for('get_recipes'))
 
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
@@ -159,6 +166,8 @@ def update_recipe(recipe_id):
         recipes.update({'_id': ObjectId(recipe_id)},{"$set": updated_recipe})
     elif database == "mysql":
         update_recipe_mysql(recipe_id)
+        change_allergens_mysql(recipe_id)
+        
     return redirect(url_for('get_recipes'))
     
 @app.route('/get_cuisines')
@@ -321,6 +330,7 @@ def write_csv():
 @app.route('/display_stats')
 def display_stats():
     return render_template("statistics.html")
+
 
 
     
