@@ -24,9 +24,10 @@ connection = pymysql.connect(host="localhost",
                             db='recipes')
                             
 data_file = "static/data/recipe_mining.csv" 
+#Change between 'mysql' and 'mongo' to change database
+database = "mysql" 
 
-database = "mysql"
-
+#Gets recipes from mongo or mysql
 @app.route('/')
 @app.route('/get_recipes')
 def get_recipes():
@@ -34,12 +35,15 @@ def get_recipes():
     if database == "mongo":
         _recipes=mongo.db.recipes.find().sort('upvotes', pymongo.DESCENDING)
         pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
+        recipe_list = paginate_list(_recipes, page, 10)
+        return render_template("recipe.html", recipes=recipe_list, pagination=pagination)
     elif database == "mysql":
         _recipes = get_recipes_mysql()
         pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
-    recipe_list = paginate_list(_recipes, page, 10)
-    return render_template("recipe.html", recipes=recipe_list, pagination=pagination)
+        recipe_list = paginate_list(_recipes, page, 10)
+        return render_template("recipemysql.html", recipes=recipe_list, pagination=pagination)
 
+#Search screen for recipes will preload options for allergens and cuisines.
 @app.route('/search_recipes')
 def search_recipes():
     if database == "mongo":
@@ -51,7 +55,7 @@ def search_recipes():
     elif database == "mysql":
         _cuisines = get_cuisines_mysql()
         _allergens = get_allergens_mysql()
-        return render_template("searchrecipe.html", allergens=_allergens, cuisines=_cuisines)
+        return render_template("searchrecipemysql.html", allergens=_allergens, cuisines=_cuisines)
     
 @app.route('/find_recipe_by_name', methods=["POST"])
 def find_recipe_by_name():
@@ -87,7 +91,7 @@ def find_recipe_allergen_name():
         _recipes = mongo.db.recipes.find(search_term).sort('upvotes', pymongo.DESCENDING)
         pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
     elif database == "mysql":
-        find_recipe_allergen_name_mysql()
+        _recipes = narrow_recipes_by_id()
         pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
     matching_recipes = paginate_list(_recipes, page, 10)
     return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
@@ -140,7 +144,6 @@ def edit_recipe(recipe_id):
                             allergens=allergens, countries=_countries)
     elif database == "mysql":
         the_recipe = find_recipe_by_id_mysql(recipe_id)
-        get_allergens_for_recipe_mysql(recipe_id)
         cuisines = get_cuisines_mysql()
         existing_allergens = find_allergen_name_by_id(get_existing_allergens_mysql(recipe_id))
         allergens = get_allergens_mysql()

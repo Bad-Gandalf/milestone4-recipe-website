@@ -60,7 +60,7 @@
                 <i class="material-icons prefix">warning</i>
                 <select multiple id="allergens" name="allergens">
                     {% for allergen in recipe.allergens %}
-                        <option value="{{allergen["allergen_name"]}}" selected>{{allergen["allergen_name"]}}</option>
+                        <option value="{{allergen["allergen_name"]}}" selected>{{allergen}}</option>
                     {% endfor %}
                     {% for allergen in allergens %}
                         <option value="{{allergen["allergen_name"]}}">{{allergen["allergen_name"]}}</option>

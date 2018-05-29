@@ -15,7 +15,6 @@ def get_existing_allergens_mysql(recipe_id):
         sql = "SELECT * FROM recipe_allergen WHERE recipeID = %s;"
         cursor.execute(sql, recipe_id)
         result = cursor.fetchall()
-        print(result)
         return result
 
 def find_allergen_name_by_id(list_of_dicts):
@@ -28,27 +27,8 @@ def find_allergen_name_by_id(list_of_dicts):
             result = cursor.fetchall()
             for j in result:
                 result_list.append(j)
-        print (result_list)
         return result_list
     
-def get_allergens_for_recipe_mysql(recipe_id):
-    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-        sql = """SELECT A.allergen_name FROM recipe INNER JOIN 
-                (SELECT recipe_allergen.recipeID, 
-                GROUP_CONCAT(allergens.allergen_name SEPARATOR ',') 
-                AS allergen_name FROM recipe_allergen INNER JOIN allergens 
-                ON allergens._id = recipe_allergen.allergenID 
-                GROUP BY recipe_allergen.allergenID) AS A 
-                ON recipe._id = A.recipeID where recipe._id = %s;"""
-        cursor.execute(sql, recipe_id)
-        result = cursor.fetchall()
-        print(result)
-        result_list = map(lambda d: d['allergen_name'], result)
-        for i in result_list:
-            print (i)
-        return result_list
-        
-
 def get_recipes_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         sql = "SELECT * FROM recipe ORDER BY upvotes DESC;"
@@ -264,12 +244,31 @@ def find_recipe_by_cuisine_name_mysql():
         return result
 
 def find_recipe_allergen_name_mysql():
+    recipe_ids = []
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-        search_term = request.form["allergen_name"]
-        sql = "SELECT * FROM recipe WHERE allergen_name RLIKE %s ORDER BY recipe_name ASC;"
+        search_term = request.form["allergens"]
+        sql = "SELECT * FROM recipe_allergen WHERE allergenID=%s;"
         cursor.execute(sql, search_term)
         result = cursor.fetchall()
-        return result
+        for i in result:
+            recipe_ids.append(i["recipeID"])
+    return recipe_ids
+
+
+def narrow_recipes_by_id():
+    found_recipes = []
+    all_recipes = get_recipes_mysql()
+    recipe_ids = find_recipe_allergen_name_mysql()
+    for i in recipe_ids:
+         for j in all_recipes:
+             if i == j["_id"]:
+                 found_recipes.append(j)
+    return found_recipes
+         
+        
+        
+        
+    
         
 def find_recipe_by_ingredient_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:

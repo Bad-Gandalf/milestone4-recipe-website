@@ -1,7 +1,7 @@
 {% extends 'base.html'%} {% block content %}
 <h3>Recipes</h3>
 <div class="row">
-    <a href="{{url_for('add_recipe', recipe_id=recipe._id)}}" class="waves-effect waves-light btn btn_small">Add Recipe
+    <a href="{{url_for('add_recipe')}}" class="waves-effect waves-light btn btn_small">Add Recipe
                 <i class="material-icons right">playlist_add</i>
                 </a>
 </div>
@@ -55,7 +55,7 @@
             </span>
             <br>
             <span>
-                <strong>Allergens:</strong> <ul>{% for allergen in recipe.allergens %} <li>{{allergen}}</li>{% endfor %}</ul>
+                <strong>Allergens:</strong> <ul>{% for allergen in recipe.allergens %} <li>{{allergen["allergen_name"]}}</li>{% endfor %}</ul>
             </span>
             <br>
             <br>
