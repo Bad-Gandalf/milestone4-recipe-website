@@ -56,7 +56,8 @@ def search_recipes():
         _cuisines = get_cuisines_mysql()
         _allergens = get_allergens_mysql()
         return render_template("searchrecipemysql.html", allergens=_allergens, cuisines=_cuisines)
-    
+
+#Partial search for recipe name    
 @app.route('/find_recipe_by_name', methods=["POST"])
 def find_recipe_by_name():
     page = get_page()
@@ -69,7 +70,8 @@ def find_recipe_by_name():
         pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
     matching_recipes = paginate_list(_recipes, page, 10)
     return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
-    
+
+#Search by cuisine name    
 @app.route('/find_recipe_cuisine_name', methods=["POST"])
 def find_recipe_cuisine_name():
     page = get_page()
@@ -91,7 +93,7 @@ def find_recipe_allergen_name():
         _recipes = mongo.db.recipes.find(search_term).sort('upvotes', pymongo.DESCENDING)
         pagination = Pagination(page=page, total=_recipes.count(), record_name='recipes')
     elif database == "mysql":
-        _recipes = narrow_recipes_by_id()
+        _recipes = find_recipes_by_allergens()
         pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
     matching_recipes = paginate_list(_recipes, page, 10)
     return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)

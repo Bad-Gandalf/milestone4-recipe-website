@@ -231,6 +231,8 @@ def find_recipe_by_name_mysql():
         sql = "SELECT * FROM recipe WHERE recipe_name RLIKE %s ORDER BY upvotes DESC;"
         cursor.execute(sql, search_term)
         result = cursor.fetchall()
+        for i in result:
+            i["allergens"] = find_allergen_name_by_id(get_existing_allergens_mysql(i["_id"]))
         return result
         
 
@@ -241,7 +243,10 @@ def find_recipe_by_cuisine_name_mysql():
         sql = "SELECT * FROM recipe WHERE cuisine_name RLIKE %s ORDER BY recipe_name ASC;"
         cursor.execute(sql, search_term)
         result = cursor.fetchall()
+        for i in result:
+            i["allergens"] = find_allergen_name_by_id(get_existing_allergens_mysql(i["_id"]))
         return result
+        
 
 def find_recipe_allergen_name_mysql():
     recipe_ids = []
@@ -255,7 +260,7 @@ def find_recipe_allergen_name_mysql():
     return recipe_ids
 
 
-def narrow_recipes_by_id():
+def find_recipes_by_allergens():
     found_recipes = []
     all_recipes = get_recipes_mysql()
     recipe_ids = find_recipe_allergen_name_mysql()
@@ -264,18 +269,17 @@ def narrow_recipes_by_id():
              if i == j["_id"]:
                  found_recipes.append(j)
     return found_recipes
-         
-        
-        
-        
+
     
-        
+
 def find_recipe_by_ingredient_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         search_term = request.form["ingredient_name"]
         sql = "SELECT * FROM recipe WHERE ingredients RLIKE %s ORDER BY recipe_name ASC;"
         cursor.execute(sql, search_term)
         result = cursor.fetchall()
+        for i in result:
+            i["allergens"] = find_allergen_name_by_id(get_existing_allergens_mysql(i["_id"]))
         return result
         
 #Upvotes        
