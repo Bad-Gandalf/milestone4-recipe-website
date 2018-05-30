@@ -18,11 +18,9 @@ app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/p
 mongo = PyMongo(app)
 username = os.getenv('C9_USER')
 
-connection = pymysql.connect(host="localhost",
-                            user=username,
-                            password = '',
-                            db='recipes')
-                            
+connection = pymysql.connect(host="localhost",user=username,password = '',
+                            db='recipes', use_unicode=True, charset="utf8")
+
 #Change between 'mysql' and 'mongo' to change database
 database = "mysql" 
 
@@ -366,9 +364,9 @@ def upvote(recipe_id):
         upvote_mysql(recipe_id)
     return redirect(url_for('get_recipes'))
 
-#Create a csv file from data in mongodb. Will make this for mysql soon.
-@app.route('/write_csv')
-def write_csv():
+#Create a csv file from data in db and display in charts
+@app.route('/display_stats')
+def display_stats():
     if database == "mongo":
         cursor= mongo.db.recipes.find({}, {'_id':0,"username":1, "recipe_name":1, "author":1, "prep_time":1, "cook_time":1, "upvotes": 1, "cuisine_name":1, "country":1})
         write_to_csv(data_file, cursor)
@@ -377,10 +375,7 @@ def write_csv():
         write_to_csv(data_file, cursor)
     return render_template("statistics.html")
 
-#Will display statistics in dc d3 format pulled from csv created above.    
-@app.route('/display_stats')
-def display_stats():
-    return render_template("statistics.html")
+   
 
 if __name__ == "__main__":
     app.run(host=os.environ.get('IP'),

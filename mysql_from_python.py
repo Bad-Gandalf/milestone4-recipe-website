@@ -171,7 +171,7 @@ def delete_country_mysql(country_id):
         cursor.execute(sql, country_id)
         connection.commit()
 
-def update_cuisine_mysql(country_id):
+def update_country_mysql(country_id):
     with connection.cursor() as cursor:
         row = (request.form['country_name'], country_id)
         cursor.execute("UPDATE country SET country_name = %s WHERE _id=%s;", row)    
