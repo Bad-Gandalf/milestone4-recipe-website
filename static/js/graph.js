@@ -194,7 +194,7 @@ this.upvotes_by_user = function(ndx) {
    .yAxisLabel("UpVotes")
    .yAxis().ticks(4);
 
- }
+ };
  
  this.upvotes_by_country = function(ndx) {
   var user_dim = ndx.dimension(dc.pluck("country"));
@@ -383,7 +383,7 @@ this.recipes_in_cuisine(ndx);
 this.most_occuring_countries(ndx);  
 this.upvotes_by_user(ndx);
 this.upvotes_by_country(ndx);
-this.most_occurring_allergens();
+/*this.most_occurring_allergens();
  /*this.show_participation_by_country(ndx);
   this.show_lifetime_rank_to_actual_scores_correlation(ndx);
   // this.show_lifetime_scores_by_team(ndx);

@@ -1,12 +1,12 @@
 username,recipe_name,author,prep_time,cook_time,upvotes,cuisine_name,allergens,country
-Poppy_Long,Chicken Tikka Masala,Poret McPoret,90,50,4,Indian,[{'allergen_name': 'Molluscs'}],United Kingdom
-Beebo,Souvlakia,Paul Hollywood,30,20,4,Greek,[{'allergen_name': 'Gluten'}],Ireland
-john_torode,Irish fish chowder with soda bread,John Torode,25,45,2,Irish,"[{'allergen_name': 'Gluten'}, {'allergen_name': 'Eggs'}, {'allergen_name': 'Fish'}]",Austrailia
-J_pat,Sizzling Steak Fajitas,Justine Pattison,25,10,2,Mexican,[{'allergen_name': 'Gluten'}],United Arab Emirates
-JoPratt,Chilli con carne,Jo Pratt,25,120,,Mexican,[{'allergen_name': 'Sulphur Dioxide'}],France
-J_Mart,Traditional Honey-Glazed Gammon,The Hairy Bikers,30,130,,British,"[{'allergen_name': 'Celery'}, {'allergen_name': 'Mustard'}]",United Kingdom
-J_Mart,Comforting cottage pie,James Martin,25,100,2,British,[{'allergen_name': 'Milk'}],United kingdom
-Beebo,Chicken Jalfrezi,Simon Rimmer,25,45,2,Indian,"[{'allergen_name': 'Gluten'}, {'allergen_name': 'Milk'}]",Algeria
+Poppy_Long,Chicken Tikka Masala,Poret Mcporet,90,50,4,Indian,"['Molluscs', 'Eggs']",Anguilla
+Beebo,Souvlakia,Paul Hollywood,30,20,4,Greek,"['Fish', 'Gluten']",Ireland
+john_torode,Irish Fish Chowder With Soda Bread,John Torode,25,45,2,Irish,"['Gluten', 'Eggs', 'Fish']",Austrailia
+J_pat,Sizzling Steak Fajitas,Justine Pattison,25,10,5,Mexican,"['Eggs', 'Gluten']",Angola
+JoPratt,Chilli Con Carne,Jo Pratt,25,120,,Mexican,['Sulphur Dioxide'],France
+J_Mart,Traditional Honey-Glazed Gammon,The Hairy Bikers,30,130,,British,"['Celery', 'Mustard']",Bolivia
+J_Mart,Comforting Cottage Pie,James Martin,25,100,2,British,['Milk'],China
+Beebo,Chicken Jalfrezi,Simon Rimmer,25,45,2,Indian,['Gluten'],Algeria
 Hell_Bitch1984,Jerk Pork With Sweet Potato Mash And Salsa,Hattie Ellis,45,20,1,Carribean,[],United Kingdom
-saturday_kitchen,Quiche Lorraine,James Martin,45,45,,French,"[{'allergen_name': 'Gluten'}, {'allergen_name': 'Eggs'}, {'allergen_name': 'Milk'}]",Algeria
-bad_gandalf,Pats Curry,Patrick Doherty,32,68,3,Indian,"[{'allergen_name': 'Lupin'}, {'allergen_name': 'Mustard'}, {'allergen_name': 'Fish'}, {'allergen_name': 'Nuts'}, {'allergen_name': 'Peanuts'}]",Israel
+saturday_kitchen,Quiche Lorraine,James Martin,45,45,,French,"['Gluten', 'Eggs', 'Milk']",Algeria
+bad_gandalf,Pats Curry,Patrick Doherty,32,68,3,Indian,"['Molluscs', 'Mustard', 'Nuts']",Israel

@@ -9,7 +9,7 @@ connection = pymysql.connect(host="localhost",
                             password = '',
                             db='recipes')
 
-
+#This will query the many-to-many table and link recipeID to allergenIDs
 def get_existing_allergens_mysql(recipe_id):
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         sql = "SELECT * FROM recipe_allergen WHERE recipeID = %s;"
@@ -17,6 +17,8 @@ def get_existing_allergens_mysql(recipe_id):
         result = cursor.fetchall()
         return result
 
+# This function will take the allergenIDs found in the previous function and    
+#return a list of of dictionaries including the allergen_id and the allergen_name
 def find_allergen_name_by_id(list_of_dicts):
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         result_list = []
@@ -28,7 +30,10 @@ def find_allergen_name_by_id(list_of_dicts):
             for j in result:
                 result_list.append(j)
         return result_list
-    
+
+
+#This function will get the recipes from mysql and then use the previous two 
+#functions to attach the allergens to the dictionary to be displayed to the user. 
 def get_recipes_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         sql = "SELECT * FROM recipe ORDER BY upvotes DESC;"
@@ -39,6 +44,8 @@ def get_recipes_mysql():
         print (result)
         return result
 
+#Insert a recipe taken from the form and insert it into mysql. Upvotes are set to 0
+#automatically.
 def insert_recipe_mysql():
     with connection.cursor() as cursor:
         row = (request.form['recipe_name'].strip().title(), request.form['recipe_description'].strip(),
@@ -55,6 +62,9 @@ def insert_recipe_mysql():
         cursor.execute(sql, row)
         connection.commit()
 
+#This function will find the most recent created recipe ID, directly after the
+#recipe has been inserted. This allows us to correctly add the allergens to 
+# the many to many table.
 def get_most_recent_recipe_id(): 
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         sql = "SELECT MAX(_id) FROM recipe;"
@@ -64,6 +74,8 @@ def get_most_recent_recipe_id():
             allergen_id = i["MAX(_id)"]
         return allergen_id
 
+#Inserting allergen_ID and recipe_ID into many-to-many table. It takes the recipe_id
+#returned from the previous function as an argument
 def insert_allergens_to_recipe(recipe_id):
     with connection.cursor() as cursor:
         sql = "INSERT INTO `recipe_allergen` (recipeID, allergenID) VALUES (%s, %s)"
@@ -73,7 +85,8 @@ def insert_allergens_to_recipe(recipe_id):
             row = (recipe_id, allergen)
             cursor.execute(sql, row)
         connection.commit()
-        
+
+#Delete rows from many-to-many table where recipe_id is ...        
 def delete_recipe_allergen_row(recipe_id):
      with connection.cursor() as cursor:
         sql = "DELETE FROM `recipe_allergen` WHERE recipeID=%s;"
@@ -81,11 +94,13 @@ def delete_recipe_allergen_row(recipe_id):
         cursor.execute(sql, row)
         connection.commit()
 
+#A combination of the previous to functions to update a many-to-many table correctly.
 def change_allergens_mysql(recipe_id):
     delete_recipe_allergen_row(recipe_id)
     insert_allergens_to_recipe(recipe_id)
     
-
+#Find recipe by its id, its delivered in a list so it extracts the one dictionary
+#rather than a list of one dictionary.
 def find_recipe_by_id_mysql(recipe_id):
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         sql = "SELECT * FROM recipe WHERE _id = %s;"
@@ -93,7 +108,8 @@ def find_recipe_by_id_mysql(recipe_id):
         result = cursor.fetchall()
         for i in result:
             return i
-        
+            
+#Updates recipe when given recipe_id
 def update_recipe_mysql(recipe_id):
     with connection.cursor() as cursor:
         row = (request.form['recipe_name'].strip().title(), request.form['recipe_description'].strip(),
@@ -110,6 +126,7 @@ def update_recipe_mysql(recipe_id):
         cursor.execute(sql, row)    
         connection.commit()
 
+#This updates many-to-many allergen table when recipe is updated.
 def update_recipe_allergens(recipe_id):
     with connection.cursor() as cursor:        
         allergen_list = request.form.getlist('allergens')
@@ -247,7 +264,8 @@ def find_recipe_by_cuisine_name_mysql():
             i["allergens"] = find_allergen_name_by_id(get_existing_allergens_mysql(i["_id"]))
         return result
         
-
+#Function finds all recipe_ids based on the lalegren_ids they are connected with in 
+# many-to-many table (recipe_allergen).
 def find_recipe_allergen_name_mysql():
     recipe_ids = []
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -259,7 +277,8 @@ def find_recipe_allergen_name_mysql():
             recipe_ids.append(i["recipeID"])
     return recipe_ids
 
-
+#This returns a list of the recipes that have the ids supplied by the previous 
+#function
 def find_recipes_by_allergens():
     found_recipes = []
     all_recipes = get_recipes_mysql()
@@ -271,7 +290,7 @@ def find_recipes_by_allergens():
     return found_recipes
 
     
-
+#Partial text search for ingredient and returns matching recipes
 def find_recipe_by_ingredient_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         search_term = request.form["ingredient_name"]

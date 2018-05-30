@@ -84,7 +84,8 @@ def find_recipe_cuisine_name():
         pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
     matching_recipes = paginate_list(_recipes, page, 10)
     return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
-    
+
+#Find recipes by allergen    
 @app.route('/find_recipe_allergen_name', methods=["POST"])
 def find_recipe_allergen_name():
     page = get_page()
@@ -97,7 +98,8 @@ def find_recipe_allergen_name():
         pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
     matching_recipes = paginate_list(_recipes, page, 10)
     return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
-    
+
+#Partial text search of ingredients    
 @app.route('/find_recipe_by_ingredient', methods=["POST"])
 def find_recipe_by_ingredient():
     page = get_page()
@@ -110,7 +112,8 @@ def find_recipe_by_ingredient():
         pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
     matching_recipes = paginate_list(_recipes, page, 10)
     return render_template("recipesfound.html", recipes=matching_recipes, pagination=pagination)
-    
+
+#Form for adding new recipes to database    
 @app.route("/add_recipe")
 def add_recipe():
     if database == "mongo":
@@ -124,17 +127,19 @@ def add_recipe():
         _countries =get_countries_mysql()
         return render_template("addrecipemysql.html", allergens = _allergens, cuisines = _cuisines, countries = _countries)
 
+#Inserting recipes into databse
 @app.route('/insert_recipe', methods=["POST"])
 def insert_recipe():
     if database == "mongo":
         recipes = mongo.db.recipes
         new_recipe = create_recipe()
         recipes.insert_one(new_recipe)
-    elif database == "mysql":
+    elif database == "mysql": #recipes and allergens are inserting separately due to many to many table for allergens
         insert_recipe_mysql()
         insert_allergens_to_recipe(get_most_recent_recipe_id())
     return redirect(url_for('get_recipes'))   
 
+#Different templates required to send id for mysql many to many searches and updates
 @app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
     if database == "mongo":
@@ -153,7 +158,8 @@ def edit_recipe(recipe_id):
         return render_template("editrecipemysql.html", recipe=the_recipe, cuisines=cuisines, 
                             allergens=allergens, countries=_countries, 
                             existing_allergens= existing_allergens)
-    
+
+#Deleting in mysql requires deletion of many to many table rows that contain the allergens in the recipe.     
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
     if database == "mongo":
@@ -163,6 +169,7 @@ def delete_recipe(recipe_id):
         delete_recipe_allergen_row(recipe_id)
     return redirect(url_for('get_recipes'))
 
+#Updating recipes after editing
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
 def update_recipe(recipe_id):
     if database == "mongo":
@@ -172,9 +179,9 @@ def update_recipe(recipe_id):
     elif database == "mysql":
         update_recipe_mysql(recipe_id)
         change_allergens_mysql(recipe_id)
-        
     return redirect(url_for('get_recipes'))
-    
+
+#Will list all cuisines on the system and will display their descriptions    
 @app.route('/get_cuisines')
 def get_cuisines():
     page = get_page()
@@ -187,6 +194,7 @@ def get_cuisines():
     cuisine_list = paginate_list(_cuisines, page, 10)
     return render_template('cuisine.html', cuisines=cuisine_list, pagination=pagination)
 
+#Will list all countries in databases
 @app.route('/get_countries')
 def get_countries():
     page = get_page()
@@ -199,10 +207,12 @@ def get_countries():
     country_list = paginate_list(_countries, page, 10)
     return render_template('countries.html', countries=country_list, pagination=pagination)
 
+#Render template for adding new country
 @app.route("/add_country")
 def add_country():
     return render_template("addcountry.html")
-    
+
+#Insert new country into database    
 @app.route('/insert_country', methods=['POST'])
 def insert_country():
     if database == "mongo":
@@ -212,11 +222,13 @@ def insert_country():
     elif database == "mysql":
         insert_country_mysql()
     return redirect(url_for('get_countries')) 
-    
+
+#Render template for adding new cuisine    
 @app.route("/add_cuisine")
 def add_cuisine():
     return render_template("addcuisine.html")    
 
+#Insert new cuisine into database 
 @app.route('/insert_cuisine', methods=['POST'])
 def insert_cuisine():
     if database == "mongo":
@@ -226,7 +238,8 @@ def insert_cuisine():
     elif database == "mysql":
         insert_cuisine_mysql()
     return redirect(url_for('get_cuisines')) 
-    
+
+#Render template for editing cuisines    
 @app.route('/edit_cuisine/<cuisine_id>')
 def edit_cuisine(cuisine_id):
     if database == "mongo":
@@ -235,7 +248,7 @@ def edit_cuisine(cuisine_id):
         the_cuisine = get_cuisine_by_id_mysql(cuisine_id)
     return render_template("editcuisine.html", cuisine=the_cuisine)
     
-    
+#Deleting cuisines from database    
 @app.route('/delete_cuisine/<cuisine_id>')
 def delete_cuisine(cuisine_id):
     if database == "mongo":
@@ -244,7 +257,7 @@ def delete_cuisine(cuisine_id):
         delete_cuisine_mysql(cuisine_id)
     return redirect(url_for('get_cuisines'))
  
- 
+#Updating cuisines in database 
 @app.route('/update_cuisine/<cuisine_id>', methods=['POST'])
 def update_cuisine(cuisine_id):
     if database == "mongo":
@@ -254,7 +267,8 @@ def update_cuisine(cuisine_id):
     elif database == "mysql":
         update_cuisine_mysql(cuisine_id)
     return redirect(url_for('get_cuisines'))
-    
+
+#List all allergens in the database.    
 @app.route('/get_allergens')
 def get_allergens():
     page = get_page()
@@ -267,11 +281,12 @@ def get_allergens():
     allergen_list = paginate_list(_allergens, page, 10)
     return render_template('allergen.html', allergens=allergen_list, pagination=pagination)
     
-
+#Template for adding a new allergen
 @app.route("/add_allergen")
 def add_allergen():
     return render_template("addallergen.html")    
 
+#Inserting a new allergen into the database
 @app.route('/insert_allergen', methods=['POST'])
 def insert_allergen():
     if database == "mongo":
@@ -282,6 +297,7 @@ def insert_allergen():
         insert_allergen_mysql()
     return redirect(url_for('get_allergens')) 
     
+#Render template for editing allergens   
 @app.route('/edit_allergen/<allergen_id>')
 def edit_allergen(allergen_id):
     if database == "mongo":
@@ -290,7 +306,7 @@ def edit_allergen(allergen_id):
         the_allergen = get_allergen_by_id_mysql(allergen_id)
     return render_template("editallergen.html", allergen=the_allergen)
     
-    
+#Delete allergen from database    
 @app.route('/delete_allergen/<allergen_id>')
 def delete_allergen(allergen_id):
     if database == "mongo":
@@ -299,7 +315,7 @@ def delete_allergen(allergen_id):
         delete_allergen_mysql(allergen_id)
     return redirect(url_for('get_allergens'))
  
- 
+#Update allergen in database
 @app.route('/update_allergen/<allergen_id>', methods=['POST'])
 def update_allergen(allergen_id):
     if database == "mongo":
@@ -310,7 +326,7 @@ def update_allergen(allergen_id):
         update_allergen_mysql(allergen_id)
     return redirect(url_for('get_allergens'))
 
-
+#Increase the upvotes by clicking on the thumbs up button
 @app.route('/upvote/<recipe_id>', methods=["POST"])
 def upvote(recipe_id):
     if database == "mongo":
@@ -319,7 +335,7 @@ def upvote(recipe_id):
         upvote_mysql(recipe_id)
     return redirect(url_for('get_recipes'))
 
-
+#Create a csv file from data in mongodb. Will make this for mysql soon.
 @app.route('/write_csv')
 def write_csv():
     cursor= mongo.db.recipes.find({}, {'_id':0,"username":1, "recipe_name":1, "author":1, "prep_time":1, "cook_time":1, "upvotes": 1, "cuisine_name":1, "allergens":1, "country":1})
@@ -329,9 +345,9 @@ def write_csv():
         writer.writeheader()
         for x in cursor:
             writer.writerow(x)
-    
     return render_template("statistics.html")
-    
+
+#Will display statistics in dc d3 format pulled from csv created above.    
 @app.route('/display_stats')
 def display_stats():
     return render_template("statistics.html")
