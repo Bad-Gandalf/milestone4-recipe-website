@@ -76,7 +76,7 @@ def create_allergen():
 #This is a function to create a new country from user inputs. This cuts down on repetitive 
 #code dramatically.    
 def create_country():
-    country= Country(request.form["country"].title())
+    country= Country(request.form["country_name"].title())
     return vars(country)
     
 # Create row for recipe insert

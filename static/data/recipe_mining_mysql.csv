@@ -1,0 +1,4 @@
+username,recipe_name,author,prep_time,cook_time,upvotes,cuisine_name,country
+bad_gandalf,Recipe1,Poret Mcpo,25,34,0,British,Guadaloupe
+bad_gandalf,Chicken Tikka Masala,Paul Hollywood,45,30,0,Chinese,China
+Pete,Recipe2,Simon Rimmer,21,32,1,Irish,Ecuador

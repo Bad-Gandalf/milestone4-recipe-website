@@ -23,9 +23,11 @@ connection = pymysql.connect(host="localhost",
                             password = '',
                             db='recipes')
                             
-data_file = "static/data/recipe_mining.csv" 
 #Change between 'mysql' and 'mongo' to change database
 database = "mysql" 
+
+#Data file to write csv to for statistical display                            
+data_file = "static/data/recipe_mining.csv" 
 
 #Gets recipes from mongo or mysql
 @app.route('/')
@@ -222,6 +224,35 @@ def insert_country():
     elif database == "mysql":
         insert_country_mysql()
     return redirect(url_for('get_countries')) 
+    
+#Render template for editing countries    
+@app.route('/edit_country/<country_id>')
+def edit_country(country_id):
+    if database == "mongo":
+        the_country = mongo.db.countries.find_one({"_id": ObjectId(country_id)})
+    elif database == "mysql":
+        the_country = get_country_mysql_by_id(country_id)
+    return render_template("editcountry.html", country=the_country)
+    
+#Deleting countries from database    
+@app.route('/delete_country/<country_id>')
+def delete_country(country_id):
+    if database == "mongo":
+        mongo.db.countries.remove({'_id': ObjectId(country_id)})
+    elif database == "mysql":
+        delete_country_mysql(country_id)
+    return redirect(url_for('get_countries'))
+ 
+#Updating countries in database 
+@app.route('/update_country/<country_id>', methods=['POST'])
+def update_country(country_id):
+    if database == "mongo":
+        new_country = create_country()
+        mongo.db.countries.update( {'_id': ObjectId(country_id)},
+       new_country)
+    elif database == "mysql":
+        update_cuisine_mysql(country_id)
+    return redirect(url_for('get_countries'))
 
 #Render template for adding new cuisine    
 @app.route("/add_cuisine")
@@ -338,13 +369,12 @@ def upvote(recipe_id):
 #Create a csv file from data in mongodb. Will make this for mysql soon.
 @app.route('/write_csv')
 def write_csv():
-    cursor= mongo.db.recipes.find({}, {'_id':0,"username":1, "recipe_name":1, "author":1, "prep_time":1, "cook_time":1, "upvotes": 1, "cuisine_name":1, "allergens":1, "country":1})
-    with open(data_file, "w+") as outfile:
-        fields = ["username", "recipe_name", "author", "prep_time", "cook_time","upvotes","cuisine_name","allergens", "country"]
-        writer = csv.DictWriter(outfile, fieldnames=fields)
-        writer.writeheader()
-        for x in cursor:
-            writer.writerow(x)
+    if database == "mongo":
+        cursor= mongo.db.recipes.find({}, {'_id':0,"username":1, "recipe_name":1, "author":1, "prep_time":1, "cook_time":1, "upvotes": 1, "cuisine_name":1, "country":1})
+        write_to_csv(data_file, cursor)
+    elif database == "mysql":
+        cursor = get_data_for_csv_mysql()
+        write_to_csv(data_file, cursor)
     return render_template("statistics.html")
 
 #Will display statistics in dc d3 format pulled from csv created above.    
@@ -352,9 +382,6 @@ def write_csv():
 def display_stats():
     return render_template("statistics.html")
 
-
-
-    
 if __name__ == "__main__":
     app.run(host=os.environ.get('IP'),
             port=int(os.environ.get('PORT')),

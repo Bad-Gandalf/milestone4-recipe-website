@@ -1,6 +1,6 @@
 import os
 import pymysql
-
+import csv
 from flask import request
 
 username = os.getenv('C9_USER')
@@ -156,7 +156,26 @@ def insert_country_mysql():
         row = (request.form["country"])
         cursor.execute("INSERT INTO country (country_name) VALUES (%s);", row)
         connection.commit() 
+
+def get_country_mysql_by_id(country_id):
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "SELECT * FROM country WHERE _id=%s;"
+        cursor.execute(sql, country_id)
+        result = cursor.fetchall()
+        for i in result:
+            return i 
         
+def delete_country_mysql(country_id):
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql ="DELETE FROM country WHERE _id = %s"
+        cursor.execute(sql, country_id)
+        connection.commit()
+
+def update_cuisine_mysql(country_id):
+    with connection.cursor() as cursor:
+        row = (request.form['country_name'], country_id)
+        cursor.execute("UPDATE country SET country_name = %s WHERE _id=%s;", row)    
+        connection.commit()
 
 #Cuisine Functions
 def get_cuisines_mysql():
@@ -308,3 +327,17 @@ def upvote_mysql(recipe_id):
         cursor.execute(sql, recipe_id)
         connection.commit()
         
+def get_data_for_csv_mysql():
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "SELECT `username`, `recipe_name`, `author`, `prep_time`, `cook_time`,`upvotes`,`cuisine_name`,`country` FROM recipe;"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        return result
+        
+def write_to_csv(data_file, cursor):
+    with open(data_file, "w+") as outfile:
+        fields = ["username", "recipe_name", "author", "prep_time", "cook_time","upvotes","cuisine_name","country"]
+        writer = csv.DictWriter(outfile, fieldnames=fields)
+        writer.writeheader()
+        for x in cursor:
+            writer.writerow(x)    

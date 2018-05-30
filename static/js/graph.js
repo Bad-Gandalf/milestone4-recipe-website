@@ -9,37 +9,13 @@ const RecipeDBApi = function() {
  this.makeGraphs = function (error, data) {
   var ndx = crossfilter(data);
 
-let allergen_list=[];
   //Data Parsing
   data.forEach(function(d) {
    d["upvotes"] = +d["upvotes"];
    d["cook_time"] = +d["cook_time"];
    d["prep_time"] = +d["prep_time"];
    
-   console.log(d.allergens);
-    function get_values(){
-        
-        var allergens = d.allergens.split(',');
-        var array_length = allergens.length;
-        for (var i = 0; i < array_length; i++) {
-            allergens[i] = allergens[i].replace("[", '');
-            allergens[i] = allergens[i].replace("]", '');
-            allergens[i] = allergens[i].replace("{", '');
-            allergens[i] = allergens[i].replace("}", '');
-            allergens[i] = allergens[i].replace("'allergen_name':", '');
-            allergens[i] = allergens[i].replace(/[']+/g, '');
-            allergens[i] = allergens[i].trim();
-            
-            }
-         allergen_list.push(Object.values(allergens));
-         return allergen_list;
-         }    
-            
-            
-    d.allergens = get_values();
-     
-   
-   
+ 
    if (d.cuisine_name == "") {
     d.Team = "No Cuisine";
    }
@@ -51,33 +27,6 @@ let allergen_list=[];
   
   
   console.log(data);
-
-/*allergen_list = [].concat.apply([], allergen_list);
-console.log(allergen_list);
- 
-var counts = {};
-for (var i = 0; i < allergen_list.length; i++) {
-    counts[allergen_list[i]] = 1 + (counts[allergen_list[i]] || 0);
-}
-console.log(counts);
-
-function renameKeys(obj, newKeys) {
-  const keyValues = Object.keys(obj).map(key => {
-    const newKey = newKeys[key] || key;
-    return { [newKey]: obj[key] };
-  });
-  return Object.assign({}, ...keyValues);
-}
-let result = Object.keys(counts).map(function(key) {
-  let arr =  [key, counts[key]];
-  let new_object = Object.assign({}, arr);
-  const new_keys = { 0: "Name", 1:"Value"};
-  let renamed_object = renameKeys(new_object, new_keys);
-  return renamed_object;
-});
-
-
-console.log(result);*/
 
  //Pie Chart Participation By Country
  this.upvotes_by_cuisine = function(ndx) {
