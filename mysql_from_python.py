@@ -12,25 +12,10 @@ connection = pymysql.connect(host="localhost",
 #This will query the many-to-many table and link recipeID to allergenIDs
 def get_existing_allergens_mysql(recipe_id):
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-        sql = "SELECT * FROM recipe_allergen WHERE recipeID = %s;"
+        sql ="SELECT a._id, a.allergen_name FROM recipe_allergen AS m INNER JOIN allergens AS a ON m.allergenID = a._id WHERE recipeID=%s;"
         cursor.execute(sql, recipe_id)
         result = cursor.fetchall()
         return result
-
-# This function will take the allergenIDs found in the previous function and    
-#return a list of of dictionaries including the allergen_id and the allergen_name
-def find_allergen_name_by_id(list_of_dicts):
-    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-        result_list = []
-        for i in list_of_dicts:
-            searchterm = i["allergenID"]
-            sql = "SELECT allergen_name, _id FROM allergens WHERE _id = %s;"
-            cursor.execute(sql, searchterm)
-            result = cursor.fetchall()
-            for j in result:
-                result_list.append(j)
-        return result_list
-
 
 #This function will get the recipes from mysql and then use the previous two 
 #functions to attach the allergens to the dictionary to be displayed to the user. 
@@ -40,7 +25,7 @@ def get_recipes_mysql():
         cursor.execute(sql)
         result = cursor.fetchall()
         for i in result:
-            i["allergens"] = find_allergen_name_by_id(get_existing_allergens_mysql(i["_id"]))
+            i["allergens"] = get_existing_allergens_mysql(i["_id"])
         print (result)
         return result
 
@@ -266,7 +251,7 @@ def find_recipe_by_name_mysql():
         cursor.execute(sql, search_term)
         result = cursor.fetchall()
         for i in result:
-            i["allergens"] = find_allergen_name_by_id(get_existing_allergens_mysql(i["_id"]))
+            i["allergens"] = get_existing_allergens_mysql(i["_id"])
         return result
         
 
@@ -278,7 +263,7 @@ def find_recipe_by_cuisine_name_mysql():
         cursor.execute(sql, search_term)
         result = cursor.fetchall()
         for i in result:
-            i["allergens"] = find_allergen_name_by_id(get_existing_allergens_mysql(i["_id"]))
+            i["allergens"] = get_existing_allergens_mysql(i["_id"])
         return result
         
 #Function finds all recipe_ids based on the lalegren_ids they are connected with in 
@@ -315,7 +300,7 @@ def find_recipe_by_ingredient_mysql():
         cursor.execute(sql, search_term)
         result = cursor.fetchall()
         for i in result:
-            i["allergens"] = find_allergen_name_by_id(get_existing_allergens_mysql(i["_id"]))
+            i["allergens"] = get_existing_allergens_mysql(i["_id"])
         return result
         
 #Upvotes        

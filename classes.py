@@ -85,7 +85,7 @@ def create_country():
     country= Country(request.form["country_name"].title())
     return vars(country)
     
-# Create row for recipe insert
+# Find allergen data for mining and display statistically
 def get_allergens_data():
     cursor_allergens= mongo.db.recipes.find({}, {'_id':0, "allergens":1})
     allergen_list = []
@@ -94,7 +94,8 @@ def get_allergens_data():
             if j != "":
                 allergen_list.append([j])
     return allergen_list
-    
+
+# Write allergen data to csv for displaying statistics.    
 def write_allergens_csv_mongo(allergen_list, data_file):
     with open(data_file, "w+") as outfile:
         writer = csv.writer(outfile)

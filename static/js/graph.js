@@ -110,9 +110,6 @@ this.upvotes_by_user = function(ndx) {
    .yAxis().ticks(4);
 
  };
- 
-
-
 
 this.upvotes_by_cuisine(ndx);
 this.recipes_in_cuisine(ndx);
@@ -134,12 +131,9 @@ const AllergensApi = function() {
  this.makeGraphs = function (error, data) {
   var ndx = crossfilter(data);
 
-  //Data Parsing
-
- 
 this.most_occuring_allergens = function(ndx) {
      var allergens_dim = ndx.dimension(dc.pluck("allergen_name"));
-     var frequency = allergens_dim.group()
+     var frequency = allergens_dim.group();
      
    dc.barChart("#most_occuring_allergens")
    .width(1000)
@@ -157,8 +151,6 @@ this.most_occuring_allergens = function(ndx) {
  };
 
 this.most_occuring_allergens(ndx);  
-
-
 dc.renderAll();
 };
 };

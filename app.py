@@ -22,7 +22,7 @@ connection = pymysql.connect(host="localhost",user=username,password = '',
                             db='recipes', use_unicode=True, charset="utf8")
 
 #Change between 'mysql' and 'mongo' to change database
-database = "mongo" 
+database = "mysql" 
 
 #Data file to write csv to for statistical display                            
 data_file = "static/data/recipe_mining.csv"
@@ -157,7 +157,7 @@ def edit_recipe(recipe_id):
     elif database == "mysql":
         the_recipe = find_recipe_by_id_mysql(recipe_id)
         cuisines = get_cuisines_mysql()
-        existing_allergens = find_allergen_name_by_id(get_existing_allergens_mysql(recipe_id))
+        existing_allergens = get_existing_allergens_mysql(recipe_id)
         allergens = get_allergens_mysql()
         _countries =get_countries_mysql()
         return render_template("editrecipemysql.html", recipe=the_recipe, cuisines=cuisines, 
