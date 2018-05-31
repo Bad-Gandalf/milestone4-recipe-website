@@ -1,5 +1,15 @@
 {% extends 'base.html'%} {% block content %}
 <h3>Edit Recipe</h3>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% block body %}{% endblock %}
 <div class="row">
     <form action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST" class="col s12">
         <div class="row">

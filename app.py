@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, url_for, Blueprint
+from flask import Flask, render_template, redirect, url_for, flash
 from flask_pymongo import PyMongo, pymongo
 import pymysql
 from flask_paginate import Pagination
@@ -22,10 +22,11 @@ connection = pymysql.connect(host="localhost",user=username,password = '',
                             db='recipes', use_unicode=True, charset="utf8")
 
 #Change between 'mysql' and 'mongo' to change database
-database = "mysql" 
+database = "mongo" 
 
 #Data file to write csv to for statistical display                            
-data_file = "static/data/recipe_mining.csv" 
+data_file = "static/data/recipe_mining.csv"
+allergen_data_file = "static/data/allergen_data.csv"
 
 #Gets recipes from mongo or mysql
 @app.route('/')
@@ -135,8 +136,12 @@ def insert_recipe():
         new_recipe = create_recipe()
         recipes.insert_one(new_recipe)
     elif database == "mysql": #recipes and allergens are inserting separately due to many to many table for allergens
-        insert_recipe_mysql()
-        insert_allergens_to_recipe(get_most_recent_recipe_id())
+        try:
+            insert_recipe_mysql()
+            insert_allergens_to_recipe(get_most_recent_recipe_id())
+        except:
+            flash("All fields must be filled!")
+            return redirect(url_for("add_recipe"))
     return redirect(url_for('get_recipes'))   
 
 #Different templates required to send id for mysql many to many searches and updates
@@ -177,8 +182,12 @@ def update_recipe(recipe_id):
         updated_recipe = create_recipe()
         recipes.update({'_id': ObjectId(recipe_id)},{"$set": updated_recipe})
     elif database == "mysql":
-        update_recipe_mysql(recipe_id)
-        change_allergens_mysql(recipe_id)
+        try:
+            update_recipe_mysql(recipe_id)
+            change_allergens_mysql(recipe_id)
+        except:
+            flash("All fields must be filled!")
+            return redirect(url_for("edit_recipe"))
     return redirect(url_for('get_recipes'))
 
 #Will list all cuisines on the system and will display their descriptions    
@@ -302,7 +311,7 @@ def update_cuisine(cuisine_id):
 def get_allergens():
     page = get_page()
     if database == "mongo":
-        _allergens = mongo.db.allergens.find()
+        _allergens = mongo.db.allergens.find().sort("allergen_name")
         pagination = Pagination(page=page, total=_allergens.count(), record_name='allergens')
     elif database == "mysql":
         _allergens = get_allergens_mysql()
@@ -370,12 +379,13 @@ def display_stats():
     if database == "mongo":
         cursor= mongo.db.recipes.find({}, {'_id':0,"username":1, "recipe_name":1, "author":1, "prep_time":1, "cook_time":1, "upvotes": 1, "cuisine_name":1, "country":1})
         write_to_csv(data_file, cursor)
+        write_allergens_csv_mongo(get_allergens_data(), allergen_data_file)
     elif database == "mysql":
-        cursor = get_data_for_csv_mysql()
-        write_to_csv(data_file, cursor)
+        write_to_csv(data_file, get_data_for_csv_mysql())
+        write_allergens_to_csv(allergen_data_file, get_allergen_data_csv_mysql())
     return render_template("statistics.html")
 
-   
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'  
 
 if __name__ == "__main__":
     app.run(host=os.environ.get('IP'),

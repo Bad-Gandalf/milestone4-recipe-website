@@ -257,9 +257,7 @@ def delete_allergen_mysql(allergen_id):
         cursor.execute(sql, allergen_id)
         connection.commit()        
 
-
-
-#Search by ** functions       
+#Search by functions       
 
 def find_recipe_by_name_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -341,3 +339,19 @@ def write_to_csv(data_file, cursor):
         writer.writeheader()
         for x in cursor:
             writer.writerow(x)    
+            
+def get_allergen_data_csv_mysql():
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "SELECT m.allergenID, a.allergen_name FROM recipe_allergen AS m INNER JOIN allergens AS a ON m.allergenID = a._id;"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        return result
+        
+def write_allergens_to_csv(data_file, cursor):
+    with open(data_file, "w+") as outfile:
+        fields = ["allergenID", "allergen_name"]
+        writer = csv.DictWriter(outfile, fieldnames=fields)
+        writer.writeheader()
+        for x in cursor:
+            writer.writerow(x)
+    

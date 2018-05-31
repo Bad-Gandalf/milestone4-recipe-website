@@ -123,5 +123,46 @@ this.upvotes_by_country(ndx);
 dc.renderAll();
 };
 };
+const AllergensApi = function() {
+
+ this.init = function() {
+  queue()
+   .defer(d3.csv, "/static/data/allergen_data.csv")
+   .await(this.makeGraphs);
+ };
+
+ this.makeGraphs = function (error, data) {
+  var ndx = crossfilter(data);
+
+  //Data Parsing
+
+ 
+this.most_occuring_allergens = function(ndx) {
+     var allergens_dim = ndx.dimension(dc.pluck("allergen_name"));
+     var frequency = allergens_dim.group()
+     
+   dc.barChart("#most_occuring_allergens")
+   .width(1000)
+   .height(300)
+   .margins({ top: 10, right: 50, bottom: 75, left: 75 })
+   .dimension(allergens_dim)
+   .group(frequency)
+   .transitionDuration(500)
+   .x(d3.scale.ordinal())
+   .xUnits(dc.units.ordinal)
+   .elasticY(true)
+   .xAxisLabel("Allergens")
+   .yAxisLabel("Frequency")
+   .yAxis().ticks(4);
+ };
+
+this.most_occuring_allergens(ndx);  
+
+
+dc.renderAll();
+};
+};
 const P = new RecipeDBApi;
+const Q = new AllergensApi;
 P.init();
+Q.init();

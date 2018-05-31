@@ -1,5 +1,11 @@
-from flask import request
+from flask import Flask, request
+from flask_pymongo import PyMongo, pymongo
+import csv
 
+app = Flask(__name__)
+app.config["MONGO_DBNAME"] = 'pat_doc_recipedb'
+app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/pat_doc_recipedb'
+mongo = PyMongo(app)
 #Class for a new recipe when inserting into mongodb.
 class Recipe(object):
     upvotes = 0
@@ -80,3 +86,19 @@ def create_country():
     return vars(country)
     
 # Create row for recipe insert
+def get_allergens_data():
+    cursor_allergens= mongo.db.recipes.find({}, {'_id':0, "allergens":1})
+    allergen_list = []
+    for i in cursor_allergens:
+        for j in (i["allergens"]):
+            if j != "":
+                allergen_list.append([j])
+    return allergen_list
+    
+def write_allergens_csv_mongo(allergen_list, data_file):
+    with open(data_file, "w+") as outfile:
+        writer = csv.writer(outfile)
+        writer.writerow(['allergen_name'])
+        for x in allergen_list:
+            writer.writerow(x)
+        
