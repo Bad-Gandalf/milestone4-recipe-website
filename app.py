@@ -1,28 +1,19 @@
 import os
-from flask import Flask, render_template, redirect, url_for, flash
-from flask_pymongo import PyMongo, pymongo
-import pymysql
-from flask_paginate import Pagination
-from pymongo import MongoClient
-import json
-from bson.objectid import ObjectId
-from bson import json_util
+from flask import render_template, redirect, url_for, flash
 from classes import *
-import csv
 from mysql_from_python import *
+from flask_paginate import Pagination
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'pat_doc_recipedb'
 app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/pat_doc_recipedb'
 
 mongo = PyMongo(app)
-username = os.getenv('C9_USER')
 
-connection = pymysql.connect(host="localhost",user=username,password = '',
-                            db='recipes', use_unicode=True, charset="utf8")
 
 #Change between 'mysql' and 'mongo' to change database
-database = "mysql" 
+database = "mongo" 
 
 #Data file to write csv to for statistical display                            
 data_file = "static/data/recipe_mining.csv"
@@ -132,9 +123,13 @@ def add_recipe():
 @app.route('/insert_recipe', methods=["POST"])
 def insert_recipe():
     if database == "mongo":
-        recipes = mongo.db.recipes
-        new_recipe = create_recipe()
-        recipes.insert_one(new_recipe)
+        try:
+            recipes = mongo.db.recipes
+            new_recipe = create_recipe()
+            recipes.insert_one(new_recipe)
+        except: 
+            flash("All fields must be filled!")
+            return redirect(url_for("add_recipe"))
     elif database == "mysql": #recipes and allergens are inserting separately due to many to many table for allergens
         try:
             insert_recipe_mysql()

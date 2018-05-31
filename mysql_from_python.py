@@ -7,7 +7,7 @@ username = os.getenv('C9_USER')
 connection = pymysql.connect(host="localhost",
                             user=username,
                             password = '',
-                            db='recipes')
+                            db='recipes',  use_unicode=True, charset="utf8")
 
 #This will query the many-to-many table and link recipeID to allergenIDs
 def get_existing_allergens_mysql(recipe_id):
