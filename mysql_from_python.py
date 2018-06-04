@@ -26,7 +26,6 @@ def get_recipes_mysql():
         result = cursor.fetchall()
         for i in result:
             i["allergens"] = get_existing_allergens_mysql(i["_id"])
-        print (result)
         return result
 
 #Insert a recipe taken from the form and insert it into mysql. Upvotes are set to 0
@@ -65,7 +64,6 @@ def insert_allergens_to_recipe(recipe_id):
     with connection.cursor() as cursor:
         sql = "INSERT INTO `recipe_allergen` (recipeID, allergenID) VALUES (%s, %s)"
         allergen_list = request.form.getlist('allergens')
-        print(allergen_list)
         for allergen in allergen_list:
             row = (recipe_id, allergen)
             cursor.execute(sql, row)

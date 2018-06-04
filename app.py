@@ -1,7 +1,6 @@
-import os
-from flask import render_template, redirect, url_for, flash
 from classes import *
 from mysql_from_python import *
+from flask import render_template, redirect, url_for, flash
 from flask_paginate import Pagination
 from bson.objectid import ObjectId
 
@@ -13,7 +12,7 @@ mongo = PyMongo(app)
 
 
 #Change between 'mysql' and 'mongo' to change database
-database = "mongo" 
+database = "mysql" 
 
 #Data file to write csv to for statistical display                            
 data_file = "static/data/recipe_mining.csv"
