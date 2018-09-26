@@ -1,10 +1,4 @@
 allergenID,allergen_name
-10,Peanuts
-11,Sesame Seeds
-4,Eggs
-3,Crustaceans
-4,Eggs
-9,Nuts
 14,Milk
 15,Celery
 2,Gluten
@@ -16,9 +10,9 @@ allergenID,allergen_name
 5,Fish
 4,Eggs
 2,Gluten
-15,Celery
-9,Nuts
-12,Soya
 2,Gluten
 14,Milk
 4,Eggs
+15,Celery
+9,Nuts
+3,Crustaceans

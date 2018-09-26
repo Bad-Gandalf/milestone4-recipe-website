@@ -1,9 +1,13 @@
 {% extends 'base.html'%} {% block content %}
-<h3>Recipes</h3>
+
 <div class="row">
+    <div class="col-xs-12">
+        <h3>Recipes</h3>
+    
     <a href="{{url_for('add_recipe')}}" class="waves-effect waves-light btn btn_small">Add Recipe
                 <i class="material-icons right">playlist_add</i>
                 </a>
+</div>
 </div>
 <ul class="collapsible" data-collapsible="accordion" id="collapsible">
     {% for recipe in recipes %}

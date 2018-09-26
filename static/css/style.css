@@ -4,8 +4,9 @@
 
 }
 
-.searchbtn.col.s3 {
-    padding-top: 20px;
+.searchbtn {
+    padding-left:10px;
+    padding-right: 10px;
 }
 
 .upvotesbtn {
@@ -98,7 +99,14 @@
 .delete-button {
     text-decoration: none;
     color: #fff;
-    background-color: #c71c22;
+    background-color: #ee6e73;
     text-align: center;
     letter-spacing: .5px;
+}
+.update-del-btns{
+    text-align: center;
+}
+
+.cuisine-description {
+    margin-bottom: 30px;
 }

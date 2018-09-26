@@ -13,14 +13,14 @@
 <div class="row">
     <form action="{{url_for('insert_recipe', allergens_id=allergens.id)}}" method="POST" class="col s12">
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col-xs-12">
                 <i class="material-icons prefix">assignment</i>
                 <input id="recipe_name" name="recipe_name" type="text" class="validate">
                 <label for="icon_prefix">Recipe Name</label>
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s4">
+            <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">person</i>
                 <input id="author" name="author" type="text" class="validate">
                 <label for="icon_prefix">Author Name</label>
@@ -28,14 +28,14 @@
         
         
             
-            <div class="input-field col s4">
+            <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">person</i>
                 <input id="username" name="username" type="text" class="validate">
                 <label for="icon_prefix">Username</label>
             </div>
         
         
-            <div class="input-field col s4">
+            <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">place</i>
                 <select id="country" name="country">
                   <option value="" disabled selected>Choose Country</option>
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s6">
+            <div class="input-field col-xs-12 col-md-6">
                 <i class="material-icons prefix">poll</i>
                 <select id="cuisine_name" name="cuisine_name">
                   <option value="" disabled selected>Choose Cuisine</option>
@@ -60,7 +60,7 @@
             </div>
         
 
-            <div class="input-field col s6">
+            <div class="input-field col-xs-12 col-md-6">
                 <i class="material-icons prefix">warning</i>
                 <select multiple id="allergens" name="allergens">
                     <option value="" disabled selected>Choose Allergens</option>
@@ -72,32 +72,32 @@
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col-xs-12">
                 <i class="material-icons prefix">description</i>
                 <input id="recipe_description" name="recipe_description" class="materialize-textarea" type="text"></textarea>
                 <label for="recipe_description">Recipe Description</label>
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s4">
+            <div class="input-field col-xs-12 col-md-4">
 
                 <i class="material-icons prefix">access_time</i>
                 <input id="prep_time" name="prep_time" type="number">
                 <label for="prep_time">Preparation time (mins):</label>
             </div>
-            <div class="input-field col s4">
+            <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">access_time</i>
                 <input id="cook_time" name="cook_time" type="number">
                 <label for="cook_time">Cooking time (mins):</label>
             </div>
-            <div class="input-field col s4">
+            <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">people</i>
                 <input id="servings" name="servings" type="number">
                 <label for="servings">Servings:</label>
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col-xs-12">
                 <i class="material-icons prefix">text_fields</i>
                 <textarea id="method" name="method" class="materialize-textarea"></textarea>
                 <label for="method">Method</label>
@@ -105,7 +105,7 @@
         </div>
 
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col-xs-12">
                 <i class="material-icons prefix">shopping_basket</i>
                 <textarea id="ingredients" name="ingredients" class="materialize-textarea"></textarea>
                 <label for="icon_telephone">Ingredients</label>
@@ -114,7 +114,7 @@
 
         
 
-        <div class="row">
+        <div class="row update-del-btns" >
             <button class="btn waves-effect waves-light" type="submit">Add Recipe
                 <i class="material-icons right">playlist_add</i>
             </button>

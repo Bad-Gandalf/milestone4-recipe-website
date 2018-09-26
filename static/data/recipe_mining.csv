@@ -1,10 +1,9 @@
 username,recipe_name,author,prep_time,cook_time,upvotes,cuisine_name,country
-bad_gandalf,Recipe1,Poret Mcpo,25,34,0,British,Guadaloupe
 bad_gandalf,Chicken Tikka Masala,Paul Hollywood,45,30,1,Chinese,China
-Pete,Recipe2,Simon Rimmer,21,32,1,Irish,Ecuador
+Pete,Recipe2,Simon Rimmer,21,32,2,Irish,Ecuador
 Lorraine_Pascale,Jamaican Rum Truffles,Lorraine Pascale,600,10,1,Carribean,United Kingdom
 saturday_kitchen,Irish Stew,Richard Corrigan,45,140,1,Irish,Ireland
-t_kerridge,Pulled Pork Tacos,Tom Kerridge,600,140,3,Mexican,United Kingdom
+t_kerridge,Pulled Pork Tacos,Tom Kerridge,600,140,5,Mexican,United Kingdom
 saturday_kitchen,"Burnt Grain Dumplings, Wild Leeks And Sheep'S Curd",Pam Brunton,130,100,0,Chinese,United States Of America
 food_and_drink,Quick Orange And Lemon Chicken,Ken Hom,30,20,1,Chinese,United States Of America
 bad_gandalf,Salmon And Puy Lentils With Parsley,Patrick Doherty,30,45,0,French,Finland

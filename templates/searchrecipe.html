@@ -1,39 +1,39 @@
 {% extends 'base.html'%} {% block content %}
 <h3>Search Recipe</h3>
 <div class="row">
-    <form action="{{url_for('find_recipe_by_name')}}" method="POST" class="col s12">
+    <form action="{{url_for('find_recipe_by_name')}}" method="POST" class="col-xs-12">
         <div class="row">
-            <div class="input-field col s9">
+            <div class="input-field col col-xs-8">
                 <i class="material-icons prefix">assignment</i>
                 <input id="recipe_name" name="recipe_name" type="text" class="validate">
-                <label for="icon_prefix">Recipe Name</label>
+                <label for="icon_prefix">Recipe</label>
             </div>
         
-        <div class="searchbtn col s3">
-            <button class="btn waves-effect waves-light" type="submit">Search Recipes
-                <i class="material-icons right">search</i>
+        <div class="col-xs-4">
+            <button class="btn waves-effect waves-light searchbtn" type="submit">Search
+                
             </button>
         </div>
         </div>
     </form>
-     <form action="{{url_for('find_recipe_by_ingredient')}}" method="POST" class="col s12">
+     <form action="{{url_for('find_recipe_by_ingredient')}}" method="POST" class="col-xs-12">
         <div class="row">
-            <div class="input-field col s9">
+            <div class="input-field col-xs-8">
                 <i class="material-icons prefix">assignment</i>
                 <input id="ingredient_name" name="ingredient_name" type="text" class="validate">
-                <label for="icon_prefix">Ingredient Name</label>
+                <label for="icon_prefix">Ingredient</label>
             </div>
         
-        <div class="searchbtn col s3">
-            <button class="btn waves-effect waves-light" type="submit">Search Recipes
-                <i class="material-icons right">search</i>
+        <div class="col-xs-4">
+            <button class="btn waves-effect waves-light searchbtn" type="submit">Search
+                
             </button>
         </div>
         </div>
     </form>
-    <form action="{{url_for('find_recipe_cuisine_name')}}" method="POST" class="col s12">
+    <form action="{{url_for('find_recipe_cuisine_name')}}" method="POST" class="col-xs-12">
         <div class="row">
-            <div class="input-field col s9">
+            <div class="input-field col-xs-8">
                 <i class="material-icons prefix">poll</i>
                 <select id="cuisine_name" name="cuisine_name">
                   <option value="" disabled selected></option>
@@ -44,16 +44,16 @@
                 <label>Cuisine</label>
             </div>
 
-            <div class="searchbtn col s3">
-                <button class="btn waves-effect waves-light" type="submit">Search Recipes
-                <i class="material-icons right">search</i>
+            <div class="col-xs-4">
+                <button class="btn waves-effect waves-light searchbtn" type="submit">Search
+                
             </button>
             </div>
         </div>
     </form>
     <form action="{{url_for('find_recipe_allergen_name')}}" method="POST" class="col s12">
         <div class="row">
-            <div class="input-field col s9">
+            <div class="input-field col-xs-8">
                 <i class="material-icons prefix">warning</i>
                 <select id="allergens" name="allergens">
                     <option value="" disabled selected></option>
@@ -64,9 +64,9 @@
                 <label for="allergens">Allergens</label>
             </div>
 
-            <div class="searchbtn col s3">
-                <button class="btn waves-effect waves-light" type="submit">Search Recipes
-                <i class="material-icons right">search</i>
+            <div class="col-xs-4">
+                <button class="btn waves-effect waves-light searchbtn" type="submit">Search
+                
             </button>
             </div>
         </div>

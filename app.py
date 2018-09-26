@@ -12,7 +12,7 @@ mongo = PyMongo(app)
 
 
 #Change between 'mysql' and 'mongo' to change database
-database = "mongo" 
+database = "mysql" 
 
 #Data file to write csv to for statistical display                            
 data_file = "static/data/recipe_mining.csv"
@@ -377,7 +377,7 @@ def upvote(recipe_id):
         mongo.db.recipes.update_one({"_id": ObjectId(recipe_id)}, { "$inc" :{'upvotes': 1}})
     elif database == "mysql":
         upvote_mysql(recipe_id)
-    return redirect(url_for('get_recipes'))
+    return redirect(url_for('recipe_description', recipe_id=recipe_id))
 
 #Create a csv file from data in db and display in charts
 @app.route('/display_stats')
