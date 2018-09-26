@@ -8,24 +8,6 @@ app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/p
 mongo = PyMongo(app)
 
 
-#Class for a new user when inserting into mongodb. (Currently unused)        
-class User(object):
-    def __init__(self, username, country):
-        self.username = username
-        self.country = country
-
-
-#Class for a new allergen when inserting into mongodb        
-class Allergen(object):
-    def __init__(self, allergen_name, allergen_description):
-        self.allergen_name = allergen_name
-        self.allergen_description = allergen_description
-
-#Class for a new country when inserting into mongodb        
-class Country(object):
-    def __init__(self, country_name):
-        self.country_name = country_name
-
 #This function is used to find what page number the user is currently on in order to help paginate list of results.        
 def get_page():
     return request.args.get('page', 1, type=int) #Be part of a cntroller class

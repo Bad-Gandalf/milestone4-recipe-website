@@ -12,7 +12,7 @@ mongo = PyMongo(app)
 
 
 #Change between 'mysql' and 'mongo' to change database
-database = "mysql" 
+database = "mongo" 
 
 #Data file to write csv to for statistical display                            
 data_file = "static/data/recipe_mining.csv"
@@ -33,6 +33,18 @@ def get_recipes():
         pagination = Pagination(page=page, total=len(_recipes), record_name='recipes')
         recipe_list = paginate_list(_recipes, page, 10)
         return render_template("recipemysql.html", recipes=recipe_list, pagination=pagination)
+        
+@app.route('/recipe/<recipe_id>')
+def recipe_description(recipe_id):
+    if database == "mongo":
+        the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+        return render_template("recipe_description.html", recipe=the_recipe)
+    elif database == "mysql":
+        the_recipe = find_recipe_by_id_mysql(recipe_id)
+        existing_allergens = get_existing_allergens_mysql(recipe_id)
+        return render_template("recipe_description_mysql.html", recipe=the_recipe, 
+                            existing_allergens= existing_allergens)
+
 
 #Search screen for recipes will preload options for allergens and cuisines.
 @app.route('/search_recipes')

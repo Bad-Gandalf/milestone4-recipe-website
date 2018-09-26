@@ -28,6 +28,7 @@ def get_recipes_mysql():
             i["allergens"] = get_existing_allergens_mysql(i["_id"])
         return result
 
+
 #Insert a recipe taken from the form and insert it into mysql. Upvotes are set to 0
 #automatically.
 def insert_recipe_mysql():
@@ -253,7 +254,6 @@ def find_recipe_by_name_mysql():
         return result
         
 
-        
 def find_recipe_by_cuisine_name_mysql():
     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         search_term = request.form["cuisine_name"]

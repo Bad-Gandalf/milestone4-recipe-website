@@ -3,28 +3,28 @@
 <div class="row">
     <form action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST" class="col s12">
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col-xs-12">
                 <i class="material-icons prefix">assignment</i>
                 <input id="recipe_name" name="recipe_name" type="text" class="validate" value="{{recipe.recipe_name}}">
                 <label for="icon_prefix">Recipe Name</label>
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s4">
+            <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">person</i>
                 <input id="author" name="author" type="text" class="validate" value="{{recipe.author}}">
                 <label for="icon_prefix">Author Name</label>
             </div>
 
 
-            <div class="input-field col s4">
+            <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">person</i>
                 <input id="username" name="username" type="text" class="validate" value="{{recipe.username}}">
                 <label for="icon_prefix">Username</label>
             </div>
 
 
-            <div class="input-field col s4">
+            <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">place</i>
                 <select id="country" name="country">
                   <option value="" disabled selected>Choose Country</option>
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s6">
+            <div class="input-field col-xs-12 col-md-6">
                 <i class="material-icons prefix">poll</i>
                 <select id="cuisine_name" name="cuisine_name">
                   <option value="" disabled selected>Choose Cuisine</option>
@@ -56,7 +56,7 @@
             </div>
 
 
-            <div class="input-field col s6">
+            <div class="input-field col-xs-12 col-md-6">
                 <i class="material-icons prefix">warning</i>
                 <select multiple id="allergens" name="allergens">
                     {% for allergen in recipe.allergens %}
@@ -71,32 +71,32 @@
 
         </div>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col-xs-12">
                 <i class="material-icons prefix">description</i>
                 <input id="recipe_description" name="recipe_description" class="materialize-textarea" type="text" value="{{recipe.recipe_description}}">
                 <label for="recipe_description">Recipe Description</label>
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s4">
+            <div class="input-field col-xs-12 col-md-4">
 
                 <i class="material-icons prefix">access_time</i>
                 <input id="prep_time" name="prep_time" type="number" value="{{recipe.prep_time}}">
                 <label for="prep_time">Preparation time (mins):</label>
             </div>
-            <div class="input-field col s4">
+            <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">access_time</i>
                 <input id="cook_time" name="cook_time" type="number" value="{{recipe.cook_time}}">
                 <label for="cook_time">Cooking time (mins):</label>
             </div>
-            <div class="input-field col s4">
+            <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">people</i>
                 <input id="servings" name="servings" type="number" value="{{recipe.servings}}">
                 <label for="servings">Servings:</label>
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col-xs-12">
                 <i class="material-icons prefix">text_fields</i>
                 <textarea id="method" name="method" class="materialize-textarea" type="text">{{recipe.method}}</textarea>
                 <label for="method">Method</label>
@@ -104,7 +104,7 @@
         </div>
 
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col-xs-12">
                 <i class="material-icons prefix">shopping_basket</i>
                 <textarea type="text" id="ingredients" name="ingredients" class="materialize-textarea">{{recipe.ingredients}}</textarea>
                 <label for="icon_telephone">Ingredients</label>
@@ -118,8 +118,11 @@
             <button class="btn waves-effect waves-light" type="submit">Update Recipe
                 <i class="material-icons right">playlist_add</i>
             </button>
+            <a href="{{url_for('delete_recipe', recipe_id=recipe._id)}}" class="waves-effect danger btn delete-button btn_small">Delete</a>
             
         </div>
     </form>
+    
+    
 </div>
 {% endblock %}
