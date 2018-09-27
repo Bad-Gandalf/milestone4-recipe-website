@@ -1,7 +1,6 @@
  {% extends 'base.html'%} {% block content %}
-<br>
-<br>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+
 <div class="col-xs-12 heading">
     <h3>Statistics Taken From Recipe Database</h3>
 </div>
@@ -11,7 +10,7 @@
         <div class="col-xs-12">
             <div class="chart-wrapper">
                 <div class="chart-title">Upvotes By User</div>
-                <div id="most_upvoted_users" class="chart-stage" data-step="5" data-intro="Click on a bar to filter the results by this character. This will apply to all the other charts on the page. " style="font-weight: normal" data-position="top">
+                <div id="most_upvoted_users" class="chart-stage" data-step="5" data-intro="Click on a bar to filter the results by this user. This will apply to all the other charts on the page. " style="font-weight: normal" data-position="top">
                 </div>
             </div>
             <div class="chart-description">
@@ -23,7 +22,7 @@
         <div class=" col-xs-12 col-lg-4">
             <div class="chart-wrapper">
                 <div class="chart-title">Upvotes by Cuisine</div>
-                <div id="upvotes_by_cuisine" class="chart-stage" data-step="2" data-intro="Click on a different slice or multiple slices to filter the other charts on the page by those countries' results." style="font-weight: normal" data-position="right">
+                <div id="upvotes_by_cuisine" class="chart-stage" data-step="1" data-intro="Click on a different slice or multiple slices to filter the other charts on the page by those countries' results." style="font-weight: normal" data-position="right">
 
                 </div>
                 <p>This shows how many upvotes recipes within these cuisines received.</p>
@@ -33,28 +32,36 @@
         <div class="col-xs-12 col-lg-4">
             <div class="chart-wrapper">
                 <div class="chart-title">Recipes Per Cuisine</div>
-                <div id="recipes_by_cuisine" class="chart-stage" data-step="3" data-intro="Click on a bar to filter the other charts by the specified character gender." style="font-weight: normal" data-position="right"></div>
+                <div id="recipes_by_cuisine" class="chart-stage" data-step="2" data-intro="Click on a bar to filter the other charts by the specified character gender." style="font-weight: normal" data-position="right"></div>
                 <p>This pie chart displays the share of total recipes belonging to each cuisine.</p>
             </div>
         </div>
 
 
+
         <div class="col-xs-12 col-lg-4">
             <div class="chart-wrapper">
                 <div class="chart-title">Recipes By Country</div>
-                <div id="most_occuring_countries" class="chart-stage" data-step="4" data-intro="Female characters have an average lifetime score 14% greater than male characters." style="font-weight: normal" data-position="left"></div>
+                <div id="most_occuring_countries" class="chart-stage" data-step="3" data-intro="This details the number of recipes from different countries." style="font-weight: normal" data-position="left"></div>
                 <p>This chart displays the share of recipes submitted from each country.</p>
             </div>
         </div>
 
-
+        <div class="col-xs-12">
+            <div class="chart-wrapper">
+                <div class="chart-title">Average Recipe Time by Cuisine</div>
+                <div id="average_recipe_time_by_cuisine" class="chart-stage" data-step="4" data-intro="This chart describes average recipe times by each cuisine." style="font-weight: normal" data-position="left">
+                    <p>This graph finds the average time take to cook a recipe belonging to each cuisine.</p>
+                </div>
+            </div>
+        </div>
 
 
 
         <div class="col-xs-12">
             <div class="chart-wrapper">
                 <div class="chart-title">Upvotes By Country</div>
-                <div id="upvotes_by_country" class="chart-stage" data-step="6" data-intro="You can also filter the results by character just like the previous chart." style="font-weight: normal" data-position="top">
+                <div id="upvotes_by_country" class="chart-stage" data-step="5" data-intro="You can also filter upvotes by country from which the recipe was submitted." style="font-weight: normal" data-position="top">
 
                 </div>
             </div>
@@ -65,7 +72,7 @@
         <div class="col-xs-12">
             <div class="chart-wrapper">
                 <div class="chart-title">Allergen Occurences In Recipes</div>
-                <div id="most_occuring_allergens" class="chart-stage" data-step="1" data-intro="Hover over each marker to access player name, rank, lifetime score and the character they use." style="font-weight: normal" data-position="bottom
+                <div id="most_occuring_allergens" class="chart-stage" data-step="6" data-intro="This chart decribes the occurences of particular allergens in our recipe database." style="font-weight: normal" data-position="bottom
                     ">
                 </div>
             </div>
@@ -75,23 +82,18 @@
             </div>
         </div>
 
-        <!-- <div class=" col-xs-12 col-md-6">
-                <div class="chart-wrapper">
-                    <div class="chart-title">Total Lifetime Score by Team</div>
-                    <div id="total-lifetime-score-by-team" class="chart-stage" data-step="5" data-intro="Independant players have the highest total yet they are not in a team. Fox is leading yet the distribution of points is generally even among most teams." style="font-weight: normal"
-                        data-position="left">
 
-                    </div>
-                </div>
-            </div>-->
 
 
     </div>
 </div>
 </div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.min.js"></script>
 
 <script type="text/javascript" src="/static/js/graph.js"></script>
+
+
 {% endblock %}
  

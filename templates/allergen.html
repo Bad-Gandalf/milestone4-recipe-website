@@ -1,4 +1,5 @@
 {% extends 'base.html'%} {% block content %}
+<div class="container">
 <h3>Allergens</h3>
 <div class="row">
     <a href="{{url_for('add_allergen')}}" class="waves-effect waves-light btn btn_small">Add Allergen
@@ -31,4 +32,6 @@
 </li>
         {% endfor %}
 </ul>
-{{ pagination.info }} {{ pagination.links }} {% endblock %}
+{{ pagination.info }} {{ pagination.links }} 
+</div>
+{% endblock %}

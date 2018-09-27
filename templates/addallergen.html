@@ -1,5 +1,6 @@
 {% extends 'base.html'%} {% block content %}
 <h3>Add Allergen</h3>
+<div class="container">
 <div class="row">
     <form action="{{url_for('insert_allergen')}}" method="POST" class="col s12">
         <div class="row">
@@ -25,5 +26,6 @@
 
 
     </form>
+</div>
 </div>
 {% endblock %}

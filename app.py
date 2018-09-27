@@ -12,7 +12,7 @@ mongo = PyMongo(app)
 
 
 #Change between 'mysql' and 'mongo' to change database
-database = "mongo" 
+database = "mysql" 
 
 #Data file to write csv to for statistical display                            
 data_file = "static/data/recipe_mining.csv"

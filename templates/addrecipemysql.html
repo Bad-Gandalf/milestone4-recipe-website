@@ -1,4 +1,5 @@
 {% extends 'base.html'%} {% block content %}
+<div class="container">
 <h3>Add Recipe</h3>
 {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -122,5 +123,6 @@
 
 
     </form>
+</div>
 </div>
 {% endblock %}

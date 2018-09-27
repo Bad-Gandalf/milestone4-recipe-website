@@ -1,4 +1,5 @@
 {% extends 'base.html'%} {% block content %}
+<div class="container">
 <h3>Search Recipe</h3>
 <div class="row">
     <form action="{{url_for('find_recipe_by_name')}}" method="POST" class="col-xs-12">
@@ -75,5 +76,6 @@
 
 
     </form>
+</div>
 </div>
 {% endblock %}

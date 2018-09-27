@@ -14,6 +14,8 @@ const RecipeDBApi = function() {
    d["upvotes"] = +d["upvotes"];
    d["cook_time"] = +d["cook_time"];
    d["prep_time"] = +d["prep_time"];
+   d["total_time"] = d["prep_time"]+ d["cook_time"];
+   
    
  
    if (d.cuisine_name == "") {
@@ -27,6 +29,37 @@ const RecipeDBApi = function() {
   
   
   console.log(data);
+
+// Building custom reducers to get correct averages.
+  function add_item(p, v) {
+   // For each different character/gender etc, count their occurences and total their 'Lifetime score'
+   // Then find its average lifetime score. Return an object with count, total and average values.
+   // i.e. Add a fact
+   p.count++;
+   p.total += v["total_time"];
+   p.average = p.total / p.count;
+   return p;
+  }
+  // Removes the fact thats been added previously
+  function remove_item(p, v) {
+   p.count--;
+   if (p.count == 0) {
+    p.total = 0;
+    p.average = 0;
+   }
+   else {
+    p.total -= v["total_time"];
+    p.average = p.total / p.count;
+   }
+   return p;
+  }
+  // Sets the initial value.
+  function initialise() {
+   return { count: 0, total: 0, average: 0 };
+  }
+
+
+
 
  //Pie Chart Participation By Country
  this.upvotes_by_cuisine = function(ndx) {
@@ -110,12 +143,39 @@ this.upvotes_by_user = function(ndx) {
    .yAxis().ticks(4);
 
  };
+ 
+this.show_average_recipe_time_by_cuisine = function(ndx){
+ var dim = ndx.dimension(dc.pluck("cuisine_name"));
+ var average_recipe_time_by_cuisine = dim.group().reduce(add_item, remove_item, initialise);
+ 
+ dc.barChart("#average_recipe_time_by_cuisine")
+    .width(1000)
+    .height(300)
+    .margins({ top: 10, right: 50, bottom: 75, left: 75 })
+    .dimension(dim)
+    .group(average_recipe_time_by_cuisine)
+    // Return average lifetime score for gender when hovered over, to 2 d.p.
+    .valueAccessor(function(d) {
+     return d.value.average.toFixed(2);
+    }) 
+    .transitionDuration(500)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .y(d3.scale.linear().domain([0, 700]))
+    .xAxisLabel("Cuisine")
+    .yAxisLabel("Average Recipe Time (mins)")
+    .yAxis().ticks(10);
+  };
+
+ 
+
 
 this.upvotes_by_cuisine(ndx);
 this.recipes_in_cuisine(ndx);
 this.most_occuring_countries(ndx);  
 this.upvotes_by_user(ndx);
 this.upvotes_by_country(ndx);
+this.show_average_recipe_time_by_cuisine(ndx);
 
 dc.renderAll();
 };

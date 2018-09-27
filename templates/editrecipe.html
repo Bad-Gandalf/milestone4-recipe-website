@@ -1,4 +1,5 @@
 {% extends 'base.html'%} {% block content %}
+<div class="container">
 <h3>Edit Recipe</h3>
 <div class="row">
     <form action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST" class="col s12">
@@ -124,5 +125,6 @@
     </form>
     
     
+</div>
 </div>
 {% endblock %}

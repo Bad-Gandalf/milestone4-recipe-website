@@ -6,7 +6,8 @@ saturday_kitchen,Irish Stew,Richard Corrigan,45,140,3,Irish,Ireland
 t_kerridge,Pulled Pork Tacos,Tom Kerridge,600,140,5,Mexican,United Kingdom
 saturday_kitchen,"Burnt Grain Dumplings, Wild Leeks And Sheep'S Curd",Pam Brunton,130,100,1,Chinese,United States Of America
 food_and_drink,Quick Orange And Lemon Chicken,Ken Hom,30,20,1,Chinese,United States Of America
-bad_gandalf,Salmon And Puy Lentils With Parsley,Patrick Doherty,30,45,0,French,Finland
+bad_gandalf,Salmon And Puy Lentils With Parsley,Patrick Doherty,30,45,1,French,Finland
 bad_gandalf,Testing Flash Messaging,Patrick Doherty,10,23,0,Mexican,Ireland
 bad_gandalf,Testing With Less Imports,Patrick Doherty,2,2,0,None,Jordan
 Al,All Recipe,Al,30,20,0,American,Poland
+admin,Test Mysql,Julia Titus,1,2,0,British,Algeria
