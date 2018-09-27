@@ -17,13 +17,14 @@
                 <i class="material-icons">expand_more</i>
             </div>
 
-            <div class=" task_header col-xs-8">
+            <div class="task_header col-xs-8">
                 <a href="{{ url_for('recipe_description', recipe_id=recipe._id)}}"><strong>{{recipe.recipe_name}}</strong></a>
             </div>
 
-            <div class="upvote col-xs-3">{{recipe.upvotes}}
-                <form class="material-icons right" action="{{ url_for('upvote', recipe_id=recipe._id)}}" method="POST">
-                    <button class="upvotesbtn" type="submit"><i>thumb_up</i></button></form>
+            <div class="upvote col-xs-3">
+                <span class="upvote-count">
+                <form class="material-icons" action="{{ url_for('upvote', recipe_id=recipe._id)}}" method="POST">
+                    <button class="upvotesbtn" type="submit"><i>thumb_up</i></button></form>{{recipe.upvotes}}</span>
             </div>
         </div>
 

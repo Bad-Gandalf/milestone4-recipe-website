@@ -12,7 +12,7 @@ mongo = PyMongo(app)
 
 
 #Change between 'mysql' and 'mongo' to change database
-database = "mysql" 
+database = "mongo" 
 
 #Data file to write csv to for statistical display                            
 data_file = "static/data/recipe_mining.csv"
@@ -370,7 +370,7 @@ def update_allergen(allergen_id):
         update_allergen_mysql(allergen_id)
     return redirect(url_for('get_allergens'))
 
-#Increase the upvotes by clicking on the thumbs up button
+#Increase the upvotes by clicking on the thumbs up button, then be redirected to that specific recipe page
 @app.route('/upvote/<recipe_id>', methods=["POST"])
 def upvote(recipe_id):
     if database == "mongo":
