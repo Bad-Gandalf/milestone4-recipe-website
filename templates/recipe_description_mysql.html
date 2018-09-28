@@ -4,7 +4,7 @@
 
         <h4>{{recipe.recipe_name}}</h4>
         <span><i>- {{recipe.author}} - {{ recipe.servings }} servings </i> - <form class="material-icons" action="{{ url_for('upvote', recipe_id=recipe._id)}}" method="POST">
-                <button class="upvotesbtn" type="submit"><small><i>thumb_up</i></small></button></form>{{recipe.upvotes}} - <i class="material-icons">people</i> {{ recipe.servings }}</span>
+                <button class="upvotesbtn" type="submit"><small><i>thumb_up</i></small></button></form>{{recipe.upvotes}} </span>
         
     </div>
 
@@ -44,7 +44,7 @@
     </div>
     <div class="paragraph-details">
         <h5>Allergens:</h5>
-        {% if allergen %}
+        {% if existing_allergens %}
         <ul>{% for allergen in existing_allergens %}
         <li>{{allergen["allergen_name"]}}</li>
          {% endfor %}

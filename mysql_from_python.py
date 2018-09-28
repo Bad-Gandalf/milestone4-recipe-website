@@ -59,6 +59,13 @@ def get_most_recent_recipe_id():
             allergen_id = i["MAX(_id)"]
         return allergen_id
 
+def get_test_recipe_id():
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "SELECT MAX(_id) FROM recipe;"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        return result["MAX(_id)"]
+
 #Inserting allergen_ID and recipe_ID into many-to-many table. It takes the recipe_id
 #returned from the previous function as an argument
 def insert_allergens_to_recipe(recipe_id):

@@ -1,4 +1,4 @@
-from classes import *
+from helper_mongo import *
 from mysql_from_python import *
 from flask import render_template, redirect, url_for, flash
 from flask_paginate import Pagination
@@ -12,7 +12,7 @@ mongo = PyMongo(app)
 
 
 #Change between 'mysql' and 'mongo' to change database
-database = "mysql" 
+database = "mongo" 
 
 #Data file to write csv to for statistical display                            
 data_file = "static/data/recipe_mining.csv"
@@ -194,7 +194,7 @@ def update_recipe(recipe_id):
         except:
             flash("All fields must be filled!")
             return redirect(url_for("edit_recipe"))
-    return redirect(url_for('get_recipes'))
+    return redirect(url_for('recipe_description', recipe_id=recipe_id))
 
 #Will list all cuisines on the system and will display their descriptions    
 @app.route('/get_cuisines')

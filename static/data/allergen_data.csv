@@ -1,21 +1,21 @@
-allergenID,allergen_name
-14,Milk
-15,Celery
-2,Gluten
-14,Milk
-10,Peanuts
-11,Sesame Seeds
-12,Soya
-13,Sulphur Dioxide
-5,Fish
-4,Eggs
-2,Gluten
-2,Gluten
-14,Milk
-4,Eggs
-15,Celery
-9,Nuts
-3,Crustaceans
-4,Eggs
-6,Lupin
-14,Milk
+allergen_name
+Molluscs
+Eggs
+Fish
+Gluten
+Gluten
+Lupin
+Gluten
+Eggs
+Fish
+Eggs
+Gluten
+Sulphur Dioxide
+Celery
+Mustard
+Milk
+Gluten
+Gluten
+Milk
+Eggs
+Milk
