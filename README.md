@@ -1,4 +1,4 @@
-# Code Institute - Milestone Project 5 - Recipe Manager
+# Code Institute - Milestone Project 4 - Recipe Manager
 #### by Patrick Doherty
 
 The brief I was given for this project was the following:
@@ -16,8 +16,6 @@ Optionally, you may choose to add basic user registration and authentication to 
 
 #### I completed this brief fully and used mongodb as the database. However on the suggestion of my mentor I did make an app that could switch between a mysql db and mongodb by changing one line of code. That can be found in "mysql/app_mongo_mysql.py".
 
-
-
 ## UX
 #### User stories
 
@@ -31,17 +29,28 @@ Optionally, you may choose to add basic user registration and authentication to 
 7. There is a statistics page displaying interactive charts that when clicked on will drill down to a filtered view based on that category. 
  
 
+## Database Schema
+
+My MongoDB database consists of 4 collections, one for each of the following:
+- Recipes
+- Cuisines
+- Countries
+- Allergens
+
+The recipes collection will contain all information needed for one recipe including cuisines, countries and allergens.
+The three other collections will provide options to select when a user is creating a new recipe, to give uniformity to the site. 
 
 ## Features
 
 ### Existing Features
-- Simple Quiz App
+- Simple recipe Manager App
 
 ### Potential future features
 - Login authentication system
 - Only creators of recipes can edit them
 - Uploading pictures for the recipes, countries, allergens and cuisines.
 - Adding a review system to each recipe, where other users can comment on their experience with the recipe.
+- Limiting upvoting to one per user per recipe, and adding downvoting possibility. 
 
 
 ## Technologies used:
@@ -53,6 +62,9 @@ Optionally, you may choose to add basic user registration and authentication to 
 ##### Bootstrap - A framework for developing responsive, mobile 1st websites.
 ##### Flask - python web framework
 ##### Postman - Postman helps you develop APIs faster
+##### MongoDB - Non-relational database
+##### MySQL - Relational database (not used in production site)
+
 ##### Libraries I needed to install
 - [JQuery](https://jquery.com)
     - The project uses **JQuery** to simplify DOM manipulation, and allow for AJAX requests.
@@ -64,35 +76,29 @@ Optionally, you may choose to add basic user registration and authentication to 
     - to create charts from data
 - [queue](https://github.com/d3/d3-queue)
     - This allows us to await collection of data before running scripts.
-- [intro.js](https://github.com/usablica/intro.js)
-    - For guided tour of charts with explanations.
+
 
 ## Testing
  
 ### Automated testing
 
-#### TDD
-To ensure I was designing functions correctly I used tests to drive development. The majority of these can be found in helper_tests.py.
-I could not write tests for all functions especially those required to write, retrieve and operate on data in a text file. I did however print my results
-whilst designing the functions. I would also be able to check the text file itself to see if everything was working. I would also compare these to what 
-the site was rendering, over and over again until I was getting the results I wanted. 
 
 #### Test Suite
-Once I was happy with the site I used unittest to do fully automated tests of the quiz app. I simulated a user logging on, and then going through each of the questions
-eventually leading to the leaderboard. I also made sure to do a few runs, including incorrect answers and question skips. I made sure to 
-test for the correct responses whther they were based on final score or incorrect answers. These can be found in test_app.py. All routes were tested including
-the routes specifically for javascript. I also used Postman to check that I recieving the correct HTML when sending information to routes.
+I have used unittests to check that the website was working. The only routes I could not unittest where create, update and delete entries. If I had to use flask with
+mongo in the future I may use MockDB to test create update and delete. Theses tests can be seen in "tests_app.py". I had also tested the same for mysql routes and
+they can be found in "/mysql/tests_mysql.py" In writing the unitttest I also used Postman to help me see what and how data needed to be sent to specific urls. The data I 
+passed through, I knew was on the database already, such as recipe id. 
 
 ### Manual testing
-#### Preventing Cheating
-During my development I tired to break the game as often as possible, this seemed to be most easy by pressing the back button. I had originally designed the 
-app to have a specific url for each question and users could simply visit these urls and answer the questions again. I removed this possibility by using
-"sessions". This would allow for tracking a users progress and ensuring they could not go backwards or forwards or potentially answer any question
-they were not supposed to. 
 
-At the very end of my testing I noticed I was using a value from a hidden input (the solution to the question) to validate the answers. Anyone who could 
-open dev tools could see this and simply copy it. They could even change it and that would work as the new solution. I removed this possiblity and found 
-a simple work around. 
+When building helper functions I would have to check if they were producing the correct results and this involved alot of reloading pages as assertion tests were not 
+particularly suitable. I would also have to check the .csv files were being created properly and then adjust my functions to make it so. 
+
+I tested create, update and delete for all entries in to the four collections; Recipes, cuisines, countries and allergens as I could not do them through unittest 
+at this time. In making sure they would work I would print a lot of response data to see if I was getting everything correct. I would also check if the data was being
+stored correctly in the database. To check the statistics summaries or the charts I would make a note of them, then create a new recipe that would alter the results 
+and then check the stats page again to see that it had been updated. I did the same to make sure the upvoting mechanism worked. 
+
 
 #### Cross-browser Testing
 I developed the site mainly on Chrome but have also since tested it on Safari and Firefox with no issues.
@@ -110,16 +116,12 @@ I ran all my files through validators to check for errors.
 - Project was deployed to heroku with ease.
 - Created Procfile and requirements.txt
 - Created new heroku app and set environment variables.
-- Pushed to heroku. Click [here](https://tolkien-riddle-quiz.herokuapp.com/) to visit the site.
+- Pushed to heroku. 
 
 ## Credits
 
 ### Media
-- All of the original links the images used can be found in /data/riddle_data.json. All taken from google image searches. 
+
 
 
 ### Acknowledgements
-- J. R. R. Tolkien for his timeless riddles.
-- Thanks to the following Youtubers for sharing their knowledge
-    - [Pretty Printed](https://www.youtube.com/channel/UC-QDfvrRIDB6F0bIO4I4HkQ)
-    - [Tekboi Tutorials](https://www.youtube.com/channel/UCIx6RlgCn3dXR5mHF33_wsA)

@@ -152,6 +152,9 @@ class FlaskTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(b"Edit Allergen" in response.data)
         self.assertTrue(b"This includes celery stalks" in response.data)
+        
+        
+    
 
         
         

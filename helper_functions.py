@@ -66,7 +66,7 @@ def write_allergens_csv_mongo(allergen_list, data_file):
         writer.writerow(['allergen_name'])
         for x in allergen_list:
             writer.writerow(x)
-        
+       
 def write_to_csv(data_file, cursor):
     with open(data_file, "w+") as outfile:
         fields = ["username", "recipe_name", "author", "prep_time", "cook_time","upvotes","cuisine_name","country"]

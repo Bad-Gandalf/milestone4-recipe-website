@@ -3,11 +3,11 @@ from mysql_from_python import *
 from flask import render_template, redirect, url_for, flash
 from flask_paginate import Pagination
 from bson.objectid import ObjectId
-import env
+# import env # for development only
 
 app = Flask(__name__)
-app.config["MONGO_DBNAME"] = 'pat_doc_recipedb'
-app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/pat_doc_recipedb'
+app.config["MONGO_DBNAME"] = os.environ.get("DATABASE")
+app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 
 mongo = PyMongo(app)
 
