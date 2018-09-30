@@ -6,11 +6,10 @@ from bson.objectid import ObjectId
 import env
 
 app = Flask(__name__)
-app.config["MONGO_DBNAME"] = 'pat_doc_recipedb'
-app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/pat_doc_recipedb'
+app.config["MONGO_DBNAME"] = os.environ.get("DATABASE")
+app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 
 mongo = PyMongo(app)
-
 
 #Data file to write csv to for statistical display                            
 data_file = "static/data/recipe_mining.csv"
@@ -32,8 +31,6 @@ def recipe_description(recipe_id):
     the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     return render_template("recipe_description.html", recipe=the_recipe)
     
-
-
 #Search screen for recipes will preload options for allergens and cuisines.
 @app.route('/search_recipes')
 def search_recipes():
