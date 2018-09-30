@@ -5,11 +5,11 @@
         <h4>{{recipe.recipe_name}}</h4>
         <span><i>- {{recipe.author}} - {{ recipe.servings }} servings </i> - <form class="material-icons" action="{{ url_for('upvote', recipe_id=recipe._id)}}" method="POST">
                 <button class="upvotesbtn" type="submit"><small><i>thumb_up</i></small></button></form>{{recipe.upvotes}} </span>
+        <br>
         
     </div>
 
     <div>
-        <p></p>
         <p>{{recipe.recipe_description}}</p>
         <br>
     </div>
@@ -29,6 +29,7 @@
         <div class="col-xs-6 col-md-3">
             <p>Cuisine: {{recipe.cuisine_name}}</p>
         </div>
+        <div><p>Uploaded by - {{recipe.username}}</p></div>
      </div>   
 
     <div class="paragraph-details">

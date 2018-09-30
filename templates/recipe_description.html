@@ -1,65 +1,67 @@
 {% extends 'base.html'%} {% block content %}
 <div class="container">
-<div>
-
-    <h4>{{recipe.recipe_name}}</h4>
-    <span><i>- {{recipe.author}} - {{ recipe.servings }} servings </i>- <form class="material-icons" action="{{ url_for('upvote', recipe_id=recipe._id)}}" method="POST">
+    <div>
+        <h4>{{recipe.recipe_name}}</h4>
+        <span><i>- {{recipe.author}} - {{ recipe.servings }} servings </i>- <form class="material-icons" action="{{ url_for('upvote', recipe_id=recipe._id)}}" method="POST">
     <button class="upvotesbtn" type="submit"><small><i>thumb_up</i></small></button></form>{{recipe.upvotes}}</span>
-<br>
-
-</div>
-
-<div>
-    <p></p>
-    <p>{{recipe.recipe_description}}</p>
-    <br>
-</div>
-<div class="inline-details">
-    <div class="col-xs-6 col-md-3 ">
-
-        <p>Prep: {{recipe.prep_time}} mins</p>
+        <br>
 
     </div>
-    <div class="col-xs-6 col-md-3">
-        <p>Cooking: {{recipe.cook_time}} mins</p>
+
+    <div>
+        
+        <p>{{recipe.recipe_description}}</p>
+        <br>
+    </div>
+    <div class="inline-details">
+        <div class="col-xs-6 col-md-3 ">
+
+            <p>Prep: {{recipe.prep_time}} mins</p>
+
+        </div>
+        <div class="col-xs-6 col-md-3">
+            <p>Cooking: {{recipe.cook_time}} mins</p>
+        </div>
+
+        <div class="col-xs-6 col-md-3">
+            <p>Country: {{recipe.country}}</p>
+        </div>
+        <div class="col-xs-6 col-md-3">
+            <p>Cuisine: {{recipe.cuisine_name}}</p>
+        </div>
+        <div>
+            <p>Uploaded by - {{recipe.username}}</p>
+        </div>
     </div>
 
-    <div class="col-xs-6 col-md-3">
-        <p>Country: {{recipe.country}}</p>
+    <div class="paragraph-details">
+
+        <h5>Ingredients</h5>
+        <p>{{recipe.ingredients}}</p>
+
     </div>
-    <div class="col-xs-6 col-md-3">
-        <p>Cuisine: {{recipe.cuisine_name}}</p>
+    <div class="paragraph-details">
+        <h5>Method</h5>
+        <p>{{recipe.method}}</p>
+
     </div>
-</div>
+    <div class="paragraph-details">
+        <h5>Allergens:</h5>
+        {% if allergen %}
+        <ul>{% for allergen in recipe.allergens %}
+            <li>{{allergen}}</li>{% endfor %}</ul>
+        {% else %}
+        <ul>
+            <li>No allergens reported</li>
+        </ul>
+        {% endif %}
+    </div>
 
-<div class="paragraph-details">
+    <div class="inline_actions edit-delete-btns">
 
-    <h5>Ingredients</h5>
-    <p>{{recipe.ingredients}}</p>
+        <a href="{{url_for('edit_recipe', recipe_id=recipe._id)}}" class="waves-effect waves-light btn btn_small blue">Edit</a>
 
-</div>
-<div class="paragraph-details">
-    <h5>Method</h5>
-    <p>{{recipe.method}}</p>
-
-</div>
-<div class="paragraph-details">
-    <h5>Allergens:</h5>
-    {% if allergen %}
-    <ul>{% for allergen in recipe.allergens %}
-        <li>{{allergen}}</li>{% endfor %}</ul>
-    {% else %}
-    <ul>
-        <li>No allergens reported</li>
-    </ul>
-    {% endif %}
-</div>
-
-<div class="inline_actions edit-delete-btns">
-
-    <a href="{{url_for('edit_recipe', recipe_id=recipe._id)}}" class="waves-effect waves-light btn btn_small blue">Edit</a>
-
-</div>
+    </div>
 
 </div>
 
