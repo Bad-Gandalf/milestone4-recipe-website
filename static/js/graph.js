@@ -75,11 +75,11 @@ const RecipeDBApi = function() {
    .dimension(country_dim)
    .group(upvotes);
 
- }
+ };
  
 this.recipes_in_cuisine = function(ndx) {
      var cuisine_dim = ndx.dimension(dc.pluck("cuisine_name"));
-     var recipes = cuisine_dim.group()
+     var recipes = cuisine_dim.group();
      
      dc.pieChart("#recipes_by_cuisine")
      .height(220)
@@ -87,7 +87,7 @@ this.recipes_in_cuisine = function(ndx) {
      .transitionDuration(1500)
      .dimension(cuisine_dim)
      .group(recipes);
- }
+ };
  
  this.most_occuring_countries = function(ndx) {
      

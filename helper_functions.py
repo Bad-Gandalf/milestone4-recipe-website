@@ -3,8 +3,6 @@ from flask_pymongo import PyMongo, pymongo
 import csv
 
 app = Flask(__name__)
-app.config["MONGO_DBNAME"] = 'pat_doc_recipedb'
-app.config["MONGO_URI"] = 'mongodb://admin:1Pfhr39Hdi4@ds119060.mlab.com:19060/pat_doc_recipedb'
 mongo = PyMongo(app)
 
 

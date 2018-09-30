@@ -47,9 +47,9 @@
     </div>
     <div class="paragraph-details">
         <h5>Allergens:</h5>
-        {% if allergen %}
+        {% if recipe.allergens %}
         <ul>{% for allergen in recipe.allergens %}
-            <li>{{allergen}}</li>{% endfor %}</ul>
+            <li>{{ allergen }}</li>{% endfor %}</ul>
         {% else %}
         <ul>
             <li>No allergens reported</li>
