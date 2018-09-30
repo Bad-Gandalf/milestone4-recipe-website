@@ -49,7 +49,6 @@ pickleshare==0.7.4
 prompt-toolkit==1.0.15
 ptyprocess==0.5.2
 pycurl==7.19.3
-pygobject==3.12.0
 pymongo==3.6.1
 pyparsing==2.2.0
 python-apt===0.9.3.5ubuntu2
