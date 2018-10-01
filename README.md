@@ -1,4 +1,4 @@
-# Code Institute - Milestone Project 4 - Recipe Manager
+# Code Institute - Milestone Project 4 - [Recipe Manager](https://recipe-booklet.herokuapp.com/)
 #### by Patrick Doherty
 
 The brief I was given for this project was the following:
@@ -119,9 +119,9 @@ I ran all my files through validators to check for errors.
 - Created new heroku app and set environment variables.
 - Pushed to heroku.
 - Linked pre-existing mongodb to new site, no installation necessary.
+- Website can be found [here](https://recipe-booklet.herokuapp.com/).
 
 ## Credits
-
 
 ### Acknowledgements
 - [BBC Recipes](https://www.bbc.com/food/recipes) for helping me fill the database with entries.
