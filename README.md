@@ -89,7 +89,7 @@ mongo in the future I may use MockDB to test create update and delete. Theses te
 they can be found in "/mysql/tests_mysql.py" In writing the unitttest I also used Postman to help me see what and how data needed to be sent to specific urls. The data I 
 passed through, I knew was on the database already, such as recipe id. 
 
-### Manual testing
+#### Manual testing
 
 When building helper functions I would have to check if they were producing the correct results and this involved alot of reloading pages as assertion tests were not 
 particularly suitable. I would also have to check the .csv files were being created properly and then adjust my functions to make it so. 
@@ -111,17 +111,18 @@ I ran all my files through validators to check for errors.
     - W3C for CSS.
     - W3C for HTML.
     - JS Hint for Javascript.
+    - [pep8online](http://pep8online.com) - for Python
 
 ## Deployment
 - Project was deployed to heroku with ease.
 - Created Procfile and requirements.txt
 - Created new heroku app and set environment variables.
-- Pushed to heroku. 
+- Pushed to heroku.
+- Linked pre-existing mongodb to new site, no installation necessary.
 
 ## Credits
 
-### Media
-
-
 
 ### Acknowledgements
+- [BBC Recipes](https://www.bbc.com/food/recipes) for helping me fill the database with entries.
+- The many chef's named in the recipes. 

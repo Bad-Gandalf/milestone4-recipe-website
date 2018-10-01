@@ -1,7 +1,7 @@
 from app import app
 import unittest
 from flask import Flask, session, url_for
-import env
+
 
 
 """These test should be run when the app is using mongodb as the database. 
