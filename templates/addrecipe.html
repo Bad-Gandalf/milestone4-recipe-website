@@ -1,6 +1,8 @@
 {% extends 'base.html'%} {% block content %}
 <div class="container">
 <h3>Add Recipe</h3>
+
+<!-- If there is a problem with the form submission it will show here -->
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul class=flashes>
@@ -17,14 +19,14 @@
             <div class="input-field col-xs-12">
                 <i class="material-icons prefix">assignment</i>
                 <input id="recipe_name" name="recipe_name" type="text" class="validate">
-                <label for="icon_prefix">Recipe Name</label>
+                <label for="recipe_name">Recipe Name</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">person</i>
                 <input id="author" name="author" type="text" class="validate">
-                <label for="icon_prefix">Author Name</label>
+                <label for="author">Author Name</label>
             </div>
         
         
@@ -32,26 +34,28 @@
             <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">person</i>
                 <input id="username" name="username" type="text" class="validate">
-                <label for="icon_prefix">Username</label>
+                <label for="username">Username</label>
             </div>
         
         
             <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">place</i>
                 <select id="country" name="country">
+                     <!-- Present a list of possible countries that are already in the database -->
                   <option value="" disabled selected>Choose Country</option>
                   {% for country in countries %}
                       <option value="{{country.country_name.title()}}" >{{country.country_name.title()}}</option>  
                      
                   {% endfor %}
                  </select>
-                <label for="icon_prefix">Country</label>
+                <label for="country">Country</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col-xs-12 col-md-6">
                 <i class="material-icons prefix">poll</i>
                 <select id="cuisine_name" name="cuisine_name">
+                    <!-- Present a list of possible cuisines that are already in the database -->
                   <option value="" disabled selected>Choose Cuisine</option>
                   {% for cuisine in cuisines %}
                   <option value="{{cuisine.cuisine_name}}">{{cuisine.cuisine_name}}</option>
@@ -64,6 +68,7 @@
             <div class="input-field col-xs-12 col-md-6">
                 <i class="material-icons prefix">warning</i>
                 <select multiple id="allergens" name="allergens">
+                    <!-- Present a list of possible allergens that are already in the database -->
                     <option value="" disabled selected>Choose Allergens</option>
                     {% for allergen in allergens %}
                     <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
@@ -75,7 +80,7 @@
         <div class="row">
             <div class="input-field col-xs-12">
                 <i class="material-icons prefix">description</i>
-                <input id="recipe_description" name="recipe_description" class="materialize-textarea" type="text"></textarea>
+                <input id="recipe_description" name="recipe_description" class="materialize-textarea" type="text">
                 <label for="recipe_description">Recipe Description</label>
             </div>
         </div>
@@ -109,7 +114,7 @@
             <div class="input-field col-xs-12">
                 <i class="material-icons prefix">shopping_basket</i>
                 <textarea id="ingredients" name="ingredients" class="materialize-textarea"></textarea>
-                <label for="icon_telephone">Ingredients</label>
+                <label for="ingredients">Ingredients</label>
             </div>
         </div>
 

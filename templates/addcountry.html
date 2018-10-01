@@ -1,5 +1,5 @@
 {% extends 'base.html'%} {% block content %}
-<div class="container"></div>
+<div class="container">
 <h3>Add Country</h3>
 <div class="row">
     <form action="{{url_for('insert_country')}}" method="POST" class="col s12">
@@ -7,7 +7,7 @@
             <div class="input-field col s12">
                 <i class="material-icons prefix">place</i>
                 <input id="country" name="country" type="text" class="validate">
-                <label for="icon_prefix">Country Name</label>
+                <label for="country">Country Name</label>
             </div>
         </div>
          

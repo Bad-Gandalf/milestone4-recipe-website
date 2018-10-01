@@ -7,28 +7,28 @@
             <div class="input-field col-xs-12">
                 <i class="material-icons prefix">assignment</i>
                 <input id="recipe_name" name="recipe_name" type="text" class="validate" value="{{recipe.recipe_name}}">
-                <label for="icon_prefix">Recipe Name</label>
+                <label for="recipe_name">Recipe Name</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">person</i>
                 <input id="author" name="author" type="text" class="validate" value="{{recipe.author}}">
-                <label for="icon_prefix">Author Name</label>
+                <label for="author">Author Name</label>
             </div>
 
 
             <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">person</i>
                 <input id="username" name="username" type="text" class="validate" value="{{recipe.username}}">
-                <label for="icon_prefix">Username</label>
+                <label for="username">Username</label>
             </div>
 
 
             <div class="input-field col-xs-12 col-md-4">
                 <i class="material-icons prefix">place</i>
                 <select id="country" name="country">
-                  <option value="" disabled selected>Choose Country</option>
+                  <option value="" disabled>Choose Country</option>
                   {% for country in countries %}
                       {% if country.country_name == recipe.country %}
                           <option value="{{country.country_name.title()}}" selected>{{country.country_name.title()}}</option>
@@ -37,14 +37,14 @@
                       {% endif %}
                   {% endfor %}
                  </select>
-                <label for="icon_prefix">Country</label>
+                <label for="country">Country</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col-xs-12 col-md-6">
                 <i class="material-icons prefix">poll</i>
                 <select id="cuisine_name" name="cuisine_name">
-                  <option value="" disabled selected>Choose Cuisine</option>
+                  <option value="" disabled>Choose Cuisine</option>
                   {% for cuisine in cuisines %}
                       {% if cuisine.cuisine_name == recipe.cuisine_name %}
                           <option value="{{cuisine.cuisine_name}}" selected>{{cuisine.cuisine_name}}</option>
@@ -61,7 +61,7 @@
                 <i class="material-icons prefix">warning</i>
                 <select multiple id="allergens" name="allergens">
                     {% for allergen in recipe.allergens %}
-                        <option value="{{allergen}}" selected>{{allergen}}</option>
+                        <option value="{{allergen}}" selected >{{allergen}}</option>
                     {% endfor %}
                     {% for allergen in allergens %}
                         <option value="{{allergen["allergen_name"]}}">{{allergen["allergen_name"]}}</option>
@@ -99,7 +99,7 @@
         <div class="row">
             <div class="input-field col-xs-12">
                 <i class="material-icons prefix">text_fields</i>
-                <textarea id="method" name="method" class="materialize-textarea" type="text">{{recipe.method}}</textarea>
+                <textarea id="method" name="method" class="materialize-textarea">{{recipe.method}}</textarea>
                 <label for="method">Method</label>
             </div>
         </div>
@@ -107,8 +107,8 @@
         <div class="row">
             <div class="input-field col-xs-12">
                 <i class="material-icons prefix">shopping_basket</i>
-                <textarea type="text" id="ingredients" name="ingredients" class="materialize-textarea">{{recipe.ingredients}}</textarea>
-                <label for="icon_telephone">Ingredients</label>
+                <textarea id="ingredients" name="ingredients" class="materialize-textarea">{{recipe.ingredients}}</textarea>
+                <label for="ingredients">Ingredients</label>
             </div>
         </div>
 

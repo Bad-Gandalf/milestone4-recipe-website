@@ -3,7 +3,7 @@ from helper_functions import *
 from flask import render_template, redirect, url_for, flash
 from flask_paginate import Pagination
 from bson.objectid import ObjectId
-#import env # for development only
+
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = os.environ.get("DATABASE")
@@ -260,7 +260,6 @@ def upvote(recipe_id):
 #Create a csv file from data in db and display in charts
 @app.route('/display_stats')
 def display_stats():
-    total_recipes=0
     cursor= mongo.db.recipes.find({}, {'_id':0,"username":1, "recipe_name":1, "author":1, "prep_time":1, "cook_time":1, "upvotes": 1, "cuisine_name":1, "country":1})
     total_recipes = cursor.count()
     write_to_csv(data_file, cursor)

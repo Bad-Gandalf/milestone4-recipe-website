@@ -1,6 +1,7 @@
 {% extends 'base.html'%} {% block content %}
 <div class="container">
 <h3>Cuisines</h3>
+<!-- Users can add a cuisine that is not already on the database -->
 <div class="row">
     <a href="{{url_for('add_cuisine')}}" class="waves-effect waves-light btn btn_small">Add Cuisine
                 <i class="material-icons right">playlist_add</i>
@@ -19,13 +20,14 @@
                 <strong>{{cuisine.cuisine_name}}</strong>
             </div>
         </div>
+        <!-- Collapsible body show cuisine description, no need for a full page to describe one cuisine -->
         <div class="collapsible-body">
             <div class="cuisine-description">
                 {{cuisine.cuisine_description}}
 
             </div>
 
-
+<!-- If user wishes to edit or delete a cuisine they are given these options in a dropdown panel -->
             <div class="inline_actions update-del-btns">
                 <a href="{{url_for('delete_cuisine', cuisine_id=cuisine._id)}}" class="waves-effect waves-light btn delete-button btn_small">Delete</a>
                 <a href="{{url_for('edit_cuisine', cuisine_id=cuisine._id)}}" class="waves-effect waves-light btn btn_small blue">Edit</a>

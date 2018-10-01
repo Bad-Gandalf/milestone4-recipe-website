@@ -1,5 +1,6 @@
 {% extends 'base.html'%} {% block content %}
 <div class="container">
+    <!-- Users can add a country that is not already on the database -->
 <h3>Countries</h3>
 <div class="row">
     <a href="{{url_for('add_country')}}" class="waves-effect waves-light btn btn_small">Add Country
@@ -18,8 +19,10 @@
                 <strong>{{country.country_name.title()}}</strong>
             </div>
         </div>
+        <!-- Collapsible body shows description, no need for a full page to describe one country -->
             <div class="collapsible-body">
                 <div class="update-del-btns">
+                    <!-- If user wishes to edit or delete a country they are given these options in a dropdown panel -->
                 <div class="inline_actions">
                     <a href="{{url_for('delete_country', country_id=country._id)}}" class="waves-effect waves-light btn delete-button btn_small">Delete</a>
                     <a href="{{url_for('edit_country', country_id=country._id)}}" class="waves-effect waves-light btn btn_small blue">Edit</a>

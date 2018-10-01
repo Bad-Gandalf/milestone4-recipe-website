@@ -7,7 +7,7 @@
             <div class="input-field col-xs-8">
                 <i class="material-icons prefix">assignment</i>
                 <input id="recipe_name" name="recipe_name" type="text" class="validate">
-                <label for="icon_prefix">Recipe</label>
+                <label for="recipe_name">Recipe</label>
             </div>
         
         <div class="col-xs-4">
@@ -22,7 +22,7 @@
             <div class="input-field col-xs-8">
                 <i class="material-icons prefix">assignment</i>
                 <input id="ingredient_name" name="ingredient_name" type="text" class="validate">
-                <label for="icon_prefix">Ingredient</label>
+                <label for="ingredient_name">Ingredient</label>
             </div>
         
         <div class="col-xs-4">
@@ -37,7 +37,6 @@
             <div class="input-field col-xs-8">
                 <i class="material-icons prefix">poll</i>
                 <select id="cuisine_name" name="cuisine_name">
-                  <option value="" disabled selected></option>
                   {% for cuisine in cuisines %}
                   <option value="{{cuisine.cuisine_name}}">{{cuisine.cuisine_name}}</option>
                   {% endfor %}
@@ -57,7 +56,6 @@
             <div class="input-field col-xs-8">
                 <i class="material-icons prefix">warning</i>
                 <select id="allergens" name="allergens">
-                    <option value="" disabled selected></option>
                     {% for allergen in allergens %}
                     <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
                     {% endfor %}
@@ -75,7 +73,7 @@
 
 
 
-    </form>
+    
 </div>
 </div>
 {% endblock %}

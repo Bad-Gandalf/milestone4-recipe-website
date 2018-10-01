@@ -2,6 +2,7 @@
 <div class="container">
 <h3>Allergens</h3>
 <div class="row">
+    <!-- Users can add an allergen that is not already on the database -->
     <a href="{{url_for('add_allergen')}}" class="waves-effect waves-light btn btn_small">Add Allergen
                 <i class="material-icons right">playlist_add</i>
                 </a>
@@ -18,12 +19,12 @@
                 <strong>{{allergen.allergen_name}}</strong>
             </div>
         </div>
-
+<!-- Collapsible body show allergen description, no need for a full page to describe one allergen -->
         <div class="collapsible-body">
             <div class="cuisine-description">
                 {{allergen.allergen_description}}
             </div>
-
+<!-- If user wishes to edit or delete an allergen they are given these options in a dropdown panel -->
             <div class="inline_actions update-del-btns">
                 <a href="{{url_for('delete_allergen', allergen_id=allergen._id)}}" class="waves-effect waves-light btn btn_small delete-button">Delete</a>
                 <a href="{{url_for('edit_allergen', allergen_id=allergen._id)}}" class="waves-effect waves-light btn btn_small blue">Edit</a>
@@ -32,6 +33,7 @@
 </li>
         {% endfor %}
 </ul>
+<!-- Pagination info will be displayed at the bottom of the page -->
 {{ pagination.info }} {{ pagination.links }} 
 </div>
 {% endblock %}
