@@ -1,31 +1,48 @@
+/* Adjust the styling on the panel in each list of recipes, cuisines etc */
 .task_header {
     padding-left: 20px;
     min-width: 50%;
 
 }
-
-.searchbtn {
+/* Styling for various different buttons around the site */
+.search-btn {
     padding-left:10px;
     padding-right: 10px;
 }
 
-.upvote-count {
-    float:right;
-}
-
-
+/* Styling for upvoting button */
 .upvotesbtn {
     border:0;
     background:none;
     text-align:right;
     padding-right: 0;
-    
 }
 
 .upvotesbtn i {
    margin-right:5px; 
 }
 
+.upvote-count {
+    float:right;
+}
+
+.edit-delete-btns {
+    text-align: center;
+    margin: 20px;
+}
+
+.delete-button {
+    text-decoration: none;
+    color: #fff;
+    background-color: #ee6e73;
+    text-align: center;
+    letter-spacing: .5px;
+}
+.update-del-btns{
+    text-align: center;
+}
+
+/* Styling for the charts in the statistics page */ 
 
 .chart-wrapper {
     overflow: auto;
@@ -58,75 +75,43 @@
     width: 50px;
 
 }
-
-.heading {
+/* Styling for the heading of the statistics page */
+.stats-heading {
     text-align: center;
 }
 
 .chart-description {
     text-align: center;
 }
-.dc-chart {
-    float:None;
-}
-.col-xs-3 {
+
+/* Styling for small amounts of data in recipe description such as cook time etc */
+.no-side-padding {
     padding-left:0;
     padding-right:0;
 }
 
-.col-xs-6 {
-    padding-left:0;
-    padding-right:0;
+.inline-details {
+    padding-bottom: 40px;
 }
 
-.recipe-border {
-    border: solid #bbb7b7 2px;
-    margin-top: 10px;
-    border-radius: 10px;
-}
-.recipe-hr {
-    border-top: 1px solid #bbb7b7; 
-    margin-top: 0px;
-    
+/* Styling required for recipe description of large amounts of text such as method */
+.paragraph-details {
+    margin-top: 30px;
+    margin-bottom:30px;
 }
 
-.recipe-detail-container {
-   border: solid #bbb7b7 2px; 
-   border-radius: 10px;
-}
+/* Styling for icons used across the site*/
 .material-icons {
     margin-top:0px;
     margin-left:0px;
 }
 
-.inline-details {
-    padding-bottom: 40px;
-
-}
-.paragraph-details {
-    margin-top: 30px;
-    margin-bottom:30px;
-}
-.edit-delete-btns {
-    text-align: center;
-    margin: 20px;
-}
-
-.delete-button {
-    text-decoration: none;
-    color: #fff;
-    background-color: #ee6e73;
-    text-align: center;
-    letter-spacing: .5px;
-}
-.update-del-btns{
-    text-align: center;
-}
-
+/* Styling for drop down description of cuisine, when cuisine list is displayed */
 .cuisine-description {
     margin-bottom: 30px;
 }
 
+/* Container for statistics page is different than anyother page.*/
 .container-stats {
     width:90%;
     margin: auto;
