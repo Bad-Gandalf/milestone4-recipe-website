@@ -3,7 +3,7 @@ from helper_functions import *
 from flask import render_template, redirect, url_for, flash
 from flask_paginate import Pagination
 from bson.objectid import ObjectId
-import env # for development only
+#import env # for development only
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = os.environ.get("DATABASE")
