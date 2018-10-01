@@ -260,10 +260,12 @@ def upvote(recipe_id):
 #Create a csv file from data in db and display in charts
 @app.route('/display_stats')
 def display_stats():
+    total_recipes=0
     cursor= mongo.db.recipes.find({}, {'_id':0,"username":1, "recipe_name":1, "author":1, "prep_time":1, "cook_time":1, "upvotes": 1, "cuisine_name":1, "country":1})
+    total_recipes = cursor.count()
     write_to_csv(data_file, cursor)
     write_allergens_csv_mongo(get_allergens_data(), allergen_data_file)
-    return render_template("statistics.html")
+    return render_template("statistics.html", total_recipes=total_recipes)
 
 app.secret_key = os.environ.get('SECRET_KEY')  
 
