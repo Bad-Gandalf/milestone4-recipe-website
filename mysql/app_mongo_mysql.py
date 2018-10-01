@@ -1,5 +1,5 @@
-from helper_mongo import *
-from mysql_from_python import *
+from helper_functions import *
+from mysql_helper_functions import *
 from flask import render_template, redirect, url_for, flash
 from flask_paginate import Pagination
 from bson.objectid import ObjectId
