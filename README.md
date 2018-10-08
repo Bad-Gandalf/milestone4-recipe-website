@@ -40,6 +40,8 @@ My MongoDB database consists of 4 collections, one for each of the following:
 The recipes collection will contain all information needed for one recipe including cuisines, countries and allergens.
 The three other collections will provide options to select when a user is creating a new recipe, to give uniformity to the site. 
 
+As for the mysql database I created, a diagram of the schema can be found [here](../mysql/er_diagrams_recipes.png)
+
 ## Features
 
 ### Existing Features
@@ -108,10 +110,10 @@ iPad, iPad Pro, Google Pixel 2 and Galaxy S5. I am very happy with how my projec
 
 #### Code Validation
 I ran all my files through validators to check for errors.
-    - W3C for CSS.
-    - W3C for HTML.
-    - JS Hint for Javascript.
-    - [pep8online](http://pep8online.com) - for Python
+- W3C for CSS.
+- W3C for HTML.
+- JS Hint for Javascript.
+- [pep8online](http://pep8online.com) - for Python
 
 ## Deployment
 - Project was deployed to heroku with ease.
