@@ -116,3 +116,13 @@
     width:90%;
     margin: auto;
 }
+
+/* Div for paragraph explaining use of page.*/
+.page-explainer {
+    padding-bottom: 10px;
+}
+
+/* Div for author of recipe */
+.recipe-author {
+    padding-bottom: 10px;
+}

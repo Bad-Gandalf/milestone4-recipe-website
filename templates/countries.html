@@ -1,41 +1,44 @@
 {% extends 'base.html'%} {% block content %}
 <div class="container">
     <!-- Users can add a country that is not already on the database -->
-<h3>Countries</h3>
-<div class="row">
+    <h3>Countries</h3>
+
+    <div class="page-explainer">
+        <p>All countries should be listed here, if we're missing one and you would like to add it, please do so below.</p>
+    </div>
+
     <a href="{{url_for('add_country')}}" class="waves-effect waves-light btn btn_small">Add Country
                 <i class="material-icons right">playlist_add</i>
                 </a>
 
-</div>
-<ul class="collapsible" data-collapsible="accordion">
-    {% for country in countries %}
-    <li>
-        <div class="collapsible-header">
-            <div class="col-xs-1">
-                <i class="material-icons">place</i>
+
+    <ul class="collapsible" data-collapsible="accordion">
+        {% for country in countries %}
+        <li>
+            <div class="collapsible-header">
+                <div class="col-xs-1">
+                    <i class="material-icons">place</i>
+                </div>
+                <div class="task_header col-xs-11">
+                    <strong>{{country.country_name.title()}}</strong>
+                </div>
             </div>
-            <div class="task_header col-xs-11">
-                <strong>{{country.country_name.title()}}</strong>
-            </div>
-        </div>
-        <!-- Collapsible body shows description, no need for a full page to describe one country -->
+            <!-- Collapsible body shows description, no need for a full page to describe one country -->
             <div class="collapsible-body">
                 <div class="update-del-btns">
                     <!-- If user wishes to edit or delete a country they are given these options in a dropdown panel -->
-                <div class="inline_actions">
-                    <a href="{{url_for('delete_country', country_id=country._id)}}" class="waves-effect waves-light btn delete-button btn_small">Delete</a>
-                    <a href="{{url_for('edit_country', country_id=country._id)}}" class="waves-effect waves-light btn btn_small blue">Edit</a>
+                    <div class="inline_actions">
+                        <a href="{{url_for('delete_country', country_id=country._id)}}" class="waves-effect waves-light btn delete-button btn_small">Delete</a>
+                        <a href="{{url_for('edit_country', country_id=country._id)}}" class="waves-effect waves-light btn btn_small blue">Edit</a>
+                    </div>
                 </div>
             </div>
-            </div>
-            
-        
-        
-        
+
+
+
+
             <br> {% endfor %}
-</ul>
-{{ pagination.info }}
-{{ pagination.links }}
+    </ul>
+    {{ pagination.info }} {{ pagination.links }}
 </div>
 {% endblock %}

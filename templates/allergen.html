@@ -1,39 +1,43 @@
 {% extends 'base.html'%} {% block content %}
 <div class="container">
-<h3>Allergens</h3>
-<div class="row">
+    <h3>Allergens</h3>
+    <div class="page-explainer">
+        <p>The app's allergens are all listed here, if you cannot find one, you may add it below. </p>
+    </div>
+
+
     <!-- Users can add an allergen that is not already on the database -->
     <a href="{{url_for('add_allergen')}}" class="waves-effect waves-light btn btn_small">Add Allergen
                 <i class="material-icons right">playlist_add</i>
                 </a>
 
-</div>
-<ul class="collapsible" data-collapsible="accordion">
-    {% for allergen in allergens %}
-    <li>
-        <div class="collapsible-header">
-            <div class="col-xs-1">
-                <i class="material-icons">expand_more</i>
+
+    <ul class="collapsible" data-collapsible="accordion">
+        {% for allergen in allergens %}
+        <li>
+            <div class="collapsible-header">
+                <div class="col-xs-1">
+                    <i class="material-icons">expand_more</i>
+                </div>
+                <div class="task_header col-xs-11">
+                    <strong>{{allergen.allergen_name}}</strong>
+                </div>
             </div>
-            <div class="task_header col-xs-11">
-                <strong>{{allergen.allergen_name}}</strong>
+            <!-- Collapsible body show allergen description, no need for a full page to describe one allergen -->
+            <div class="collapsible-body">
+                <div class="cuisine-description">
+                    {{allergen.allergen_description}}
+                </div>
+                <!-- If user wishes to edit or delete an allergen they are given these options in a dropdown panel -->
+                <div class="inline_actions update-del-btns">
+                    <a href="{{url_for('delete_allergen', allergen_id=allergen._id)}}" class="waves-effect waves-light btn btn_small delete-button">Delete</a>
+                    <a href="{{url_for('edit_allergen', allergen_id=allergen._id)}}" class="waves-effect waves-light btn btn_small blue">Edit</a>
+                </div>
             </div>
-        </div>
-<!-- Collapsible body show allergen description, no need for a full page to describe one allergen -->
-        <div class="collapsible-body">
-            <div class="cuisine-description">
-                {{allergen.allergen_description}}
-            </div>
-<!-- If user wishes to edit or delete an allergen they are given these options in a dropdown panel -->
-            <div class="inline_actions update-del-btns">
-                <a href="{{url_for('delete_allergen', allergen_id=allergen._id)}}" class="waves-effect waves-light btn btn_small delete-button">Delete</a>
-                <a href="{{url_for('edit_allergen', allergen_id=allergen._id)}}" class="waves-effect waves-light btn btn_small blue">Edit</a>
-            </div>
-        </div>
-</li>
+        </li>
         {% endfor %}
-</ul>
-<!-- Pagination info will be displayed at the bottom of the page -->
-{{ pagination.info }} {{ pagination.links }} 
+    </ul>
+    <!-- Pagination info will be displayed at the bottom of the page -->
+    {{ pagination.info }} {{ pagination.links }}
 </div>
 {% endblock %}

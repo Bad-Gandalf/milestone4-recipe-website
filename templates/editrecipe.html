@@ -1,33 +1,36 @@
 {% extends 'base.html'%} {% block content %}
 <div class="container">
-<h3>Edit Recipe</h3>
-<div class="row">
-    <form action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST" class="col s12">
-        <div class="row">
-            <div class="input-field col-xs-12">
-                <i class="material-icons prefix">assignment</i>
-                <input id="recipe_name" name="recipe_name" type="text" class="validate" value="{{recipe.recipe_name}}">
-                <label for="recipe_name">Recipe Name</label>
+    <h3>Edit Recipe</h3>
+    <div class="page-explainer">
+        <p>If you cannot find the correct allergen, cuisine, or country you can add them yourself by following the links in the navigation bar above.</p>
+    </div>
+    <div class="row">
+        <form action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST" class="col s12">
+            <div class="row">
+                <div class="input-field col-xs-12">
+                    <i class="material-icons prefix">assignment</i>
+                    <input id="recipe_name" name="recipe_name" type="text" class="validate" value="{{recipe.recipe_name}}">
+                    <label for="recipe_name">Recipe Name</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col-xs-12 col-md-4">
-                <i class="material-icons prefix">person</i>
-                <input id="author" name="author" type="text" class="validate" value="{{recipe.author}}">
-                <label for="author">Author Name</label>
-            </div>
+            <div class="row">
+                <div class="input-field col-xs-12 col-md-4">
+                    <i class="material-icons prefix">person</i>
+                    <input id="author" name="author" type="text" class="validate" value="{{recipe.author}}">
+                    <label for="author">Author Name</label>
+                </div>
 
 
-            <div class="input-field col-xs-12 col-md-4">
-                <i class="material-icons prefix">person</i>
-                <input id="username" name="username" type="text" class="validate" value="{{recipe.username}}">
-                <label for="username">Username</label>
-            </div>
+                <div class="input-field col-xs-12 col-md-4">
+                    <i class="material-icons prefix">person</i>
+                    <input id="username" name="username" type="text" class="validate" value="{{recipe.username}}">
+                    <label for="username">Username</label>
+                </div>
 
 
-            <div class="input-field col-xs-12 col-md-4">
-                <i class="material-icons prefix">place</i>
-                <select id="country" name="country">
+                <div class="input-field col-xs-12 col-md-4">
+                    <i class="material-icons prefix">place</i>
+                    <select id="country" name="country">
                   <option value="" disabled>Choose Country</option>
                   {% for country in countries %}
                       {% if country.country_name == recipe.country %}
@@ -37,13 +40,13 @@
                       {% endif %}
                   {% endfor %}
                  </select>
-                <label for="country">Country</label>
+                    <label for="country">Country</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col-xs-12 col-md-6">
-                <i class="material-icons prefix">poll</i>
-                <select id="cuisine_name" name="cuisine_name">
+            <div class="row">
+                <div class="input-field col-xs-12 col-md-6">
+                    <i class="material-icons prefix">poll</i>
+                    <select id="cuisine_name" name="cuisine_name">
                   <option value="" disabled>Choose Cuisine</option>
                   {% for cuisine in cuisines %}
                       {% if cuisine.cuisine_name == recipe.cuisine_name %}
@@ -53,13 +56,13 @@
                       {% endif %}
                   {% endfor %}
                  </select>
-                <label>Cuisine</label>
-            </div>
+                    <label>Cuisine</label>
+                </div>
 
 
-            <div class="input-field col-xs-12 col-md-6">
-                <i class="material-icons prefix">warning</i>
-                <select multiple id="allergens" name="allergens">
+                <div class="input-field col-xs-12 col-md-6">
+                    <i class="material-icons prefix">warning</i>
+                    <select multiple id="allergens" name="allergens">
                     {% for allergen in recipe.allergens %}
                         <option value="{{allergen}}" selected >{{allergen}}</option>
                     {% endfor %}
@@ -67,64 +70,64 @@
                         <option value="{{allergen["allergen_name"]}}">{{allergen["allergen_name"]}}</option>
                     {% endfor %}
                 </select>
-                <label for="allergens">Allergens</label>
+                    <label for="allergens">Allergens</label>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="input-field col-xs-12">
+                    <i class="material-icons prefix">description</i>
+                    <input id="recipe_description" name="recipe_description" class="materialize-textarea" type="text" value="{{recipe.recipe_description}}">
+                    <label for="recipe_description">Recipe Description</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col-xs-12 col-md-4">
+
+                    <i class="material-icons prefix">access_time</i>
+                    <input id="prep_time" name="prep_time" type="number" value="{{recipe.prep_time}}">
+                    <label for="prep_time">Preparation time (mins):</label>
+                </div>
+                <div class="input-field col-xs-12 col-md-4">
+                    <i class="material-icons prefix">access_time</i>
+                    <input id="cook_time" name="cook_time" type="number" value="{{recipe.cook_time}}">
+                    <label for="cook_time">Cooking time (mins):</label>
+                </div>
+                <div class="input-field col-xs-12 col-md-4">
+                    <i class="material-icons prefix">people</i>
+                    <input id="servings" name="servings" type="number" value="{{recipe.servings}}">
+                    <label for="servings">Servings:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col-xs-12">
+                    <i class="material-icons prefix">text_fields</i>
+                    <textarea id="method" name="method" class="materialize-textarea">{{recipe.method}}</textarea>
+                    <label for="method">Method</label>
+                </div>
             </div>
 
-        </div>
-        <div class="row">
-            <div class="input-field col-xs-12">
-                <i class="material-icons prefix">description</i>
-                <input id="recipe_description" name="recipe_description" class="materialize-textarea" type="text" value="{{recipe.recipe_description}}">
-                <label for="recipe_description">Recipe Description</label>
+            <div class="row">
+                <div class="input-field col-xs-12">
+                    <i class="material-icons prefix">shopping_basket</i>
+                    <textarea id="ingredients" name="ingredients" class="materialize-textarea">{{recipe.ingredients}}</textarea>
+                    <label for="ingredients">Ingredients</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col-xs-12 col-md-4">
-
-                <i class="material-icons prefix">access_time</i>
-                <input id="prep_time" name="prep_time" type="number" value="{{recipe.prep_time}}">
-                <label for="prep_time">Preparation time (mins):</label>
-            </div>
-            <div class="input-field col-xs-12 col-md-4">
-                <i class="material-icons prefix">access_time</i>
-                <input id="cook_time" name="cook_time" type="number" value="{{recipe.cook_time}}">
-                <label for="cook_time">Cooking time (mins):</label>
-            </div>
-            <div class="input-field col-xs-12 col-md-4">
-                <i class="material-icons prefix">people</i>
-                <input id="servings" name="servings" type="number" value="{{recipe.servings}}">
-                <label for="servings">Servings:</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col-xs-12">
-                <i class="material-icons prefix">text_fields</i>
-                <textarea id="method" name="method" class="materialize-textarea">{{recipe.method}}</textarea>
-                <label for="method">Method</label>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field col-xs-12">
-                <i class="material-icons prefix">shopping_basket</i>
-                <textarea id="ingredients" name="ingredients" class="materialize-textarea">{{recipe.ingredients}}</textarea>
-                <label for="ingredients">Ingredients</label>
-            </div>
-        </div>
 
 
 
-        <div class="row update-del-btns">
-            <p>All fields must be filled.</p>
-            <button class="btn waves-effect waves-light" type="submit">Update
+            <div class="row update-del-btns">
+                <p>All fields must be filled.</p>
+                <button class="btn waves-effect waves-light" type="submit">Update
                 <i class="material-icons right">playlist_add</i>
             </button>
-            <a href="{{url_for('delete_recipe', recipe_id=recipe._id)}}" class="waves-effect danger btn delete-button btn_small">Delete</a>
-            
-        </div>
-    </form>
-    
-    
-</div>
+                <a href="{{url_for('delete_recipe', recipe_id=recipe._id)}}" class="waves-effect danger btn delete-button btn_small">Delete</a>
+
+            </div>
+        </form>
+
+
+    </div>
 </div>
 {% endblock %}

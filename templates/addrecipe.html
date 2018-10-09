@@ -1,46 +1,46 @@
 {% extends 'base.html'%} {% block content %}
 <div class="container">
-<h3>Add Recipe</h3>
+    <h3>Add Recipe</h3>
+    <div class="page-explainer">
+        <p>If you cannot find the correct allergen, cuisine, or country you can add them yourself by following the links in the navigation bar above.</p>
+    </div>
 
-<!-- If there is a problem with the form submission it will show here -->
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
+    <!-- If there is a problem with the form submission it will show here -->
+    {% with messages = get_flashed_messages() %} {% if messages %}
     <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
     </ul>
-  {% endif %}
-{% endwith %}
-{% block body %}{% endblock %}
-<div class="row">
-    <form action="{{url_for('insert_recipe', allergens_id=allergens.id)}}" method="POST" class="col s12">
-        <div class="row">
-            <div class="input-field col-xs-12">
-                <i class="material-icons prefix">assignment</i>
-                <input id="recipe_name" name="recipe_name" type="text" class="validate">
-                <label for="recipe_name">Recipe Name</label>
+    {% endif %} {% endwith %} {% block body %}{% endblock %}
+    <div class="row">
+        <form action="{{url_for('insert_recipe', allergens_id=allergens.id)}}" method="POST" class="col s12">
+            <div class="row">
+                <div class="input-field col-xs-12">
+                    <i class="material-icons prefix">assignment</i>
+                    <input id="recipe_name" name="recipe_name" type="text" class="validate">
+                    <label for="recipe_name">Recipe Name</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col-xs-12 col-md-4">
-                <i class="material-icons prefix">person</i>
-                <input id="author" name="author" type="text" class="validate">
-                <label for="author">Author Name</label>
-            </div>
-        
-        
-            
-            <div class="input-field col-xs-12 col-md-4">
-                <i class="material-icons prefix">person</i>
-                <input id="username" name="username" type="text" class="validate">
-                <label for="username">Username</label>
-            </div>
-        
-        
-            <div class="input-field col-xs-12 col-md-4">
-                <i class="material-icons prefix">place</i>
-                <select id="country" name="country">
+            <div class="row">
+                <div class="input-field col-xs-12 col-md-4">
+                    <i class="material-icons prefix">person</i>
+                    <input id="author" name="author" type="text" class="validate">
+                    <label for="author">Author Name</label>
+                </div>
+
+
+
+                <div class="input-field col-xs-12 col-md-4">
+                    <i class="material-icons prefix">person</i>
+                    <input id="username" name="username" type="text" class="validate">
+                    <label for="username">Username</label>
+                </div>
+
+
+                <div class="input-field col-xs-12 col-md-4">
+                    <i class="material-icons prefix">place</i>
+                    <select id="country" name="country">
                      <!-- Present a list of possible countries that are already in the database -->
                   <option value="" disabled selected>Choose Country</option>
                   {% for country in countries %}
@@ -48,86 +48,86 @@
                      
                   {% endfor %}
                  </select>
-                <label for="country">Country</label>
+                    <label for="country">Country</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col-xs-12 col-md-6">
-                <i class="material-icons prefix">poll</i>
-                <select id="cuisine_name" name="cuisine_name">
+            <div class="row">
+                <div class="input-field col-xs-12 col-md-6">
+                    <i class="material-icons prefix">poll</i>
+                    <select id="cuisine_name" name="cuisine_name">
                     <!-- Present a list of possible cuisines that are already in the database -->
                   <option value="" disabled selected>Choose Cuisine</option>
                   {% for cuisine in cuisines %}
                   <option value="{{cuisine.cuisine_name}}">{{cuisine.cuisine_name}}</option>
                   {% endfor %}
                  </select>
-                <label>Cuisine</label>
-            </div>
-        
+                    <label>Cuisine</label>
+                </div>
 
-            <div class="input-field col-xs-12 col-md-6">
-                <i class="material-icons prefix">warning</i>
-                <select multiple id="allergens" name="allergens">
+
+                <div class="input-field col-xs-12 col-md-6">
+                    <i class="material-icons prefix">warning</i>
+                    <select multiple id="allergens" name="allergens">
                     <!-- Present a list of possible allergens that are already in the database -->
                     <option value="" disabled selected>Choose Allergens</option>
                     {% for allergen in allergens %}
                     <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
                     {% endfor %}
                 </select>
-                <label for="allergens">Allergens</label>
+                    <label for="allergens">Allergens</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col-xs-12">
-                <i class="material-icons prefix">description</i>
-                <input id="recipe_description" name="recipe_description" class="materialize-textarea" type="text">
-                <label for="recipe_description">Recipe Description</label>
+            <div class="row">
+                <div class="input-field col-xs-12">
+                    <i class="material-icons prefix">description</i>
+                    <input id="recipe_description" name="recipe_description" class="materialize-textarea" type="text">
+                    <label for="recipe_description">Recipe Description</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col-xs-12 col-md-4">
+            <div class="row">
+                <div class="input-field col-xs-12 col-md-4">
 
-                <i class="material-icons prefix">access_time</i>
-                <input id="prep_time" name="prep_time" type="number">
-                <label for="prep_time">Preparation time (mins):</label>
+                    <i class="material-icons prefix">access_time</i>
+                    <input id="prep_time" name="prep_time" type="number">
+                    <label for="prep_time">Preparation time (mins):</label>
+                </div>
+                <div class="input-field col-xs-12 col-md-4">
+                    <i class="material-icons prefix">access_time</i>
+                    <input id="cook_time" name="cook_time" type="number">
+                    <label for="cook_time">Cooking time (mins):</label>
+                </div>
+                <div class="input-field col-xs-12 col-md-4">
+                    <i class="material-icons prefix">people</i>
+                    <input id="servings" name="servings" type="number">
+                    <label for="servings">Servings:</label>
+                </div>
             </div>
-            <div class="input-field col-xs-12 col-md-4">
-                <i class="material-icons prefix">access_time</i>
-                <input id="cook_time" name="cook_time" type="number">
-                <label for="cook_time">Cooking time (mins):</label>
+            <div class="row">
+                <div class="input-field col-xs-12">
+                    <i class="material-icons prefix">text_fields</i>
+                    <textarea id="method" name="method" class="materialize-textarea"></textarea>
+                    <label for="method">Method</label>
+                </div>
             </div>
-            <div class="input-field col-xs-12 col-md-4">
-                <i class="material-icons prefix">people</i>
-                <input id="servings" name="servings" type="number">
-                <label for="servings">Servings:</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col-xs-12">
-                <i class="material-icons prefix">text_fields</i>
-                <textarea id="method" name="method" class="materialize-textarea"></textarea>
-                <label for="method">Method</label>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="input-field col-xs-12">
-                <i class="material-icons prefix">shopping_basket</i>
-                <textarea id="ingredients" name="ingredients" class="materialize-textarea"></textarea>
-                <label for="ingredients">Ingredients</label>
+            <div class="row">
+                <div class="input-field col-xs-12">
+                    <i class="material-icons prefix">shopping_basket</i>
+                    <textarea id="ingredients" name="ingredients" class="materialize-textarea"></textarea>
+                    <label for="ingredients">Ingredients</label>
+                </div>
             </div>
-        </div>
 
-        
 
-        <div class="row update-del-btns" >
-            <button class="btn waves-effect waves-light" type="submit">Add Recipe
+
+            <div class="row update-del-btns">
+                <button class="btn waves-effect waves-light" type="submit">Add Recipe
                 <i class="material-icons right">playlist_add</i>
             </button>
-        </div>
+            </div>
 
 
-    </form>
-</div>
+        </form>
+    </div>
 </div>
 {% endblock %}

@@ -40,7 +40,7 @@ My MongoDB database consists of 4 collections, one for each of the following:
 The recipes collection will contain all information needed for one recipe including cuisines, countries and allergens.
 The three other collections will provide options to select when a user is creating a new recipe, to give uniformity to the site. 
 
-As for the mysql database I created, a diagram of the schema can be found [here](../mysql/er_diagrams_recipes.png)
+As for the mysql database I created, a diagram of the schema can be found [here](mysql/er_diagrams_recipes.png)
 
 ## Features
 
@@ -56,15 +56,15 @@ As for the mysql database I created, a diagram of the schema can be found [here]
 
 
 ## Technologies used:
-##### HTML - hypertext markup language
-##### CSS - cascading style sheets 
-##### Javascript - client side scripting language
-##### Python - Programming Language
+##### HTML - a standardized system for tagging text files to achieve font, colour, graphic, and hyperlink effects on World Wide Web pages.
+##### CSS - cascading style sheets to style the content and layout of the site.
+##### Javascript - client side scripting language, used for presenting statistics and animations
+##### Python - Programming Language to create the backend that decides upon the responses to the user's input.
 ##### Git Bash & GitHub -for version control and backup of code
 ##### Bootstrap - A framework for developing responsive, mobile 1st websites.
-##### Flask - python web framework
-##### Postman - Postman helps you develop APIs faster
-##### MongoDB - Non-relational database
+##### Flask - python web framework to hold all the code and templates together as one site.
+##### Postman - Postman helped test routes and the information sent to and from them.
+##### MongoDB - Non-relational database to store all information about the recipes, cuisines etc.
 ##### MySQL - Relational database (not used in production site)
 
 ##### Libraries I needed to install
@@ -84,7 +84,6 @@ As for the mysql database I created, a diagram of the schema can be found [here]
  
 ### Automated testing
 
-
 #### Test Suite
 I have used unittests to check that the website was working. The only routes I could not unittest where create, update and delete entries. If I had to use flask with
 mongo in the future I may use MockDB to test create update and delete. Theses tests can be seen in "tests_app.py". I had also tested the same for mysql routes and
@@ -93,7 +92,7 @@ passed through, I knew was on the database already, such as recipe id.
 
 #### Manual testing
 
-When building helper functions I would have to check if they were producing the correct results and this involved alot of reloading pages as assertion tests were not 
+When building helper functions I used TDD to check if they were producing the correct results and this involved alot of reloading pages as assertion tests were not 
 particularly suitable. I would also have to check the .csv files were being created properly and then adjust my functions to make it so. 
 
 I tested create, update and delete for all entries in to the four collections; Recipes, cuisines, countries and allergens as I could not do them through unittest 
@@ -114,11 +113,17 @@ I ran all my files through validators to check for errors.
 - W3C for HTML.
 - JS Hint for Javascript.
 - [pep8online](http://pep8online.com) - for Python
+- 
+
+#### Problems in development
+For the statistics page I found great trouble linking multiple allergens to a specific recipe. I was able to display statistics
+regarding both however I could not use crossfilter to link the two problems. 
 
 ## Deployment
 - Project was deployed to heroku with ease.
 - Created Procfile and requirements.txt
 - Created new heroku app and set environment variables.
+- Linked my Github and environment with Heroku
 - Pushed to heroku.
 - Linked pre-existing mongodb to new site, no installation necessary.
 - Website can be found [here](https://recipe-booklet.herokuapp.com/).
