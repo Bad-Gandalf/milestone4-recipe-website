@@ -87,7 +87,7 @@ As for the mysql database I created, a diagram of the schema can be found [here]
 #### Test Suite
 I have used unittests to check that the website was working. The only routes I could not unittest where create, update and delete entries. If I had to use flask with
 mongo in the future I may use MockDB to test create update and delete. Theses tests can be seen in "tests_app.py". I had also tested the same for mysql routes and
-they can be found in "/mysql/tests_mysql.py" In writing the unitttest I also used Postman to help me see what and how data needed to be sent to specific urls. The data I 
+they can be found in "/mysql/tests_mysql.py" In writing the unitttests I also used Postman to help me see what and how data needed to be sent to specific urls. The data I 
 passed through, I knew was on the database already, such as recipe id. 
 
 #### Manual testing
@@ -121,7 +121,7 @@ regarding both however I could not use crossfilter to link the two problems.
 
 ## Deployment
 - Project was deployed to heroku with ease.
-- Created Procfile and requirements.txt
+- Created Procfile and requirements.txt for dependencies.
 - Created new heroku app and set environment variables.
 - Linked my Github and environment with Heroku
 - Pushed to heroku.
