@@ -3,7 +3,7 @@ Flask-PyMongo==0.5.1
 Jinja2==2.10
 MarkupSafe==1.0
 PyMySQL==0.8.1
-Pygments==2.2.0
+Pygments==2.7.4
 Send2Trash==1.5.0
 Werkzeug==0.14.1
 backcall==0.1.0
